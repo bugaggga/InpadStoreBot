@@ -1,0 +1,6 @@
+@InpadBotAPI_HostAddress = http://localhost:5083
+
+GET {{InpadBotAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
