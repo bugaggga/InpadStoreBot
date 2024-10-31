@@ -1,6 +1,9 @@
+using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -9,12 +12,19 @@ namespace InpadBotService;
 public class TgBotBackgroundService : BackgroundService
 {
 	private readonly ILogger<TgBotBackgroundService> _logger;
-	private readonly ITelegramBotClient _client;
+	private readonly ITelegramBotClient _botClient;
+	private readonly UserContextManager _userContextManager;
+	private readonly IEnumerable<IReplyMarkupHandler> _replyMarkupHandlers;
 
-	public TgBotBackgroundService(ILogger<TgBotBackgroundService> logger, ITelegramBotClient client)
+	public TgBotBackgroundService(ILogger<TgBotBackgroundService> logger,
+		ITelegramBotClient client,
+		UserContextManager contextManager,
+		IEnumerable<IReplyMarkupHandler> replyMarkupHandlers)
 	{
 		_logger = logger;
-		_client = client;
+		_botClient = client;
+		_userContextManager = contextManager;
+		_replyMarkupHandlers = replyMarkupHandlers;
 	}
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -27,11 +37,11 @@ public class TgBotBackgroundService : BackgroundService
 
 		while (!stoppingToken.IsCancellationRequested)
 		{
-			await _client.ReceiveAsync(HandleUpdateAsync,
+			await _botClient.ReceiveAsync(HandleUpdateAsync,
 				HandleErrorAsync,
 				receiverOptions: receiverOptions,
 				cancellationToken: stoppingToken);
-
+			Console.WriteLine("Worker running at: {time}", DateTimeOffset.Now);
 			if (_logger.IsEnabled(LogLevel.Information))
 			{
 				_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
@@ -42,34 +52,19 @@ public class TgBotBackgroundService : BackgroundService
 
 	async Task HandleUpdateAsync(ITelegramBotClient bot, Update update, CancellationToken cancellationToken)
 	{
+		if (update.Message is null) return;
+
 		Console.WriteLine("Start Handle main request");
-
-		var handler = update switch
+		var context = _userContextManager.GetOrCreateContext(update.Message.Chat.Id, update.Message.Text!);
+		var handlerDistibutor = new HandlerDistributor(_botClient, context, _replyMarkupHandlers);
+		var handler = handlerDistibutor.GetHandler(context.CurrentState);
+		if (handler != null)
 		{
-			{ Message: { } message } => MessageTextHandler(message, cancellationToken),
-			{ CallbackQuery: { } callbackQuery } => CallbackQueryHandler(callbackQuery, cancellationToken),
-			_ => UnknownUpdateHandlerAsync(update, cancellationToken)
-		};
-		await handler;
-	}
-
-	private async Task MessageTextHandler(Message message, CancellationToken cancellationToken)
-	{
-		var chatId = message.Chat.Id;
-		switch (message.Text)
+			await handler.Handle(new TelegramRequest(update), cancellationToken, context);
+		}
+		else
 		{
-			case "/start":
-				await SendStartMessageAsync(chatId, cancellationToken);
-				break;
-			case "/help":
-				await SendInlineMarkupAsync(chatId, cancellationToken);
-				break;
-			case "/support":
-				await SendInlineMarkupAsync(chatId, cancellationToken);
-				break;
-			case "/question":
-				await SendInlineMarkupAsync(chatId, cancellationToken);
-				break;
+			await _botClient.SendTextMessageAsync(update.Message.Chat.Id, "Неизвестное состояние.");
 		}
 	}
 
@@ -79,13 +74,13 @@ public class TgBotBackgroundService : BackgroundService
 		switch (query.Data)
 		{
 			case "btn1":
-				await _client.SendTextMessageAsync(message.Chat.Id, $"You've pushed a {query.Data}"); break;
+				await _botClient.SendTextMessageAsync(message.Chat.Id, $"You've pushed a {query.Data}"); break;
 			case "btn2":
-				await _client.SendTextMessageAsync(message.Chat.Id, $"You've pushed a {query.Data}"); break;
+				await _botClient.SendTextMessageAsync(message.Chat.Id, $"You've pushed a {query.Data}"); break;
 			case "btn3":
-				await _client.SendTextMessageAsync(message.Chat.Id, $"You've pushed a {query.Data}"); break;
+				await _botClient.SendTextMessageAsync(message.Chat.Id, $"You've pushed a {query.Data}"); break;
 			case "btn4":
-				await _client.SendTextMessageAsync(message.Chat.Id, $"You've pushed a {query.Data}"); break;
+				await _botClient.SendTextMessageAsync(message.Chat.Id, $"You've pushed a {query.Data}"); break;
 		}
 	}
 
@@ -100,48 +95,6 @@ public class TgBotBackgroundService : BackgroundService
 		Console.WriteLine($"Error: {exception.Message}");
 		return Task.CompletedTask;
 	}
-
-	async Task SendStartMessageAsync(long chatID, CancellationToken cancellationToken)
-	{
-		Console.WriteLine("Start Execute command");
-		var replyKeyboard = new ReplyKeyboardMarkup(new[]
-		{
-				new KeyboardButton[] { "/help", "/support" },
-				new KeyboardButton[] { "/question" }
-			})
-		{
-			ResizeKeyboard = true
-		};
-
-		await _client.SendTextMessageAsync(
-			chatID,
-			text: "Выберите услугу",
-			replyMarkup: replyKeyboard
-		);
-	}
-
-	async Task SendInlineMarkupAsync(long chatId, CancellationToken cancellationToken)
-	{
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Button 1", "btn1"),
-					InlineKeyboardButton.WithCallbackData("Button 2", "btn2")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Button 3", "btn3"),
-					InlineKeyboardButton.WithCallbackData("Button 4", "btn4")
-				}
-				});
-
-		await _client.SendTextMessageAsync(
-				chatId,
-		text: "Выберите кнопку:",
-		replyMarkup: inlineKeyboardMarkup);
-	}
-
 }
 
 
