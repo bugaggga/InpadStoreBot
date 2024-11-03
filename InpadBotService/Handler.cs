@@ -10,23 +10,23 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService;
 
-public interface IHandler
-{
-	public Task Handle(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
-}
-
-interface IMessageHandler : IHandler
-{
-	//public Task Handle(TelegramRequest request, CancellationToken cancellationToken);
-}
-
-public interface IReplyMarkupHandler : IHandler
+public interface IState
 {
 	public string Text { get; }
-	//public Task Handle(TelegramRequest request, CancellationToken cancellationToken);
+	public Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
 }
 
-internal class StartMessageHandler : IReplyMarkupHandler
+//interface IMessageHandler : IState
+//{
+//	//public Task Handle(TelegramRequest request, CancellationToken cancellationToken);
+//}
+
+public interface IReplyMarkupHandler : IState;
+
+public interface IHelpTypeAnswerHandler : IState;
+
+
+public class StartMessageHandler : IReplyMarkupHandler
 {
 	public string Text { get; } = "/start";
 	private readonly ITelegramBotClient _botClient;
@@ -35,7 +35,7 @@ internal class StartMessageHandler : IReplyMarkupHandler
 		_botClient = client;
 	}
 
-	public async Task Handle(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		Console.WriteLine("Start Execute command");
 		if (request.Update.Message is null) return;
@@ -66,7 +66,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 		_botClient = client;
 	}
 
-	public async Task Handle(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		Console.WriteLine("Start Execute command");
 		if (request.Update.Message is null) return;
@@ -79,7 +79,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 				},
 				new[]
 				{
-					InlineKeyboardButton.WithCallbackData("Хочу\r\nсообщить об ошибке", "helpByError")
+					InlineKeyboardButton.WithCallbackData("Хочу\r\nсообщить об ошибке", "helpByWorkOrError")
 				},
 				new[]
 				{
@@ -92,7 +92,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 		text: "Выберите\r\nпункт, по которому вам нужна помощь:",
 		replyMarkup: inlineKeyboardMarkup);
 
-		context.CurrentState = "WaitingTypeCallback";
+		context.CurrentState = "WaitingHelpTypeCallback";
 	}
 }
 
@@ -106,7 +106,7 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 		_botClient = client;
 	}
 
-	public async Task Handle(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		Console.WriteLine("Start Execute command");
 		if (request.Update.Message is null) return;
@@ -143,7 +143,7 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 		_botClient = client;
 	}
 
-	public async Task Handle(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		Console.WriteLine("Start Execute command");
 		if (request.Update.Message is null) return;
@@ -166,20 +166,21 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 	}
 }
 
-internal class HelpTypeHandler : IHandler
+internal class HelpTypeHandler : IHelpTypeAnswerHandler
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Text { get; } = "/question";
+	public string Text { get; } = "helpByWorkOrError";
 
 	public HelpTypeHandler(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
 
-	public async Task Handle(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
+		Console.WriteLine("Start Execute command");
 		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
 		{
 				new[]
@@ -208,6 +209,47 @@ internal class HelpTypeHandler : IHandler
 		replyMarkup: inlineKeyboardMarkup);
 
 		context.CurrentState = "WaitingCategoryCallback";
+	}
+}
+
+internal class HelpDownloadHandler : IHelpTypeAnswerHandler
+{
+	public string Text { get; } = "helpByDownload";
+	private readonly ITelegramBotClient _botClient;
+	public HelpDownloadHandler(ITelegramBotClient client)
+	{
+		_botClient = client;
+	}
+
+	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	{
+		if (request.Update.CallbackQuery is not { } query) return;
+		if (query.Message is not { } message) return;
+		Console.WriteLine("Start Execute command");
+
+		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
+		{
+				new[]
+				{
+					InlineKeyboardButton.WithCallbackData("Ошибка при установке сборки", "Error")
+				},
+				new[]
+				{
+					InlineKeyboardButton.WithCallbackData("Не получается зарегистрироваться", "registr")
+				},
+				new[]
+				{
+					InlineKeyboardButton.WithCallbackData("не получается ввести ключ продукта", "keyOfProduct")
+				}
+				});
+		await _botClient.AnswerCallbackQueryAsync(
+			query.Id);
+
+		await _botClient.SendTextMessageAsync(
+			chatId: message.Chat.Id,
+			text: "Выводится сообщение: \"Выберите категорию по которой вам нужна поморщь\" ",
+			replyMarkup: inlineKeyboardMarkup
+		);
 	}
 }
 

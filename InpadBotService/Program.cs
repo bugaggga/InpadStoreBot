@@ -11,13 +11,8 @@ namespace InpadBotService
 			builder.Services.AddHostedService<TgBotBackgroundService>();
 			builder.Services.Configure<BotOptions>(builder.Configuration.GetSection("BotOptions"));
 			builder.Services.AddSingleton<UserContextManager>();
-			//builder.Services.AddSingleton<HandlerDistributor>();
-			//builder.Services.AddSingleton<UserContext>(serviceProvider =>
-			//{
-			//	var manager = serviceProvider.GetRequiredService<UserContextManager>();
-				
-			//});
-			builder.Services.AddTransient<ITelegramBotClient, TelegramBotClient>(serviceProvider =>
+			builder.Services.AddTransient<StateDistributor>();
+			builder.Services.AddSingleton<ITelegramBotClient, TelegramBotClient>(serviceProvider =>
 			{
 				var token = serviceProvider.GetRequiredService<IOptions<BotOptions>>().Value.Token;
 				return new TelegramBotClient(token);
@@ -26,7 +21,8 @@ namespace InpadBotService
 			builder.Services.AddTransient<IReplyMarkupHandler, SupportMessageHandler>();
 			builder.Services.AddTransient<IReplyMarkupHandler, QuestionMessageHandler>();
 			builder.Services.AddTransient<IReplyMarkupHandler, StartMessageHandler>();
-
+			builder.Services.AddTransient<IHelpTypeAnswerHandler, HelpTypeHandler>();
+			builder.Services.AddTransient<IHelpTypeAnswerHandler, HelpDownloadHandler>();
 			var host = builder.Build();
 			host.Run();
 		}

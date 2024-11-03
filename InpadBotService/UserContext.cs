@@ -3,38 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace InpadBotService;
 
 public class UserContext
 {
-	//public IHandler handler {  get; set; }
 	public long UserId { get; }
 	public string CurrentState { get; set; }
 	public string CurrentMessage { get; set; }
+
+	private IState currentState {  get; set; }
 	public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
 
-	public UserContext(long userId)
+	public UserContext(long userId, ITelegramBotClient botClient)
 	{
 		UserId = userId;
-		CurrentState = "Start"; // Начальное состояние
+		CurrentState = "Start"; // start state
 		CurrentMessage = string.Empty;
-		//this.handler = handler;
+		currentState = new StartMessageHandler(botClient);
 	}
 
-	//public void Request()
-	//{
-	//	this.handler.Handle();
-	//}
+	public void SetState(IState newState)
+	{
+		currentState = newState;
+	}
+
+	public async Task HandleMessageAsync(Update update, CancellationToken cancellationToken)
+	{
+		await currentState.HandleAsync(new TelegramRequest(update), cancellationToken, this);
+	}
 }
 
 public class UserContextManager
 {
-	public Dictionary<long, UserContext> contexts { get; } = new();
+	private Dictionary<long, UserContext> Contexts { get; } = new();
+	private readonly ITelegramBotClient botClient;
+
+	public UserContextManager(ITelegramBotClient botClient)
+	{
+		this.botClient = botClient;
+	}
 	public UserContext GetOrCreateContext(long userId, string currentMessage)
 	{
-		if (!contexts.ContainsKey(userId) ||
+		if (!Contexts.ContainsKey(userId) ||
 			currentMessage == "/start" ||
 			currentMessage == "/help" ||
 			currentMessage == "/support" ||
@@ -43,12 +56,12 @@ public class UserContextManager
 			ResetUserContext(userId);
 		}
 
-		contexts[userId].CurrentMessage = currentMessage;
-		return contexts[userId];
+		Contexts[userId].CurrentMessage = currentMessage;
+		return Contexts[userId];
 	}
 
 	private void ResetUserContext(long userId)
 	{
-		contexts[userId] = new UserContext(userId);
+		Contexts[userId] = new UserContext(userId, botClient);
 	}
 }

@@ -3,28 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Telegram.Bot;
-using static Telegram.Bot.TelegramBotClient;
 
 namespace InpadBotService
 {
-	public class HandlerDistributor
+	public interface IHandlerDistributor
 	{
-		private readonly Dictionary<string, IHandler> _handlers;
-		//private readonly IReplyMarkupHandler replyMarkupHandler;
+		public IState? GetHandler(string buttonText);
+	}
 
-		public HandlerDistributor(ITelegramBotClient _botCLient, UserContext context, IEnumerable<IReplyMarkupHandler> implementations)
+	internal class HandlerDistributor<T> : IHandlerDistributor where T : IState
+	{
+		private readonly Dictionary<string, T> _handlers;
+
+		public HandlerDistributor(IEnumerable<T> handlers)
 		{
-			_handlers = new Dictionary<string, IHandler>
-		{
-			{ "Start", new ReplyButtonHandlerDistributor(implementations).GetHandler(context.CurrentMessage) },
-				{"WaitingTypeCallback", new HelpTypeHandler(_botCLient) }
-			};
+			_handlers = handlers.ToDictionary(h => h.Text);
 		}
 
-		public IHandler? GetHandler(string state)
+		public IState? GetHandler(string buttonText)
 		{
-			return _handlers.ContainsKey(state) ? _handlers[state] : null;
+			return _handlers.TryGetValue(buttonText, out var handler) ? handler : null;
 		}
 	}
 }
