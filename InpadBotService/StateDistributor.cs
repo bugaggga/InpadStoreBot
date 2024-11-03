@@ -19,8 +19,8 @@ namespace InpadBotService
 			_handlers = new Dictionary<string, IHandlerDistributor>
 			{
 				{ "Start", new HandlerDistributor<IReplyMarkupHandler>(implementationsReply) },
-				{"WaitingHelpTypeCallback", new HandlerDistributor<IHelpTypeAnswerHandler>(implementationsHelpType) }
-			};
+                {"WaitingHelpTypeCallback", new HandlerDistributor<IHelpTypeAnswerHandler>(implementationsHelpType) }
+            };
 		}
 
 		public IState? GetHandler(UserContext context)

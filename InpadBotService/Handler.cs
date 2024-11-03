@@ -261,7 +261,7 @@ internal class PluginConcept : IPlugin
 
         await _botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Выводится сообщение: \"Выберите каким плагином вы воспользовались.\" ",
+            text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
@@ -310,7 +310,7 @@ internal class PluginArchitecture : IPlugin
 
         await _botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Выводится сообщение: \"Выберите каким плагином вы воспользовались.\" ",
+            text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
@@ -357,7 +357,7 @@ internal class PluginConstructive : IPlugin
 
         await _botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Выводится сообщение: \"Выберите каким плагином вы воспользовались.\" ",
+            text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
@@ -404,7 +404,7 @@ internal class PluginOBAndBK : IPlugin
 
         await _botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Выводится сообщение: \"Выберите каким плагином вы воспользовались.\" ",
+            text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
@@ -459,7 +459,7 @@ internal class PluginCommon : IPlugin
 
         await _botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Выводится сообщение: \"Выберите каким плагином вы воспользовались.\" ",
+            text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
@@ -513,7 +513,7 @@ internal class PluginBoxesAndHoles : IPlugin
 
         await _botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Выводится сообщение: \"Выберите каким плагином вы воспользовались.\" ",
+            text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
@@ -590,7 +590,7 @@ internal class PluginRenga : IPlugin
 
         await _botClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
-            text: "Выводится сообщение: \"Выберите каким плагином вы воспользовались.\" ",
+            text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
