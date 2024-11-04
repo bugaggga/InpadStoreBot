@@ -11,7 +11,7 @@ namespace InpadBotService
 	public class DistributorState<T> : IDistributorState<T> where T : IState
 	{
 		private readonly IEnumerable<T> _handlers;
-		public string Text { get; } = "";
+		public string Message { get; } = "";
 		public DistributorState(IEnumerable<T> handlers)
 		{
 			_handlers = handlers;

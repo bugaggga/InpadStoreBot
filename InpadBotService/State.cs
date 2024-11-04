@@ -13,7 +13,7 @@ namespace InpadBotService;
 
 public interface IState
 {
-	public string Text { get; }
+	public string Message { get; }
 	public Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
 }
 
@@ -24,7 +24,7 @@ public interface IHelpTypeAnswerHandler : IState;
 
 public class StartMessageHandler : IReplyMarkupHandler
 {
-	public string Text { get; } = "/start";
+	public string Message { get; } = "/start";
 	private readonly ITelegramBotClient _botClient;
 	public StartMessageHandler(ITelegramBotClient client)
 	{
@@ -59,7 +59,7 @@ public class StartMessageHandler : IReplyMarkupHandler
 internal class HelpMessageHandler : IReplyMarkupHandler
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Text { get; } = "/help";
+	public string Message { get; } = "/help";
 	public HelpMessageHandler(ITelegramBotClient client)
 	{
 		_botClient = client;
@@ -99,7 +99,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 internal class SupportMessageHandler : IReplyMarkupHandler 
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Text { get; } = "/support";
+	public string Message { get; } = "/support";
 
 	public SupportMessageHandler(ITelegramBotClient client)
 	{
@@ -138,7 +138,7 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 internal class QuestionMessageHandler : IReplyMarkupHandler
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Text { get; } = "/question";
+	public string Message { get; } = "/question";
 
 	public QuestionMessageHandler(ITelegramBotClient client)
 	{
@@ -173,7 +173,7 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 internal class HelpTypeHandler : IHelpTypeAnswerHandler
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Text { get; } = "helpByWorkOrError";
+	public string Message { get; } = "helpByWorkOrError";
 
 	public HelpTypeHandler(ITelegramBotClient client)
 	{
@@ -218,7 +218,7 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 
 internal class HelpDownloadHandler : IHelpTypeAnswerHandler
 {
-	public string Text { get; } = "helpByDownload";
+	public string Message { get; } = "helpByDownload";
 	private readonly ITelegramBotClient _botClient;
 	public HelpDownloadHandler(ITelegramBotClient client)
 	{
@@ -258,5 +258,3 @@ internal class HelpDownloadHandler : IHelpTypeAnswerHandler
 }
 
 public record TelegramRequest(Update Update);
-
-
