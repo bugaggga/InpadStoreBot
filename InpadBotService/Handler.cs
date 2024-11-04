@@ -223,7 +223,7 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 // Этап 1 Пункт 1.1
 internal class PluginConcept : IPlugin
 {
-    public string Text { get; } = "WaitingCategoryCallback";
+    public string Text { get; } = "concept";
     private readonly ITelegramBotClient _botClient;
     public PluginConcept(ITelegramBotClient client)
     {
@@ -270,7 +270,7 @@ internal class PluginConcept : IPlugin
 // Этап 1 Пункт 1.2
 internal class PluginArchitecture : IPlugin
 {
-    public string Text { get; } = "WaitingCategoryCallback";
+    public string Text { get; } = "architecture";
     private readonly ITelegramBotClient _botClient;
     public PluginArchitecture(ITelegramBotClient client)
     {
@@ -319,7 +319,7 @@ internal class PluginArchitecture : IPlugin
 // Этап 1 Пункт 1.3
 internal class PluginConstructive : IPlugin
 {
-    public string Text { get; } = "WaitingCategoryCallback";
+    public string Text { get; } = "construct";
     private readonly ITelegramBotClient _botClient;
     public PluginConstructive(ITelegramBotClient client)
     {
@@ -366,7 +366,7 @@ internal class PluginConstructive : IPlugin
 // Этап 1 Пункт 1.4
 internal class PluginOBAndBK : IPlugin
 {
-    public string Text { get; } = "WaitingCategoryCallback";
+    public string Text { get; } = "ovAndVk";
     private readonly ITelegramBotClient _botClient;
     public PluginOBAndBK(ITelegramBotClient client)
     {
@@ -413,7 +413,7 @@ internal class PluginOBAndBK : IPlugin
 // Этап 1 Пункт 1.5
 internal class PluginCommon : IPlugin
 {
-    public string Text { get; } = "WaitingCategoryCallback";
+    public string Text { get; } = "general";
     private readonly ITelegramBotClient _botClient;
     public PluginCommon(ITelegramBotClient client)
     {
@@ -468,7 +468,7 @@ internal class PluginCommon : IPlugin
 // Этап 1 Пункт 1.6
 internal class PluginBoxesAndHoles : IPlugin
 {
-    public string Text { get; } = "WaitingCategoryCallback";
+    public string Text { get; } = "boxesAndPoints";
     private readonly ITelegramBotClient _botClient;
     public PluginBoxesAndHoles(ITelegramBotClient client)
     {
@@ -564,7 +564,7 @@ internal class HelpDownloadHandler : IHelpTypeAnswerHandler
 // Этап 1 Пункт 4
 internal class PluginRenga : IPlugin
 {
-    public string Text { get; } = "WaitingCategoryCallback";
+    public string Text { get; } = "renga";
     private readonly ITelegramBotClient _botClient;
     public PluginRenga(ITelegramBotClient client)
     {
