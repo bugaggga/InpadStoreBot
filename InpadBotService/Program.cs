@@ -11,7 +11,7 @@ namespace InpadBotService
 			builder.Services.AddHostedService<TgBotBackgroundService>();
 			builder.Services.Configure<BotOptions>(builder.Configuration.GetSection("BotOptions"));
 			builder.Services.AddSingleton<UserContextManager>();
-			builder.Services.AddTransient<StateDistributor>();
+			//builder.Services.AddTransient<StateDistributor>();
 			builder.Services.AddSingleton<ITelegramBotClient, TelegramBotClient>(serviceProvider =>
 			{
 				var token = serviceProvider.GetRequiredService<IOptions<BotOptions>>().Value.Token;

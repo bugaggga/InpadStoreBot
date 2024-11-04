@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,6 @@ public interface IState
 	public string Text { get; }
 	public Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
 }
-
-//interface IMessageHandler : IState
-//{
-//	//public Task Handle(TelegramRequest request, CancellationToken cancellationToken);
-//}
 
 public interface IReplyMarkupHandler : IState;
 
@@ -54,6 +50,9 @@ public class StartMessageHandler : IReplyMarkupHandler
 			text: "Выберите услугу",
 			replyMarkup: replyKeyboard
 		);
+
+		context.SetState(new DistributorState<IReplyMarkupHandler>(
+			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
 	}
 }
 
@@ -92,7 +91,8 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 		text: "Выберите\r\nпункт, по которому вам нужна помощь:",
 		replyMarkup: inlineKeyboardMarkup);
 
-		context.CurrentState = "WaitingHelpTypeCallback";
+		context.SetState(new DistributorState<IHelpTypeAnswerHandler>(
+			context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
 	}
 }
 
@@ -129,7 +129,9 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 				request.Update.Message.Chat.Id,
 		text: "Выберите кнопку:",
 		replyMarkup: inlineKeyboardMarkup);
-		context.CurrentState = "WaitingCallback";
+
+		context.SetState(new DistributorState<IHelpTypeAnswerHandler>(
+			context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
 	}
 }
 
@@ -162,7 +164,9 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 			text: "Выберите услугу",
 			replyMarkup: replyKeyboard
 		);
-		context.CurrentMessage = "WaitingForInput";
+
+		context.SetState(new DistributorState<IReplyMarkupHandler>(
+			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
 	}
 }
 
@@ -187,6 +191,7 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 				{
 					InlineKeyboardButton.WithCallbackData("Renga", "renga"),
 					InlineKeyboardButton.WithCallbackData("Конструктив", "construct")
+
 				},
 				new[]
 				{
@@ -208,7 +213,6 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 		text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
 		replyMarkup: inlineKeyboardMarkup);
 
-		context.CurrentState = "WaitingCategoryCallback";
 	}
 }
 

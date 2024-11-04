@@ -15,17 +15,17 @@ public class TgBotBackgroundService : BackgroundService
 	private readonly ILogger<TgBotBackgroundService> _logger;
 	private readonly ITelegramBotClient _botClient;
 	private readonly UserContextManager _userContextManager;
-	private readonly StateDistributor _stateDistributor;
+	private readonly IServiceProvider serviceProvider;
 
 	public TgBotBackgroundService(ILogger<TgBotBackgroundService> logger,
 		ITelegramBotClient client,
 		UserContextManager contextManager,
-		StateDistributor stateDistributor)
+		IServiceProvider serviceProvider)
 	{
 		_logger = logger;
 		_botClient = client;
 		_userContextManager = contextManager;
-		_stateDistributor = stateDistributor;
+		this.serviceProvider = serviceProvider;
 	}
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -74,15 +74,7 @@ public class TgBotBackgroundService : BackgroundService
 
 		Console.WriteLine("Start Handle main request");
 		var context = _userContextManager.GetOrCreateContext(chatId, message);
-		var handler = _stateDistributor.GetHandler(context);
-		if (handler != null)
-		{
-			await handler.HandleAsync(new TelegramRequest(update), cancellationToken, context);
-		}
-		else
-		{
-			await _botClient.SendTextMessageAsync(chatId, "����������� ���������.");
-		}
+		await context.HandleMessageAsync(update, cancellationToken);
 	}
 
 	private Task UnknownUpdateHandlerAsync(Update update, CancellationToken cancellationToken)
