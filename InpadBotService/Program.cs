@@ -20,7 +20,6 @@ namespace InpadBotService
 			builder.Services.AddTransient<IReplyMarkupHandler, HelpMessageHandler>();
 			builder.Services.AddTransient<IReplyMarkupHandler, SupportMessageHandler>();
 			builder.Services.AddTransient<IReplyMarkupHandler, QuestionMessageHandler>();
-			builder.Services.AddTransient<IReplyMarkupHandler, StartMessageHandler>();
 			builder.Services.AddTransient<IHelpTypeAnswerHandler, HelpTypeHandler>();
 			builder.Services.AddTransient<IHelpTypeAnswerHandler, HelpDownloadHandler>();
 			var host = builder.Build();

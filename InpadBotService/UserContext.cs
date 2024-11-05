@@ -16,11 +16,11 @@ public class UserContext
 	public IServiceProvider ServiceProvider { get; }
 	public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
 
-	public UserContext(long userId, ITelegramBotClient botClient, IServiceProvider serviceProvider)
+	public UserContext(long userId, ITelegramBotClient botClient, IServiceProvider serviceProvider, IState? state = null)
 	{
 		UserId = userId;
 		CurrentMessage = string.Empty;
-		CurrentState = new StartMessageHandler(botClient);
+		CurrentState = state ?? new StartMessageHandler(botClient);
 		ServiceProvider = serviceProvider;
 	}
 

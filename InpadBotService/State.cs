@@ -22,7 +22,7 @@ public interface IReplyMarkupHandler : IState;
 public interface IHelpTypeAnswerHandler : IState;
 
 
-public class StartMessageHandler : IReplyMarkupHandler
+public class StartMessageHandler : IState
 {
 	public string Message { get; } = "/start";
 	private readonly ITelegramBotClient _botClient;
