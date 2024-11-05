@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,14 +13,9 @@ namespace InpadBotService;
 
 public interface IState
 {
-	public string Text { get; }
+	public string Message { get; }
 	public Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
 }
-
-//interface IMessageHandler : IState
-//{
-//	//public Task Handle(TelegramRequest request, CancellationToken cancellationToken);
-//}
 
 public interface IReplyMarkupHandler : IState;
 
@@ -27,12 +23,9 @@ public interface IHelpTypeAnswerHandler : IState;
 
 public interface IPlugin : IState;
 
-// Чтобы код стал более читаемым, добавлю комментарии из ТЗ.
-
-// Кнопка, при которой бот начинает работу
-public class StartMessageHandler : IReplyMarkupHandler
+public class StartMessageHandler : IState
 {
-	public string Text { get; } = "/start";
+	public string Message { get; } = "/start";
 	private readonly ITelegramBotClient _botClient;
 	public StartMessageHandler(ITelegramBotClient client)
 	{
@@ -58,6 +51,9 @@ public class StartMessageHandler : IReplyMarkupHandler
 			text: "Нажмите на кнопку, которая Вам требуется.",
 			replyMarkup: replyKeyboard
 		);
+
+		context.SetState(new DistributorState<IReplyMarkupHandler>(
+			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
 	}
 }
 
@@ -65,7 +61,7 @@ public class StartMessageHandler : IReplyMarkupHandler
 internal class HelpMessageHandler : IReplyMarkupHandler
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Text { get; } = "/help";
+	public string Message { get; } = "/help";
 	public HelpMessageHandler(ITelegramBotClient client)
 	{
 		_botClient = client;
@@ -97,7 +93,8 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 		text: "Выберите\r\nпункт, по которому вам нужна помощь:",
 		replyMarkup: inlineKeyboardMarkup);
 
-		context.CurrentState = "WaitingHelpTypeCallback";
+		context.SetState(new DistributorState<IHelpTypeAnswerHandler>(
+			context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
 	}
 }
 
@@ -105,7 +102,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 internal class SupportMessageHandler : IReplyMarkupHandler 
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Text { get; } = "/support";
+	public string Message { get; } = "/support";
 
 	public SupportMessageHandler(ITelegramBotClient client)
 	{
@@ -135,7 +132,9 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 				request.Update.Message.Chat.Id,
 		text: "Выберите кнопку:",
 		replyMarkup: inlineKeyboardMarkup);
-		context.CurrentState = "WaitingCallback";
+
+		context.SetState(new DistributorState<IHelpTypeAnswerHandler>(
+			context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
 	}
 }
 
@@ -143,7 +142,7 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 internal class QuestionMessageHandler : IReplyMarkupHandler
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Text { get; } = "/question";
+	public string Message { get; } = "/question";
 
 	public QuestionMessageHandler(ITelegramBotClient client)
 	{
@@ -169,7 +168,9 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 			text: "Выберите услугу",
 			replyMarkup: replyKeyboard
 		);
-		context.CurrentMessage = "WaitingForInput";
+
+		context.SetState(new DistributorState<IReplyMarkupHandler>(
+			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
 	}
 }
 
@@ -177,7 +178,7 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 internal class HelpTypeHandler : IHelpTypeAnswerHandler
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Text { get; } = "helpByWorkOrError";
+	public string Message { get; } = "helpByWorkOrError";
 
 	public HelpTypeHandler(ITelegramBotClient client)
 	{
@@ -195,6 +196,7 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 				{
 					InlineKeyboardButton.WithCallbackData("Renga", "renga"),
 					InlineKeyboardButton.WithCallbackData("Конструктив", "construct")
+
 				},
 				new[]
 				{
@@ -216,7 +218,6 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 		text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
 		replyMarkup: inlineKeyboardMarkup);
 
-		context.CurrentState = "WaitingCategoryCallback";
 	}
 }
 
@@ -522,7 +523,7 @@ internal class PluginBoxesAndHoles : IPlugin
 // Этап 1 Пункт 2
 internal class HelpDownloadHandler : IHelpTypeAnswerHandler
 {
-	public string Text { get; } = "helpByDownload";
+	public string Message { get; } = "helpByDownload";
 	private readonly ITelegramBotClient _botClient;
 	public HelpDownloadHandler(ITelegramBotClient client)
 	{
@@ -570,30 +571,5 @@ internal class PluginRenga : IPlugin
     {
         _botClient = client;
     }
-
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
-        Console.WriteLine("Start Execute command");
-
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation"),
-                    InlineKeyboardButton.WithCallbackData("Активация", "Activation")
-                }});
-        
-        await _botClient.AnswerCallbackQueryAsync(
-            query.Id);
-
-        await _botClient.SendTextMessageAsync(
-            chatId: message.Chat.Id,
-            text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup
-        );
-    }
-}
 
 public record TelegramRequest(Update Update);

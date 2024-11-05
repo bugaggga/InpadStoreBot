@@ -17,7 +17,7 @@ namespace InpadBotService
 
 		public HandlerDistributor(IEnumerable<T> handlers)
 		{
-			_handlers = handlers.ToDictionary(h => h.Text);
+			_handlers = handlers.ToDictionary(h => h.Message);
 		}
 
 		public IState? GetHandler(string buttonText)
