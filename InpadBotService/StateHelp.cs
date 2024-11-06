@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -11,56 +11,15 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService;
 
-public interface IState
-{
-	public string Message { get; }
-	public Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
-}
+public interface IHelpTypeAnswerHandler : IState;
 
-public interface IReplyMarkupHandler : IState;
+public interface IPlugin : IState;
 
-//public interface IPlugin : IState;
+public interface IHelpPluginQuestion : IState;
 
-public record TelegramRequest(Update Update);
-
-//public interface IHelpTypeAnswerHandler : IState;
-
-public class StartMessageHandler : IState
-{
-	public string Message { get; } = "/start";
-	private readonly ITelegramBotClient _botClient;
-	public StartMessageHandler(ITelegramBotClient client)
-	{
-		_botClient = client;
-	}
-
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		Console.WriteLine("Start Execute command");
-		if (request.Update.Message is null) return;
-
-		var replyKeyboard = new ReplyKeyboardMarkup(new[]
-		{
-				new KeyboardButton[] { "/help", "/support" },
-				new KeyboardButton[] { "/question" }
-			})
-		{
-			ResizeKeyboard = true
-		};
-
-		await _botClient.SendTextMessageAsync(
-			chatId: request.Update.Message.Chat.Id,
-			text: "Нажмите на кнопку, которая Вам требуется.",
-			replyMarkup: replyKeyboard
-		);
-
-		context.SetState(new DistributorState<IReplyMarkupHandler>(
-			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
-	}
-}
+public interface IHelpPluginReport : IState;
 
 // Этап 1
-/*
 internal class HelpMessageHandler : IReplyMarkupHandler
 {
 	private readonly ITelegramBotClient _botClient;
@@ -100,88 +59,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 			context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
 	}
 }
-*/
 
-/*
-// Этап 2
-internal class SupportMessageHandler : IReplyMarkupHandler 
-{
-	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "/support";
-
-	public SupportMessageHandler(ITelegramBotClient client)
-	{
-		_botClient = client;
-	}
-
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		Console.WriteLine("Start Execute command");
-		if (request.Update.Message is null) return;
-
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("supportButton 1", "btn1"),
-					InlineKeyboardButton.WithCallbackData("supportButton 2", "btn2")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("SupportButton 3", "btn3"),
-					InlineKeyboardButton.WithCallbackData("SupportButton 4", "btn4")
-				}
-				});
-
-		await _botClient.SendTextMessageAsync(
-				request.Update.Message.Chat.Id,
-		text: "Выберите кнопку:",
-		replyMarkup: inlineKeyboardMarkup);
-
-		context.SetState(new DistributorState<IHelpTypeAnswerHandler>(
-			context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
-	}
-}
-*/
-/*
-// Этап 3
-internal class QuestionMessageHandler : IReplyMarkupHandler
-{
-	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "/question";
-
-	public QuestionMessageHandler(ITelegramBotClient client)
-	{
-		_botClient = client;
-	}
-
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		Console.WriteLine("Start Execute command");
-		if (request.Update.Message is null) return;
-
-		var replyKeyboard = new ReplyKeyboardMarkup(new[]
-		{
-				new KeyboardButton[] { "/help", "/support" },
-				new KeyboardButton[] { "/question" }
-			})
-		{
-			ResizeKeyboard = true
-		};
-
-		await _botClient.SendTextMessageAsync(
-			chatId: request.Update.Message.Chat.Id,
-			text: "Выберите услугу",
-			replyMarkup: replyKeyboard
-		);
-
-		context.SetState(new DistributorState<IReplyMarkupHandler>(
-			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
-	}
-}
-*/
-
-/*
 // Этап 1 Пункт 1
 internal class HelpTypeHandler : IHelpTypeAnswerHandler
 {
@@ -225,6 +103,9 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 				query.Message.Chat.Id,
 		text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
 		replyMarkup: inlineKeyboardMarkup);
+
+		context.SetState(new DistributorState<IPlugin>(
+			context.ServiceProvider.GetServices<IPlugin>()));
 
 	}
 }
@@ -585,4 +466,3 @@ internal class PluginRenga : IPlugin
         await Task.CompletedTask;
     }
 }
-*/
