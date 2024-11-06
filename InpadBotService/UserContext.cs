@@ -14,7 +14,8 @@ public class UserContext
 	public string CurrentMessage { get; set; }
 	public IState CurrentState {  get; private set; }
 	public IServiceProvider ServiceProvider { get; }
-	public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
+	//public StringBuilder data { get; } = new StringBuilder();  на подумать 
+	//public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
 
 	public UserContext(long userId, ITelegramBotClient botClient, IServiceProvider serviceProvider, IState? state = null)
 	{
