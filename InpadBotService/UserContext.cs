@@ -12,6 +12,7 @@ public class UserContext
 {
 	public long UserId { get; }
 	public string CurrentMessage { get; set; }
+
 	public IState CurrentState {  get; private set; }
 	public IServiceProvider ServiceProvider { get; }
 	public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();

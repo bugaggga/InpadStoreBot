@@ -224,7 +224,7 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 // Этап 1 Пункт 1.1
 internal class PluginConcept : IPlugin
 {
-    public string Text { get; } = "concept";
+    public string Message { get; } = "concept";
     private readonly ITelegramBotClient _botClient;
     public PluginConcept(ITelegramBotClient client)
     {
@@ -271,7 +271,7 @@ internal class PluginConcept : IPlugin
 // Этап 1 Пункт 1.2
 internal class PluginArchitecture : IPlugin
 {
-    public string Text { get; } = "architecture";
+    public string Message { get; } = "architecture";
     private readonly ITelegramBotClient _botClient;
     public PluginArchitecture(ITelegramBotClient client)
     {
@@ -320,7 +320,7 @@ internal class PluginArchitecture : IPlugin
 // Этап 1 Пункт 1.3
 internal class PluginConstructive : IPlugin
 {
-    public string Text { get; } = "construct";
+    public string Message { get; } = "construct";
     private readonly ITelegramBotClient _botClient;
     public PluginConstructive(ITelegramBotClient client)
     {
@@ -367,7 +367,7 @@ internal class PluginConstructive : IPlugin
 // Этап 1 Пункт 1.4
 internal class PluginOBAndBK : IPlugin
 {
-    public string Text { get; } = "ovAndVk";
+    public string Message { get; } = "ovAndVk";
     private readonly ITelegramBotClient _botClient;
     public PluginOBAndBK(ITelegramBotClient client)
     {
@@ -414,7 +414,7 @@ internal class PluginOBAndBK : IPlugin
 // Этап 1 Пункт 1.5
 internal class PluginCommon : IPlugin
 {
-    public string Text { get; } = "general";
+    public string Message { get; } = "general";
     private readonly ITelegramBotClient _botClient;
     public PluginCommon(ITelegramBotClient client)
     {
@@ -469,7 +469,7 @@ internal class PluginCommon : IPlugin
 // Этап 1 Пункт 1.6
 internal class PluginBoxesAndHoles : IPlugin
 {
-    public string Text { get; } = "boxesAndPoints";
+    public string Message { get; } = "boxesAndPoints";
     private readonly ITelegramBotClient _botClient;
     public PluginBoxesAndHoles(ITelegramBotClient client)
     {
@@ -565,11 +565,17 @@ internal class HelpDownloadHandler : IHelpTypeAnswerHandler
 // Этап 1 Пункт 4
 internal class PluginRenga : IPlugin
 {
-    public string Text { get; } = "renga";
+    public string Message { get; } = "renga";
     private readonly ITelegramBotClient _botClient;
     public PluginRenga(ITelegramBotClient client)
     {
         _botClient = client;
     }
+
+    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        await Task.CompletedTask;
+    }
+}
 
 public record TelegramRequest(Update Update);
