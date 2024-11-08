@@ -19,95 +19,99 @@ public interface IHelpPluginQuestion : IState;
 
 public interface IHelpPluginReport : IState;
 
+public interface IRevit : IState;
+
+public interface ISendFile : IState;
+
 // Этап 1
 internal class HelpMessageHandler : IReplyMarkupHandler
 {
-	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "/help";
-	public HelpMessageHandler(ITelegramBotClient client)
-	{
-		_botClient = client;
-	}
+    private readonly ITelegramBotClient _botClient;
+    public string Message { get; } = "/help";
+    public HelpMessageHandler(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		Console.WriteLine("Start Execute command");
-		if (request.Update.Message is null) return;
+    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        Console.WriteLine("Start Execute command");
+        if (request.Update.Message is null) return;
 
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Хочу\r\nзадать вопрос касаемо работы плагина", "helpByWorkOrError"),
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Хочу\r\nсообщить об ошибке", "helpByWorkOrError")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Нужна\r\nпомощь при установке/активации", "helpByDownload")
-				}
-				});
+        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
+        {
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Хочу\r\nзадать вопрос касаемо работы плагина", "helpByWorkOrError"),
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Хочу\r\nсообщить об ошибке", "helpByWorkOrError")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Нужна\r\nпомощь при установке/активации", "helpByDownload")
+                }
+                });
 
-		await _botClient.SendTextMessageAsync(
-				request.Update.Message.Chat.Id,
-		text: "Выберите\r\nпункт, по которому вам нужна помощь:",
-		replyMarkup: inlineKeyboardMarkup);
+        await _botClient.SendTextMessageAsync(
+                request.Update.Message.Chat.Id,
+        text: "Выберите\r\nпункт, по которому вам нужна помощь:",
+        replyMarkup: inlineKeyboardMarkup);
 
-		context.SetState(new DistributorState<IHelpTypeAnswerHandler>(
-			context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
-	}
+        context.SetState(new DistributorState<IHelpTypeAnswerHandler>(
+            context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
+    }
 }
 
 // Этап 1 Пункт 1
 internal class HelpTypeHandler : IHelpTypeAnswerHandler
 {
-	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "helpByWorkOrError";
+    private readonly ITelegramBotClient _botClient;
+    public string Message { get; } = "helpByWorkOrError";
 
-	public HelpTypeHandler(ITelegramBotClient client)
-	{
-		_botClient = client;
-	}
+    public HelpTypeHandler(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		if (request.Update.CallbackQuery is not { } query) return;
-		if (query.Message is not { } message) return;
-		Console.WriteLine("Start Execute command");
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Renga", "renga"),
-					InlineKeyboardButton.WithCallbackData("Конструктив", "construct")
+    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        if (request.Update.CallbackQuery is not { } query) return;
+        if (query.Message is not { } message) return;
+        Console.WriteLine("Start Execute command");
+        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
+        {
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Renga", "renga"),
+                    InlineKeyboardButton.WithCallbackData("Конструктив", "construct")
 
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Архитектура", "architecture"),
-					InlineKeyboardButton.WithCallbackData("Концепция", "concept")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("ОВ и ВК", "ovAndVk"),
-					InlineKeyboardButton.WithCallbackData("Общие", "general"),
-					InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
-				}
-				});
-		await _botClient.AnswerCallbackQueryAsync(
-			query.Id);
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Архитектура", "architecture"),
+                    InlineKeyboardButton.WithCallbackData("Концепция", "concept")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("ОВ и ВК", "ovAndVk"),
+                    InlineKeyboardButton.WithCallbackData("Общие", "general"),
+                    InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
+                }
+                });
+        await _botClient.AnswerCallbackQueryAsync(
+            query.Id);
 
-		await _botClient.SendTextMessageAsync(
-				query.Message.Chat.Id,
-		text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
-		replyMarkup: inlineKeyboardMarkup);
+        await _botClient.SendTextMessageAsync(
+                query.Message.Chat.Id,
+        text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
+        replyMarkup: inlineKeyboardMarkup);
 
-		context.SetState(new DistributorState<IPlugin>(
-			context.ServiceProvider.GetServices<IPlugin>()));
+        context.SetState(new DistributorState<IPlugin>(
+            context.ServiceProvider.GetServices<IPlugin>()));
 
-	}
+    }
 }
 
 // Этап 1 Пункт 1.1
@@ -412,43 +416,127 @@ internal class PluginBoxesAndHoles : IPlugin
 // Этап 1 Пункт 2
 internal class HelpDownloadHandler : IHelpTypeAnswerHandler
 {
-	public string Message { get; } = "helpByDownload";
-	private readonly ITelegramBotClient _botClient;
-	public HelpDownloadHandler(ITelegramBotClient client)
-	{
-		_botClient = client;
-	}
+    public string Message { get; } = "helpByDownload";
+    private readonly ITelegramBotClient _botClient;
+    public HelpDownloadHandler(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		if (request.Update.CallbackQuery is not { } query) return;
-		if (query.Message is not { } message) return;
-		Console.WriteLine("Start Execute command");
+    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        if (request.Update.CallbackQuery is not { } query) return;
+        if (query.Message is not { } message) return;
+        Console.WriteLine("Start Execute command");
 
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Ошибка при установке сборки", "Error")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Не получается зарегистрироваться", "registr")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("не получается ввести ключ продукта", "keyOfProduct")
-				}
-				});
-		await _botClient.AnswerCallbackQueryAsync(
-			query.Id);
+        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
+        {
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Ошибка при установке сборки", "Error")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Не получается зарегистрироваться", "registr")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Не получается ввести ключ продукта", "keyOfProduct")
+                }
+                });
+        await _botClient.AnswerCallbackQueryAsync(
+            query.Id);
 
-		await _botClient.SendTextMessageAsync(
-			chatId: message.Chat.Id,
-			text: "Выводится сообщение: \"Выберите категорию по которой вам нужна поморщь\" ",
-			replyMarkup: inlineKeyboardMarkup
-		);
-	}
+        await _botClient.SendTextMessageAsync(
+            chatId: message.Chat.Id,
+            text: "Выберите категорию по которой вам нужна поморщь.",
+            replyMarkup: inlineKeyboardMarkup
+        );
+    }
+}
+
+// Этап 1 Пункт 2.1 и Пункт 3
+internal class RevitVersion : IRevit
+{
+    public string Message { get; } = "Error";
+    private readonly ITelegramBotClient _botClient;
+    public RevitVersion(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
+
+    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        if (request.Update.CallbackQuery is not { } query) return;
+        if (query.Message is not { } message) return;
+        Console.WriteLine("Start Execute command");
+
+        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
+        {
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Revit 2019", "R2019"),
+                    InlineKeyboardButton.WithCallbackData("Revit 2020", "R2020"),
+                    InlineKeyboardButton.WithCallbackData("Revit 2021", "R2021")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Revit 2022", "R2022"),
+                    InlineKeyboardButton.WithCallbackData("Revit 2023", "R2023"),
+                    InlineKeyboardButton.WithCallbackData("Revit 2024", "R2024")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Revit 2025", "R2025")
+                }
+                });
+        await _botClient.AnswerCallbackQueryAsync(
+            query.Id);
+
+        await _botClient.SendTextMessageAsync(
+            chatId: message.Chat.Id,
+            text: "Выберите версию Revit, в котором запускали плагин.",
+            replyMarkup: inlineKeyboardMarkup
+        );
+    }
+}
+
+// Этап 1 Пункт 3.5.1 и 3.5.2
+internal class SendOrNotSend : ISendFile
+{
+    public string Message { get; } = "Error";
+    private readonly ITelegramBotClient _botClient;
+    public SendOrNotSend(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
+
+    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        if (request.Update.CallbackQuery is not { } query) return;
+        if (query.Message is not { } message) return;
+        Console.WriteLine("Start Execute command");
+
+        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
+        {
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Отправить файл", "Send"),
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Не отправлять файл", "DontSend")
+                }
+                });
+        await _botClient.AnswerCallbackQueryAsync(
+            query.Id);
+
+        await _botClient.SendTextMessageAsync(
+            chatId: message.Chat.Id,
+            text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
+            replyMarkup: inlineKeyboardMarkup
+        );
+    }
 }
 
 // Этап 1 Пункт 4
