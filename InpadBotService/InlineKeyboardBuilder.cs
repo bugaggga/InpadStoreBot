@@ -26,14 +26,14 @@ internal class InlineKeyboardBuilder
             buttons[i] = new InlineKeyboardButton[_width];
 			for (var j = 0; j < _width; j++)
 			{
-				buttons[i][j] = InlineKeyboardButton.WithCallbackData(_pairs[indexer].Item1, _pairs[indexer].Item2);
+				buttons[i][j] = InlineKeyboardButton.WithCallbackData(_pairs[indexer][0], _pairs[indexer][1]);
 				indexer++;
 			}
 		}
 		for (var i = indexer; i < _height + _additionalCount; i++)
 		{
 			buttons[i] = new[] {
-			InlineKeyboardButton.WithCallbackData(_pairs[indexer].Item1, _pairs[indexer].Item2) 
+			InlineKeyboardButton.WithCallbackData(_pairs[indexer][0], _pairs[indexer][1]) 
 			};
 			indexer++;
 		}
