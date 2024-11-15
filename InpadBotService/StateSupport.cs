@@ -13,15 +13,15 @@ namespace InpadBotService;
 
 public interface ISupportTypeAnswerHandler : IState;
 
-public interface IPlugin : IState;
+public interface ICategoryPluginSupport : IState;
 
 // Этап 2 Пункт 1
-internal class SupportTypeHandler : ISupportTypeAnswerHandler
+internal class SupportMessageHandler : IReplyMarkupHandler
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "helpByWorkOrError";
+    public string Message { get; } = "/support";
 
-    public SupportTypeHandler(ITelegramBotClient client)
+    public SupportMessageHandler(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -51,26 +51,26 @@ internal class SupportTypeHandler : ISupportTypeAnswerHandler
                     InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
                 query.Message.Chat.Id,
         text: "Выберите категорию, в котором находится плагин.",
         replyMarkup: inlineKeyboardMarkup);
 
-        context.SetState(new DistributorState<IPlugin>(
-            context.ServiceProvider.GetServices<IPlugin>()));
+        context.SetState(new DistributorState<ICategoryPluginSupport>(
+            context.ServiceProvider.GetServices<ICategoryPluginSupport>()));
 
     }
 }
 
 // Этап 2 Пункт 1.1
-internal class PluginConcept : IPlugin
+internal class PluginConceptSupport : ICategoryPluginSupport
 {
     public string Message { get; } = "concept";
     private readonly ITelegramBotClient _botClient;
-    public PluginConcept(ITelegramBotClient client)
+    public PluginConceptSupport(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -101,10 +101,10 @@ internal class PluginConcept : IPlugin
                     InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -113,11 +113,11 @@ internal class PluginConcept : IPlugin
 }
 
 // Этап 2 Пункт 1.2
-internal class PluginArchitecture : IPlugin
+internal class PluginArchitectureSupport : ICategoryPluginSupport
 {
     public string Message { get; } = "architecture";
     private readonly ITelegramBotClient _botClient;
-    public PluginArchitecture(ITelegramBotClient client)
+    public PluginArchitectureSupport(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -150,10 +150,10 @@ internal class PluginArchitecture : IPlugin
                     InlineKeyboardButton.WithCallbackData("Нумерация квартир", "Apartment numbering")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -162,11 +162,11 @@ internal class PluginArchitecture : IPlugin
 }
 
 // Этап 2 Пункт 1.3
-internal class PluginConstructive : IPlugin
+internal class PluginConstructiveSupport : ICategoryPluginSupport
 {
     public string Message { get; } = "construct";
     private readonly ITelegramBotClient _botClient;
-    public PluginConstructive(ITelegramBotClient client)
+    public PluginConstructiveSupport(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -197,10 +197,10 @@ internal class PluginConstructive : IPlugin
                    InlineKeyboardButton.WithCallbackData("Создание видов каркасов", "Creating types of wireframes")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -209,11 +209,11 @@ internal class PluginConstructive : IPlugin
 }
 
 // Этап 2 Пункт 1.4
-internal class PluginOBAndBK : IPlugin
+internal class PluginOBAndBKSupport : ICategoryPluginSupport
 {
     public string Message { get; } = "ovAndVk";
     private readonly ITelegramBotClient _botClient;
-    public PluginOBAndBK(ITelegramBotClient client)
+    public PluginOBAndBKSupport(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -244,10 +244,10 @@ internal class PluginOBAndBK : IPlugin
                     InlineKeyboardButton.WithCallbackData("S изоляции", "S insulation")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -256,11 +256,11 @@ internal class PluginOBAndBK : IPlugin
 }
 
 // Этап 2 Пункт 1.5
-internal class PluginCommon : IPlugin
+internal class PluginCommonSupport : ICategoryPluginSupport
 {
     public string Message { get; } = "general";
     private readonly ITelegramBotClient _botClient;
-    public PluginCommon(ITelegramBotClient client)
+    public PluginCommonSupport(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -300,10 +300,10 @@ internal class PluginCommon : IPlugin
                     InlineKeyboardButton.WithCallbackData("Проверка модели", "Checking the model")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -312,11 +312,11 @@ internal class PluginCommon : IPlugin
 }
 
 // Этап 2 Пункт 1.6
-internal class PluginBoxesAndHoles : IPlugin
+internal class PluginBoxesAndHolesSupport : ICategoryPluginSupport
 {
     public string Message { get; } = "boxesAndPoints";
     private readonly ITelegramBotClient _botClient;
-    public PluginBoxesAndHoles(ITelegramBotClient client)
+    public PluginBoxesAndHolesSupport(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -354,10 +354,10 @@ internal class PluginBoxesAndHoles : IPlugin
                     InlineKeyboardButton.WithCallbackData("Проверка заданий", "Checking tasks")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
