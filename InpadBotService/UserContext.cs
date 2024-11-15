@@ -15,6 +15,7 @@ public class UserContext
 	public string CurrentMessage { get; set; }
 	public IState CurrentState {  get; private set; }
 	public int PreviousMessageId { get; private set; }
+	public Queue<int> UsersMessageId { get; private set; } = new Queue<int>();
 	public IServiceProvider ServiceProvider { get; }
 	//public StringBuilder data { get; } = new StringBuilder();  на подумать 
 	//public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
