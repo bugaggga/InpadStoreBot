@@ -27,19 +27,9 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 		Console.WriteLine("Start Execute command");
 		if (request.Update.Message is null) return;
 
-		var replyKeyboard = new ReplyKeyboardMarkup(new[]
-		{
-				new KeyboardButton[] { "/help", "/support" },
-				new KeyboardButton[] { "/question" }
-			})
-		{
-			ResizeKeyboard = true
-		};
-
-		await _botClient.SendTextMessageAsync(
+		await _botClient.SendMessage(
 			chatId: request.Update.Message.Chat.Id,
-			text: "Выберите услугу",
-			replyMarkup: replyKeyboard
+			text: "Выберите услугу"
 		);
 
 		context.SetState(new DistributorState<IReplyMarkupHandler>(

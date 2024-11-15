@@ -42,7 +42,7 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 				}
 				});
 
-		await _botClient.SendTextMessageAsync(
+		await _botClient.SendMessage(
 				request.Update.Message.Chat.Id,
 		text: "Выберите кнопку:",
 		replyMarkup: inlineKeyboardMarkup);

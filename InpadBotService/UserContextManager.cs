@@ -23,16 +23,17 @@ public class UserContextManager
 
 	public UserContext GetOrCreateContext(long userId, string currentMessage)
 	{
-		if (!Contexts.ContainsKey(userId) ||
-				currentMessage == "/start")
-		{
-			ResetUserContext(userId);
-		}
-		else if (currentMessage == "/help" ||
+		if (currentMessage == "/help" ||
 				currentMessage == "/support" ||
 				currentMessage == "/question")
 		{
 			ResetUserContext(userId, new HandlerDistributor<IReplyMarkupHandler>(serviceProvider.GetServices<IReplyMarkupHandler>()).GetHandler(currentMessage));
+		}
+
+		else if (!Contexts.ContainsKey(userId) ||
+				currentMessage == "/start")
+		{
+			ResetUserContext(userId);
 		}
 
 		Contexts[userId].CurrentMessage = currentMessage;

@@ -33,7 +33,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 	{
 		Console.WriteLine("Start Execute command");
 		if (request.Update.Message is null) return;
-
+/*
 		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
 		{
 				new[]
@@ -49,6 +49,14 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 					InlineKeyboardButton.WithCallbackData("Нужна\r\nпомощь при установке/активации", "helpByDownload")
 				}
 				});
+*/
+        var pairs = new[] {
+            new Tuple<string, string>("Хочу\r\nзадать вопрос касаемо работы плагина", "helpByWorkOrError"),
+            new Tuple<string, string>("Хочу\r\nсообщить об ошибке", "helpByWorkOrError"),
+            new Tuple<string, string>("Нужна\r\nпомощь при установке/активации", "helpByDownload")
+            };
+        var builder = new InlineKeyboardBuilder(3, 1, pairs);
+        var inlineKeyboardMarkup = builder.Build();
 
 		await _botClient.SendMessage(
 				request.Update.Message.Chat.Id,
@@ -82,7 +90,6 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 				{
 					InlineKeyboardButton.WithCallbackData("Renga", "renga"),
 					InlineKeyboardButton.WithCallbackData("Конструктив", "construct")
-
 				},
 				new[]
 				{
