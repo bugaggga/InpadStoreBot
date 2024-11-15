@@ -4,12 +4,12 @@ namespace InpadBotService;
 
 internal class InlineKeyboardBuilder
 {
-	private Tuple<string, string>[] _pairs;
+	private (string, string)[] _pairs;
 	private int _height;
 	private int _width;
 	private int _additionalCount;
 
-	public InlineKeyboardBuilder(int height, int width, Tuple<string, string>[] pairs)
+	public InlineKeyboardBuilder(int height, int width, (string, string)[] pairs)
 	{
 		_pairs = pairs;
 		_height = height;
@@ -30,7 +30,7 @@ internal class InlineKeyboardBuilder
 				indexer++;
 			}
 		}
-		for (var i = indexer; i < _height + _additionalCount; i++)
+		for (var i = _height; i < _height + _additionalCount; i++)
 		{
 			buttons[i] = new[] {
 			InlineKeyboardButton.WithCallbackData(_pairs[indexer].Item1, _pairs[indexer].Item2) 
