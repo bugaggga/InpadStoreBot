@@ -452,10 +452,10 @@ internal class HelpDownloadHandler : IHelpTypeAnswerHandler
 					InlineKeyboardButton.WithCallbackData("не получается ввести ключ продукта", "keyOfProduct")
 				}
 				});
-		await _botClient.AnswerCallbackQueryAsync(
+		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendTextMessageAsync(
+		await _botClient.SendMessage(
 			chatId: message.Chat.Id,
 			text: "Выводится сообщение: \"Выберите категорию по которой вам нужна поморщь\" ",
 			replyMarkup: inlineKeyboardMarkup
@@ -504,10 +504,10 @@ internal class HelpRevitVersion : IRevit
                     InlineKeyboardButton.WithCallbackData("Revit 2025", "Revit2025")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите версию Revit, в котором запускали плагин.",
             replyMarkup: inlineKeyboardMarkup
@@ -544,7 +544,7 @@ internal class FileSend
 {
     public string Message { get; } = "helpByDownload";
     private readonly ITelegramBotClient _botClient;
-    public HelpRevitVersion(ITelegramBotClient client)
+    public FileSend(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -566,10 +566,10 @@ internal class FileSend
                     InlineKeyboardButton.WithCallbackData("Отправить файл", "send file")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
             replyMarkup: inlineKeyboardMarkup
@@ -588,7 +588,7 @@ internal class PluginRenga : IPlugin
 {
     public string Message { get; } = "renga";
     private readonly ITelegramBotClient _botClient;
-    public PluginConcept(ITelegramBotClient client)
+    public PluginRenga(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -601,15 +601,16 @@ internal class PluginRenga : IPlugin
 
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
-                },
-
-                {
-                    InlineKeyboardButton.WithCallbackData("Активация", "Activation")
-                }
-                });
+            new[]
+            {
+                InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
+            },
+            new[]
+            {
+                InlineKeyboardButton.WithCallbackData("Активация", "Activation")
+            }
+        });
+           
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
