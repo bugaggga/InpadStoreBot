@@ -28,8 +28,7 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 
     public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
@@ -51,11 +50,9 @@ internal class SupportMessageHandler : IReplyMarkupHandler
                     InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
                 }
                 });
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
 
         await _botClient.SendMessage(
-                query.Message.Chat.Id,
+                request.Update.Message.Chat.Id,
         text: "Выберите категорию, в котором находится плагин.",
         replyMarkup: inlineKeyboardMarkup);
 
