@@ -580,7 +580,7 @@ internal class PluginRenga : IPlugin
 {
     public string Message { get; } = "renga";
     private readonly ITelegramBotClient _botClient;
-    public PluginConcept(ITelegramBotClient client)
+    public PluginRenga(ITelegramBotClient client)
     {
         _botClient = client;
     }
