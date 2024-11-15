@@ -21,17 +21,18 @@ public class UserContextManager
 		this.serviceProvider = serviceProvider;
 	}
 
-	public UserContext GetOrCreateContext(long userId, string currentMessage)
+	public async Task<UserContext> GetOrCreateContext(long userId, string currentMessage)
 	{
-		if (currentMessage == "/help" ||
-				currentMessage == "/support" ||
-				currentMessage == "/question")
+		if (currentMessage.StartsWith('/'))
 		{
+			if (Contexts.ContainsKey(userId))
+			{
+				await botClient.DeleteBotMessageAsync(Contexts[userId], userId, Contexts[userId].PreviousMessageId);
+			}
 			ResetUserContext(userId, new HandlerDistributor<IReplyMarkupHandler>(serviceProvider.GetServices<IReplyMarkupHandler>()).GetHandler(currentMessage));
 		}
 
-		else if (!Contexts.ContainsKey(userId) ||
-				currentMessage == "/start")
+		else if (!Contexts.ContainsKey(userId))
 		{
 			ResetUserContext(userId);
 		}

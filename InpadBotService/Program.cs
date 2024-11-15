@@ -19,6 +19,7 @@ namespace InpadBotService
 
 			builder.Services.AddMultipleImplementations<IReplyMarkupHandler>(
 				[typeof(HelpMessageHandler),
+				typeof(StartMessageHandler),
 				typeof(SupportMessageHandler),
 				typeof(QuestionMessageHandler)]);
 

@@ -15,9 +15,9 @@ public interface IHelpTypeAnswerHandler : IState;
 
 public interface IPlugin : IState;
 
-public interface IHelpPluginQuestion : IState;
+public interface IHelpCategoryPluginQuestion : IState;
 
-public interface IHelpPluginReport : IState;
+public interface IHelpCategoryPluginReport : IState;
 
 public interface IRevit : IState;
 
@@ -62,11 +62,12 @@ internal class HelpMessageHandler : IReplyMarkupHandler
         var builder = new InlineKeyboardBuilder(3, 1, pairs);
         var inlineKeyboardMarkup = builder.Build();
 
-		await _botClient.SendMessage(
+		var sentMessage = await _botClient.SendMessage(
 				request.Update.Message.Chat.Id,
 		text: "Выберите\r\nпункт, по которому вам нужна помощь:",
 		replyMarkup: inlineKeyboardMarkup);
 
+        context.SaveBotMessageId(sentMessage.MessageId);
         context.SetState(new DistributorState<IHelpTypeAnswerHandler>(
             context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
     }
@@ -111,13 +112,13 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendTextMessageAsync(
+		await _botClient.SendMessage(
 				query.Message.Chat.Id,
 		text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
 		replyMarkup: inlineKeyboardMarkup);
 
-        context.SetState(new DistributorState<IPlugin>(
-            context.ServiceProvider.GetServices<IPlugin>()));
+        context.SetState(new DistributorState<IHelpCategoryPluginQuestion>(
+            context.ServiceProvider.GetServices<IHelpCategoryPluginQuestion>()));
 
     }
 }

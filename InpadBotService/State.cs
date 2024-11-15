@@ -31,7 +31,7 @@ public record TelegramRequest(Update Update);
 
 //public interface IHelpTypeAnswerHandler : IState;
 
-public class StartMessageHandler : IState
+public class StartMessageHandler : IReplyMarkupHandler
 {
 	public string Message { get; } = "/start";
 	private readonly ITelegramBotClient _botClient;
@@ -54,12 +54,13 @@ public class StartMessageHandler : IState
 			ResizeKeyboard = true
 		};
 
-		await _botClient.SendMessage(
+		var sentMessage = await _botClient.SendMessage(
 			chatId: request.Update.Message.Chat.Id,
 			text: "Нажмите на кнопку, которая Вам требуется.",
 			replyMarkup: replyKeyboard
 		);
 
+        context.SaveBotMessageId(sentMessage.MessageId);
 		context.SetState(new DistributorState<IReplyMarkupHandler>(
 			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
 	}
