@@ -35,7 +35,15 @@ namespace InpadBotService
 				typeof(PluginArchitecture),
 				typeof(PluginBoxesAndHoles)]);
 
-			var host = builder.Build();
+            builder.Services.AddMultipleImplementations<ICategoryPluginSupport>(
+                [typeof(PluginConceptSupport),
+                typeof(PluginArchitectureSupport),
+                typeof(PluginConstructiveSupport),
+                typeof(PluginOBAndBKSupport),
+                typeof(PluginCommonSupport),
+                typeof(PluginBoxesAndHolesSupport)]);
+
+            var host = builder.Build();
 			host.Run();
 		}
 	}
