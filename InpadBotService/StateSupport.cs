@@ -30,6 +30,7 @@ internal class SupportMessageHandler : IReplyMarkupHandler
     {
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -50,6 +51,19 @@ internal class SupportMessageHandler : IReplyMarkupHandler
                     InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Renga", "renga"),
+            ("Конструктив", "construct"),
+            ("Архитектура", "architecture"),
+            ("Концепция", "concept"),
+            ("ОВ и ВК", "ovAndVk"),
+            ("Общие", "general"),
+            ("Боксы и отверстия", "boxesAndPoints")
+            };
+        var builder = new InlineKeyboardBuilder(3, 2, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
 
         await _botClient.SendMessage(
                 request.Update.Message.Chat.Id,
@@ -77,7 +91,7 @@ internal class PluginConceptSupport : ICategoryPluginSupport
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -98,6 +112,21 @@ internal class PluginConceptSupport : ICategoryPluginSupport
                     InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Инсоляций", "Insolation"),
+            ("КЕО", "Keo"),
+            ("Генерация парков", "Generating parks"),
+            ("Генерация деревьев", "Generating trees"),
+            ("Разлиновка модели", "Model layout"),
+            ("3D сетки", "3D grids"),
+            ("БыстроТЭПЫ", "Fasttep"),
+            ("Подсчет площадей", "Area calculation")
+            };
+        var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -124,7 +153,7 @@ internal class PluginArchitectureSupport : ICategoryPluginSupport
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -147,6 +176,23 @@ internal class PluginArchitectureSupport : ICategoryPluginSupport
                     InlineKeyboardButton.WithCallbackData("Нумерация квартир", "Apartment numbering")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Определить помещение", "Identify the room"),
+            ("Расчет плинтуса", "Skirting board calculation"),
+            ("Отделка", "Finishing"),
+            ("Копировать отделку", "Copy the finish"),
+            ("Проемы по дверям/окнам на связи", "Door/window openings are in touch"),
+            ("Сооединение полов", "Connecting the floors"),
+            ("Подсчет площадей", "Area calculation"),
+            ("Планировка", "Layout"),
+            ("Округление площади", "Rounding up the area"),
+            ("Нумерация квартир", "Apartment numbering")
+            };
+        var builder = new InlineKeyboardBuilder(3, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -173,7 +219,7 @@ internal class PluginConstructiveSupport : ICategoryPluginSupport
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -194,6 +240,21 @@ internal class PluginConstructiveSupport : ICategoryPluginSupport
                    InlineKeyboardButton.WithCallbackData("Создание видов каркасов", "Creating types of wireframes")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Сборка арматуры", "Fitting assembly"),
+            ("Создать разрезы и сечения", "Create sections and cross sections"),
+            ("Создание планов", "Creating plans"),
+            ("Создание контура", "Creating a contour"),
+            ("Редактирование контура", "Editing a contour"),
+            ("Расчет продавливания", "Calculation of the penetration"),
+            ("Создание каркасов", "Creating wireframes"),
+            ("Создание видов каркасов", "Creating types of wireframes")
+            };
+        var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -220,7 +281,7 @@ internal class PluginOBAndBKSupport : ICategoryPluginSupport
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -241,6 +302,21 @@ internal class PluginOBAndBKSupport : ICategoryPluginSupport
                     InlineKeyboardButton.WithCallbackData("S изоляции", "S insulation")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Муфты/гильзы", "Couplings/sleeves"),
+            ("Аэродинамика", "Aerodynamics"),
+            ("Создать виды систем", "Create types of systems"),
+            ("Специфакция систем", "System Specification"),
+            ("Высотные отметки", "Elevations"),
+            ("Толщина стенки", "Wall thickness"),
+            ("Диаметр изоляции", "Insulation diameter"),
+            ("S изоляции", "S insulation")
+            };
+        var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -267,7 +343,7 @@ internal class PluginCommonSupport : ICategoryPluginSupport
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -297,6 +373,27 @@ internal class PluginCommonSupport : ICategoryPluginSupport
                     InlineKeyboardButton.WithCallbackData("Проверка модели", "Checking the model")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Этажи и секции", "Floors and sections"),
+            ("Подсчет узлов", "Counting nodes"),
+            ("Печать листов", "Printing sheets"),
+            ("Множественная печать", "Multiple printing"),
+            ("Копировать спецификацию", "Copy the specification"),
+            ("Копировать параметры", "Copy Parameters"),
+            ("Параметры", "Parameters"),
+            ("Параметры семейств", "Family Parameters"),
+            ("Копировать параметры арматуры", "Copy the valve parameters"),
+            ("Комбинирование дверей", "Door combination"),
+            ("Огнекороб", "Ognekorob"),
+            ("Просмотр пересечения", "Viewing the intersection"),
+            ("Менеджер узлов", "Node Manager"),
+            ("Проверка модели", "Checking the model")
+            };
+        var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -323,7 +420,7 @@ internal class PluginBoxesAndHolesSupport : ICategoryPluginSupport
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -351,6 +448,25 @@ internal class PluginBoxesAndHolesSupport : ICategoryPluginSupport
                     InlineKeyboardButton.WithCallbackData("Проверка заданий", "Checking tasks")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Создание заданий", "Creating tasks"),
+            ("Объединение", "Unification"),
+            ("Смещение", "Offset"),
+            ("Обрезатьм", "Crop"),
+            ("Нумерацияи", "Numbering"),
+            ("Отметка", "Mark")
+            ("Отвествия", "Holes"),
+            ("Проверка пересечений", "Checking intersections"),
+            ("Проверка пересекающихся заданий", "Checking for overlapping tasks")
+            ("Статусы заданий", "Task statuses"),
+            ("Обозреватель статусов", "Status Browser"),
+            ("Проверка заданий", "Checking tasks")
+            };
+        var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
