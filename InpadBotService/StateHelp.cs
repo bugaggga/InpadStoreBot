@@ -55,9 +55,9 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 				});
 */
         var pairs = new[] {
-            new Tuple<string, string>("Хочу\r\nзадать вопрос касаемо работы плагина", "helpByWorkOrError"),
-            new Tuple<string, string>("Хочу\r\nсообщить об ошибке", "helpByWorkOrError"),
-            new Tuple<string, string>("Нужна\r\nпомощь при установке/активации", "helpByDownload")
+            ("Хочу\r\nзадать вопрос касаемо работы плагина", "helpByWorkOrError"),
+            ("Хочу\r\nсообщить об ошибке", "helpByWorkOrError"),
+            ("Нужна\r\nпомощь при установке/активации", "helpByDownload")
             };
         var builder = new InlineKeyboardBuilder(3, 1, pairs);
         var inlineKeyboardMarkup = builder.Build();
@@ -89,6 +89,7 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
+        /*
 		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
 		{
 				new[]
@@ -109,7 +110,20 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 					InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
 				}
 				});
-		await _botClient.AnswerCallbackQuery(
+        */
+        var pairs = new[] {
+            ("Renga", "renga"),
+            ("Конструктив", "construct"),
+            ("Архитектура", "architecture"),
+            ("Концепция", "concept"),
+            ("ОВ и ВК", "ovAndVk"),
+            ("Общие", "general"),
+            ("Боксы и отверстия", "boxesAndPoints")
+            };
+        var builder = new InlineKeyboardBuilder(3, 2, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessage(
@@ -138,7 +152,7 @@ internal class PluginConcept : IPlugin
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -159,6 +173,21 @@ internal class PluginConcept : IPlugin
                     InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Инсоляций", "Insolation"),
+            ("КЕО", "Keo"),
+            ("Генерация парков", "Generating parks"),
+            ("Генерация деревьев", "Generating trees"),
+            ("Разлиновка модели", "Model layout"),
+            ("3D сетки", "3D grids"),
+            ("БыстроТЭПЫ", "Fasttep"),
+            ("Подсчет площадей", "Area calculation")
+            };
+        var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -185,7 +214,7 @@ internal class PluginArchitecture : IPlugin
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -208,6 +237,23 @@ internal class PluginArchitecture : IPlugin
                     InlineKeyboardButton.WithCallbackData("Нумерация квартир", "Apartment numbering")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Определить помещение", "Identify the room"),
+            ("Расчет плинтуса", "Skirting board calculation"),
+            ("Отделка", "Finishing"),
+            ("Копировать отделку", "Copy the finish"),
+            ("Проемы по дверям/окнам на связи", "Door/window openings are in touch"),
+            ("Сооединение полов", "Connecting the floors"),
+            ("Подсчет площадей", "Area calculation"),
+            ("Планировка", "Layout"),
+            ("Округление площади", "Rounding up the area"),
+            ("Нумерация квартир", "Apartment numbering")
+            };
+        var builder = new InlineKeyboardBuilder(3, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -234,7 +280,7 @@ internal class PluginConstructive : IPlugin
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -255,6 +301,21 @@ internal class PluginConstructive : IPlugin
                     InlineKeyboardButton.WithCallbackData("Расчет продавливания", "Calculation of the penetration")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Сборка арматуры", "Fitting assembly"),
+            ("Создать разрезы и сечения", "Create sections and cross sections"),
+            ("Создание каркасов", "Creating wireframes"),
+            ("Создание планов", "Creating plans"),
+            ("Создание контура", "Creating a contour"),
+            ("Создание видов каркасов", "Creating types of wireframes"),
+            ("Редактировать контура", "Edit the outline"),
+            ("Расчет продавливания", "Calculation of the penetration")
+            };
+        var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -281,7 +342,7 @@ internal class PluginOBAndBK : IPlugin
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -302,6 +363,21 @@ internal class PluginOBAndBK : IPlugin
                     InlineKeyboardButton.WithCallbackData("S изоляции", "S insulation")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Муфты/гильзы", "Couplings/sleeves"),
+            ("Аэродинамика", "Aerodynamics"),
+            ("Создать виды систем", "Create types of systems"),
+            ("Специфакция систем", "System Specification"),
+            ("Высотные отметки", "Elevations"),
+            ("Толщина стенки", "Wall thickness"),
+            ("Диаметр изоляции", "Insulation diameter"),
+            ("S изоляции", "S insulation")
+            };
+        var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -328,7 +404,7 @@ internal class PluginCommon : IPlugin
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -357,6 +433,26 @@ internal class PluginCommon : IPlugin
                     InlineKeyboardButton.WithCallbackData("Проверка модели", "Checking the model")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Этажи и секции", "Floors and sections"),
+            ("Подсчет узлов", "Counting nodes"),
+            ("Печать листов", "Printing sheets"),
+            ("Множественная печать", "Multiple printing"),
+            ("Копировать спецификацию", "Copy the specification"),
+            ("Копировать параметры", "Copy Parameters"),
+            ("Параметры семейств", "Family Parameters"),
+            ("Копировать параметры арматуры", "Copy the valve parameters"),
+            ("Комбинирование дверей", "Door combination"),
+            ("Огнекороб", "Ognekorob"),
+            ("Просмотр пересечения", "Viewing the intersection"),
+            ("Менеджер узлов", "Node Manager"),
+            ("Проверка модели", "Checking the model")
+            };
+        var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -382,8 +478,9 @@ internal class PluginBoxesAndHoles : IPlugin
     {
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
-        Console.WriteLine("Start Execute command");
 
+        Console.WriteLine("Start Execute command");
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -411,6 +508,25 @@ internal class PluginBoxesAndHoles : IPlugin
                     InlineKeyboardButton.WithCallbackData("Проверка заданий", "Checking tasks")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Создание заданий", "Creating tasks"),
+            ("Объединение", "Unification"),
+            ("Смещение", "Offset"),
+            ("Обрезатьм", "Crop"),
+            ("Нумерацияи", "Numbering"),
+            ("Отметка", "Mark"),
+            ("Отвествия", "Holes"),
+            ("Проверка пересечений", "Checking intersections"),
+            ("Проверка пересекающихся заданий", "Checking for overlapping tasks"),
+            ("Статусы заданий", "Task statuses"),
+            ("Обозреватель статусов", "Status Browser"),
+            ("Проверка заданий", "Checking tasks")
+            };
+        var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -437,7 +553,7 @@ internal class HelpDownloadHandler : IHelpTypeAnswerHandler
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
 		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
 		{
 				new[]
@@ -453,7 +569,17 @@ internal class HelpDownloadHandler : IHelpTypeAnswerHandler
 					InlineKeyboardButton.WithCallbackData("не получается ввести ключ продукта", "keyOfProduct")
 				}
 				});
-		await _botClient.AnswerCallbackQuery(
+        */
+
+        var pairs = new[] {
+            ("Ошибка при установке сборки", "Error"),
+            ("Не получается зарегистрироваться", "registr"),
+            ("не получается ввести ключ продукта", "keyOfProduct")
+            };
+        var builder = new InlineKeyboardBuilder(3, 1, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessage(
@@ -485,9 +611,10 @@ internal class HelpRevitVersion : IRevit
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
+               
                 new[]
                 {
                     InlineKeyboardButton.WithCallbackData("Revit 2019", "Revit2019"),
@@ -505,6 +632,20 @@ internal class HelpRevitVersion : IRevit
                     InlineKeyboardButton.WithCallbackData("Revit 2025", "Revit2025")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Revit 2019", "Revit2019"),
+            ("Revit 2020", "Revit2020"),
+            ("Revit 2021", "Revit2021"),
+            ("Revit 2022", "Revit2022"),
+            ("Revit 2023", "Revit2023"),
+            ("Revit 2024", "Revit2024"),
+            ("Revit 2025", "Revit2025")
+            };
+        var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -555,7 +696,7 @@ internal class FileSend
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
                 new[]
@@ -567,6 +708,15 @@ internal class FileSend
                     InlineKeyboardButton.WithCallbackData("Отправить файл", "send file")
                 }
                 });
+        */
+
+        var pairs = new[] {
+            ("Не отправлять файл", "dont send file"),
+            ("Отправить файл", "send file")
+            };
+        var builder = new InlineKeyboardBuilder(2, 1, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -599,7 +749,7 @@ internal class PluginRenga : IPlugin
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-
+        /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
         {
             new[]
@@ -611,7 +761,15 @@ internal class PluginRenga : IPlugin
                 InlineKeyboardButton.WithCallbackData("Активация", "Activation")
             }
         });
-           
+        */
+
+        var pairs = new[] {
+            ("Подсчет площадей", "Area calculation"),
+            ("Активация", "Activation")
+            };
+        var builder = new InlineKeyboardBuilder(2, 1, pairs); //????????????
+        var inlineKeyboardMarkup = builder.Build();
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
