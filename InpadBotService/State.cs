@@ -17,6 +17,12 @@ public interface IState
 	public Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
 }
 
+//public interface IHelpState: IState;
+
+//public interface ISupportState: IState;
+
+//public interface IQuestionState : IState;
+
 public interface IReplyMarkupHandler : IState;
 
 //public interface IPlugin : IState;
@@ -48,7 +54,7 @@ public class StartMessageHandler : IState
 			ResizeKeyboard = true
 		};
 
-		await _botClient.SendTextMessageAsync(
+		await _botClient.SendMessage(
 			chatId: request.Update.Message.Chat.Id,
 			text: "Нажмите на кнопку, которая Вам требуется.",
 			replyMarkup: replyKeyboard
