@@ -4,12 +4,12 @@ namespace InpadBotService;
 
 internal class InlineKeyboardBuilder
 {
-	private Tuple<string, string>[] _pairs;
+	private (string, string)[] _pairs;
 	private int _height;
 	private int _width;
 	private int _additionalCount;
 
-	public InlineKeyboardBuilder(int height, int width, Tuple<string, string>[] pairs)
+	public InlineKeyboardBuilder(int height, int width, (string, string)[] pairs)
 	{
 		_pairs = pairs;
 		_height = height;
