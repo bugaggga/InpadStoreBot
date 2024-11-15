@@ -30,7 +30,7 @@ internal class InlineKeyboardBuilder
 				indexer++;
 			}
 		}
-		for (var i = indexer; i < indexer + _additionalCount; i++)
+		for (var i = _height; i < _height + _additionalCount; i++)
 		{
 			buttons[i] = new[] {
 			InlineKeyboardButton.WithCallbackData(_pairs[indexer].Item1, _pairs[indexer].Item2) 
