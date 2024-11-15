@@ -16,22 +16,38 @@ namespace InpadBotService
 				var token = serviceProvider.GetRequiredService<IOptions<BotOptions>>().Value.Token;
 				return new TelegramBotClient(token);
 			});
-			builder.Services.AddTransient<IReplyMarkupHandler, HelpMessageHandler>();
-			builder.Services.AddTransient<IReplyMarkupHandler, SupportMessageHandler>();
-			builder.Services.AddTransient<IReplyMarkupHandler, QuestionMessageHandler>();
 
-			builder.Services.AddTransient<IHelpTypeAnswerHandler, HelpTypeHandler>();
-			builder.Services.AddTransient<IHelpTypeAnswerHandler, HelpDownloadHandler>();
+			builder.Services.AddMultipleImplementations<IReplyMarkupHandler>(
+				[typeof(HelpMessageHandler),
+				typeof(SupportMessageHandler),
+				typeof(QuestionMessageHandler)]);
 
-			builder.Services.AddTransient<IPlugin, PluginConcept>();
-			builder.Services.AddTransient<IPlugin, PluginCommon>();
-			builder.Services.AddTransient<IPlugin, PluginConstructive>();
-			builder.Services.AddTransient<IPlugin, PluginOBAndBK>();
-			builder.Services.AddTransient<IPlugin, PluginRenga>();
-			builder.Services.AddTransient<IPlugin, PluginArchitecture>();
-			builder.Services.AddTransient<IPlugin, PluginBoxesAndHoles>();
+			builder.Services.AddMultipleImplementations<IHelpTypeAnswerHandler>(
+				[typeof(HelpTypeHandler),
+				typeof(HelpDownloadHandler)]);
+
+			builder.Services.AddMultipleImplementations<IPlugin>(
+				[typeof(PluginConcept),
+				typeof(PluginCommon),
+				typeof(PluginConstructive),
+				typeof(PluginOBAndBK),
+				typeof(PluginRenga),
+				typeof(PluginArchitecture),
+				typeof(PluginBoxesAndHoles)]);
+
 			var host = builder.Build();
 			host.Run();
+		}
+	}
+
+	public static class ServiceCollectionExtensions
+	{
+		public static void AddMultipleImplementations<TInterface>(this IServiceCollection services, params Type[] implementations)
+		{
+			foreach (var implementation in implementations)
+			{
+				services.AddTransient(typeof(TInterface), implementation);
+			}
 		}
 	}
 }
