@@ -50,7 +50,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 				}
 				});
 
-		await _botClient.SendTextMessageAsync(
+		await _botClient.SendMessage(
 				request.Update.Message.Chat.Id,
 		text: "Выберите\r\nпункт, по которому вам нужна помощь:",
 		replyMarkup: inlineKeyboardMarkup);
@@ -96,10 +96,10 @@ internal class HelpTypeHandler : IHelpTypeAnswerHandler
 					InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
 				}
 				});
-		await _botClient.AnswerCallbackQueryAsync(
+		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendTextMessageAsync(
+		await _botClient.SendMessage(
 				query.Message.Chat.Id,
 		text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
 		replyMarkup: inlineKeyboardMarkup);
@@ -146,10 +146,10 @@ internal class PluginConcept : IPlugin
                     InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
@@ -195,10 +195,10 @@ internal class PluginArchitecture : IPlugin
                     InlineKeyboardButton.WithCallbackData("Нумерация квартир", "Apartment numbering")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
@@ -242,10 +242,10 @@ internal class PluginConstructive : IPlugin
                     InlineKeyboardButton.WithCallbackData("Расчет продавливания", "Calculation of the penetration")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
@@ -289,10 +289,10 @@ internal class PluginOBAndBK : IPlugin
                     InlineKeyboardButton.WithCallbackData("S изоляции", "S insulation")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
@@ -344,10 +344,10 @@ internal class PluginCommon : IPlugin
                     InlineKeyboardButton.WithCallbackData("Проверка модели", "Checking the model")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
@@ -398,10 +398,10 @@ internal class PluginBoxesAndHoles : IPlugin
                     InlineKeyboardButton.WithCallbackData("Проверка заданий", "Checking tasks")
                 }
                 });
-        await _botClient.AnswerCallbackQueryAsync(
+        await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendTextMessageAsync(
+        await _botClient.SendMessage(
             chatId: message.Chat.Id,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
@@ -440,10 +440,10 @@ internal class HelpDownloadHandler : IHelpTypeAnswerHandler
 					InlineKeyboardButton.WithCallbackData("не получается ввести ключ продукта", "keyOfProduct")
 				}
 				});
-		await _botClient.AnswerCallbackQueryAsync(
+		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendTextMessageAsync(
+		await _botClient.SendMessage(
 			chatId: message.Chat.Id,
 			text: "Выводится сообщение: \"Выберите категорию по которой вам нужна поморщь\" ",
 			replyMarkup: inlineKeyboardMarkup
