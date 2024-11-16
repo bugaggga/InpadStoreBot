@@ -40,7 +40,6 @@ internal class HQPluginState : IState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Выберите версию Revit, в котором запускали плагин.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -68,7 +67,6 @@ internal class HQVersionRevitState : IState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Введите лицензионный ключ, который у вас есть.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -93,7 +91,6 @@ internal class HQLicenseState : IState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: request.Update.Message.Chat.Id,
             text: "Напишите номер сборки плагинов, которую вы использовали."
         );
     }
@@ -119,7 +116,6 @@ internal class HQNumberBuildState : IState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: request,Update.Message.Chat.Id,
             text: "Опишите ваш вопрос."
         );
     }
@@ -142,10 +138,8 @@ internal class HQGetQuestionState : IState
         // Сохранение номера сборки в Data
         await _botClient.AnswerCallbackQuery(
             query.Id);
-
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: request, Update.Message.Chat.Id,
             text: "Опишите ваш вопрос."
         );
     }
@@ -180,7 +174,6 @@ internal class HQSendOrDontSendFileStaet : IState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -207,7 +200,6 @@ internal class HQSendFileStaet : IState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: request, Update.Message.Chat.Id,
             text: "Прикрепите файл сюда."
         );
     }
@@ -233,7 +225,6 @@ internal class HQFinaleStaet : IState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: request, Update.Message.Chat.Id,
             text: "Данный вопрос был передан отделу разработок, в ближайшее время с вами свяжется специалист."
         );
     }
