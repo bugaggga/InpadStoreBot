@@ -46,7 +46,7 @@ public class StartMessageHandler : IReplyMarkupHandler
 			ResizeKeyboard = true
 		};
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
             context,
 			text: "Нажмите на кнопку, которая Вам требуется.",
 			replyMarkup: replyKeyboard
@@ -80,7 +80,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 		var builder = new InlineKeyboardBuilder(3, 1, pairs);
 		var inlineKeyboardMarkup = builder.Build();
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите\r\nпункт, по которому вам нужна помощь:",
 			replyMarkup: inlineKeyboardMarkup);
@@ -118,7 +118,7 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 		var builder = new InlineKeyboardBuilder(3, 2, pairs); //????????????
 		var inlineKeyboardMarkup = builder.Build();
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите категорию, в котором находится плагин.",
 			replyMarkup: inlineKeyboardMarkup);
@@ -145,7 +145,7 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 		Console.WriteLine("Start Execute command");
 		if (request.Update.Message is null) return;
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите услугу"
 		);

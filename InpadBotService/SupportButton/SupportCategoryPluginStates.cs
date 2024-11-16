@@ -29,28 +29,6 @@ internal class SCategoryConceptState : ISupportCategoryPluginState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Инсоляций", "Insolation"),
-                    InlineKeyboardButton.WithCallbackData("КЕО", "Keo"),
-                    InlineKeyboardButton.WithCallbackData("Генерация парков", "Generating parks")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Генерация деревьев", "Generating trees"),
-                    InlineKeyboardButton.WithCallbackData("Разлиновка модели", "Model layout"),
-                    InlineKeyboardButton.WithCallbackData("3D сетки", "3D grids")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("БыстроТЭПЫ", "Fasttep"),
-                    InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
-                }
-                });
-        */
 
         var pairs = new[] {
             ("Инсоляций", "Insolation"),
@@ -68,7 +46,7 @@ internal class SCategoryConceptState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -91,30 +69,6 @@ internal class SCategoryArchitectureState : ISupportCategoryPluginState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Определить помещение", "Identify the room"),
-                    InlineKeyboardButton.WithCallbackData("Расчет плинтуса", "Skirting board calculation"),
-                    InlineKeyboardButton.WithCallbackData("Отделка", "Finishing")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Копировать отделку", "Copy the finish"),
-                    InlineKeyboardButton.WithCallbackData("Проемы по дверям/окнам на связи", "Door/window openings are in touch"),
-                    InlineKeyboardButton.WithCallbackData("Сооединение полов", "Connecting the floors")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation"),
-                    InlineKeyboardButton.WithCallbackData("Планировка", "Layout"),
-                    InlineKeyboardButton.WithCallbackData("Округление площади", "Rounding up the area"),
-                    InlineKeyboardButton.WithCallbackData("Нумерация квартир", "Apartment numbering")
-                }
-                });
-        */
 
         var pairs = new[] {
             ("Определить помещение", "Identify the room"),
@@ -134,7 +88,7 @@ internal class SCategoryArchitectureState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -157,28 +111,6 @@ internal class SCategoryConstructiveState : ISupportCategoryPluginState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Сборка арматуры", "Fitting assembly"),
-                    InlineKeyboardButton.WithCallbackData("Создать разрезы и сечения", "Create sections and cross sections"),
-                    InlineKeyboardButton.WithCallbackData("Создание планов", "Creating plans"),
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Создание контура", "Creating a contour"),
-                    InlineKeyboardButton.WithCallbackData("Редактирование контура", "Editing a contour"),
-                    InlineKeyboardButton.WithCallbackData("Расчет продавливания", "Calculation of the penetration")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Создание каркасов", "Creating wireframes"),
-                   InlineKeyboardButton.WithCallbackData("Создание видов каркасов", "Creating types of wireframes")
-                }
-                });
-        */
 
         var pairs = new[] {
             ("Сборка арматуры", "Fitting assembly"),
@@ -196,7 +128,7 @@ internal class SCategoryConstructiveState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -219,28 +151,6 @@ internal class SCategoryOBAndBKState : ISupportCategoryPluginState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Муфты/гильзы", "Couplings/sleeves"),
-                    InlineKeyboardButton.WithCallbackData("Аэродинамика", "Aerodynamics"),
-                    InlineKeyboardButton.WithCallbackData("Создать виды систем", "Create types of systems")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Специфакция систем", "System Specification"),
-                    InlineKeyboardButton.WithCallbackData("Высотные отметки", "Elevations"),
-                    InlineKeyboardButton.WithCallbackData("Толщина стенки", "Wall thickness")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Диаметр изоляции", "Insulation diameter"),
-                    InlineKeyboardButton.WithCallbackData("S изоляции", "S insulation")
-                }
-                });
-        */
 
         var pairs = new[] {
             ("Муфты/гильзы", "Couplings/sleeves"),
@@ -258,7 +168,7 @@ internal class SCategoryOBAndBKState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -281,37 +191,6 @@ internal class SCategoryCommonState : ISupportCategoryPluginState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Этажи и секции", "Floors and sections"),
-                    InlineKeyboardButton.WithCallbackData("Подсчет узлов", "Counting nodes"),
-                    InlineKeyboardButton.WithCallbackData("Печать листов", "Printing sheets")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Множественная печать", "Multiple printing"),
-                    InlineKeyboardButton.WithCallbackData("Копировать спецификацию", "Copy the specification"),
-                    InlineKeyboardButton.WithCallbackData("Копировать параметры", "Copy Parameters"),
-                    InlineKeyboardButton.WithCallbackData("Параметры", "Parameters"),
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Параметры семейств", "Family Parameters"),
-                    InlineKeyboardButton.WithCallbackData("Копировать параметры арматуры", "Copy the valve parameters"),
-                    InlineKeyboardButton.WithCallbackData("Комбинирование дверей", "Door combination")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Огнекороб", "Ognekorob"),
-                    InlineKeyboardButton.WithCallbackData("Просмотр пересечения", "Viewing the intersection"),
-                    InlineKeyboardButton.WithCallbackData("Менеджер узлов", "Node Manager"),
-                    InlineKeyboardButton.WithCallbackData("Проверка модели", "Checking the model")
-                }
-                });
-        */
 
         var pairs = new[] {
             ("Этажи и секции", "Floors and sections"),
@@ -335,7 +214,7 @@ internal class SCategoryCommonState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -358,35 +237,6 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Создание заданий", "Creating tasks"),
-                    InlineKeyboardButton.WithCallbackData("Объединение", "Unification"),
-                    InlineKeyboardButton.WithCallbackData("Смещение", "Offset")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Обрезатьм", "Crop"),
-                    InlineKeyboardButton.WithCallbackData("Нумерацияи", "Numbering"),
-                    InlineKeyboardButton.WithCallbackData("Отметка", "Mark")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Отвествия", "Holes"),
-                    InlineKeyboardButton.WithCallbackData("Проверка пересечений", "Checking intersections"),
-                    InlineKeyboardButton.WithCallbackData("Проверка пересекающихся заданий", "Checking for overlapping tasks")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Статусы заданий", "Task statuses"),
-                    InlineKeyboardButton.WithCallbackData("Обозреватель статусов", "Status Browser"),
-                    InlineKeyboardButton.WithCallbackData("Проверка заданий", "Checking tasks")
-                }
-                });
-        */
 
         var pairs = new[] {
             ("Создание заданий", "Creating tasks"),
@@ -408,8 +258,8 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -455,8 +305,8 @@ internal class PluginConceptReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -504,8 +354,8 @@ internal class PluginArchitectureReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -551,8 +401,8 @@ internal class PluginConstructiveReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -598,8 +448,8 @@ internal class PluginOBAndBKReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -653,8 +503,8 @@ internal class PluginCommonReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -707,7 +557,7 @@ internal class PluginBoxesAndHolesReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup

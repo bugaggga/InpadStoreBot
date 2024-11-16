@@ -24,28 +24,6 @@ internal class HRCategoryConceptState : IHelpReportCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Инсоляций", "Insolation"),
-                    InlineKeyboardButton.WithCallbackData("КЕО", "Keo"),
-                    InlineKeyboardButton.WithCallbackData("Генерация парков", "Generating parks")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Генерация деревьев", "Generating trees"),
-                    InlineKeyboardButton.WithCallbackData("Разлиновка модели", "Model layout"),
-                    InlineKeyboardButton.WithCallbackData("3D сетки", "3D grids")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("БыстроТЭПЫ", "Fasttep"),
-                    InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Инсоляций", "Insolation"),
@@ -63,11 +41,13 @@ internal class HRCategoryConceptState : IHelpReportCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -86,30 +66,6 @@ internal class HRCategoryArchitectureState : IHelpReportCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Определить помещение", "Identify the room"),
-                    InlineKeyboardButton.WithCallbackData("Расчет плинтуса", "Skirting board calculation"),
-                    InlineKeyboardButton.WithCallbackData("Отделка", "Finishing")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Копировать отделку", "Copy the finish"),
-                    InlineKeyboardButton.WithCallbackData("Проемы по дверям/окнам на связи", "Door/window openings are in touch"),
-                    InlineKeyboardButton.WithCallbackData("Сооединение полов", "Connecting the floors")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation"),
-                    InlineKeyboardButton.WithCallbackData("Планировка", "Layout"),
-                    InlineKeyboardButton.WithCallbackData("Округление площади", "Rounding up the area"),
-                    InlineKeyboardButton.WithCallbackData("Нумерация квартир", "Apartment numbering")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Определить помещение", "Identify the room"),
@@ -129,11 +85,13 @@ internal class HRCategoryArchitectureState : IHelpReportCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -152,28 +110,6 @@ internal class HRCategoryConstructiveState : IHelpReportCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Сборка арматуры", "Fitting assembly"),
-                    InlineKeyboardButton.WithCallbackData("Создать разрезы и сечения", "Create sections and cross sections"),
-                    InlineKeyboardButton.WithCallbackData("Создание каркасов", "Creating wireframes")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Создание планов", "Creating plans"),
-                    InlineKeyboardButton.WithCallbackData("Создание контура", "Creating a contour"),
-                    InlineKeyboardButton.WithCallbackData("Создание видов каркасов", "Creating types of wireframes")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Редактировать контура", "Edit the outline"),
-                    InlineKeyboardButton.WithCallbackData("Расчет продавливания", "Calculation of the penetration")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Сборка арматуры", "Fitting assembly"),
@@ -191,11 +127,13 @@ internal class HRCategoryConstructiveState : IHelpReportCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -214,28 +152,6 @@ internal class HRCategoryOBAndBKState : IHelpReportCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Муфты/гильзы", "Couplings/sleeves"),
-                    InlineKeyboardButton.WithCallbackData("Аэродинамика", "Aerodynamics"),
-                    InlineKeyboardButton.WithCallbackData("Создать виды систем", "Create types of systems")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Специфакция систем", "System Specification"),
-                    InlineKeyboardButton.WithCallbackData("Высотные отметки", "Elevations"),
-                    InlineKeyboardButton.WithCallbackData("Толщина стенки", "Wall thickness")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Диаметр изоляции", "Insulation diameter"),
-                    InlineKeyboardButton.WithCallbackData("S изоляции", "S insulation")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Муфты/гильзы", "Couplings/sleeves"),
@@ -253,11 +169,13 @@ internal class HRCategoryOBAndBKState : IHelpReportCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -276,36 +194,6 @@ internal class HRCategoryCommonState : IHelpReportCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Этажи и секции", "Floors and sections"),
-                    InlineKeyboardButton.WithCallbackData("Подсчет узлов", "Counting nodes"),
-                    InlineKeyboardButton.WithCallbackData("Печать листов", "Printing sheets")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Множественная печать", "Multiple printing"),
-                    InlineKeyboardButton.WithCallbackData("Копировать спецификацию", "Copy the specification"),
-                    InlineKeyboardButton.WithCallbackData("Копировать параметры", "Copy Parameters")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Параметры семейств", "Family Parameters"),
-                    InlineKeyboardButton.WithCallbackData("Копировать параметры арматуры", "Copy the valve parameters"),
-                    InlineKeyboardButton.WithCallbackData("Комбинирование дверей", "Door combination")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Огнекороб", "Ognekorob"),
-                    InlineKeyboardButton.WithCallbackData("Просмотр пересечения", "Viewing the intersection"),
-                    InlineKeyboardButton.WithCallbackData("Менеджер узлов", "Node Manager"),
-                    InlineKeyboardButton.WithCallbackData("Проверка модели", "Checking the model")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Этажи и секции", "Floors and sections"),
@@ -328,11 +216,13 @@ internal class HRCategoryCommonState : IHelpReportCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -352,35 +242,6 @@ internal class HRCategoryBoxesAndHolesState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Создание заданий", "Creating tasks"),
-                    InlineKeyboardButton.WithCallbackData("Объединение", "Unification"),
-                    InlineKeyboardButton.WithCallbackData("Смещение", "Offset")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Обрезатьм", "Crop"),
-                    InlineKeyboardButton.WithCallbackData("Нумерацияи", "Numbering"),
-                    InlineKeyboardButton.WithCallbackData("Отметка", "Mark")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Отвествия", "Holes"),
-                    InlineKeyboardButton.WithCallbackData("Проверка пересечений", "Checking intersections"),
-                    InlineKeyboardButton.WithCallbackData("Проверка пересекающихся заданий", "Checking for overlapping tasks")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Статусы заданий", "Task statuses"),
-                    InlineKeyboardButton.WithCallbackData("Обозреватель статусов", "Status Browser"),
-                    InlineKeyboardButton.WithCallbackData("Проверка заданий", "Checking tasks")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Создание заданий", "Creating tasks"),
@@ -402,11 +263,13 @@ internal class HRCategoryBoxesAndHolesState : IHelpReportCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -425,19 +288,6 @@ internal class HRCategoryRengaState : IHelpReportCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
-            },
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData("Активация", "Activation")
-            }
-        });
-        */
 
 		var pairs = new[] {
 			("Подсчет площадей", "Area calculation"),
@@ -449,10 +299,20 @@ internal class HRCategoryRengaState : IHelpReportCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
+	}
+}
+
+public static class HQCategoryPluginExtensions
+{
+	public static void SetState(this IHelpReportCategoryPlugin hqCategoryPluginState, UserContext context, ITelegramBotClient client)
+	{
+		context.SetState(new HRPluginState(client));
 	}
 }

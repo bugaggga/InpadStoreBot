@@ -28,9 +28,10 @@ public class UserContext
 		ServiceProvider = serviceProvider;
 	}
 
-	public void SetState(IState newState)
+	public IState SetState(IState newState)
 	{
 		CurrentState = newState;
+		return CurrentState;
 	}
 
 	public async Task HandleMessageAsync(Update update, CancellationToken cancellationToken)

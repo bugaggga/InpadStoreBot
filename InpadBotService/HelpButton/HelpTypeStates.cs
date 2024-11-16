@@ -42,7 +42,7 @@ internal class QuestionAboutPluginState : IHelpTypeState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
             replyMarkup: inlineKeyboardMarkup);
@@ -85,7 +85,7 @@ internal class ReportErrorState : IHelpTypeState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
             replyMarkup: inlineKeyboardMarkup);
@@ -123,7 +123,7 @@ internal class HelpInstallationState : IHelpTypeState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выводится сообщение: \"Выберите категорию по которой вам нужна поморщь\" ",
             replyMarkup: inlineKeyboardMarkup

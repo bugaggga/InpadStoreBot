@@ -38,11 +38,13 @@ internal class HQPluginState : IState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите версию Revit, в котором запускали плагин.",
             replyMarkup: inlineKeyboardMarkup
         );
+
+        context.SetState(new HQVersionRevitState(_botClient));
     }
 }
 
@@ -65,10 +67,12 @@ internal class HQVersionRevitState : IState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Введите лицензионный ключ, который у вас есть."
         );
+
+        context.SetState(new HQLicenseState(_botClient));
     }
 }
 
@@ -88,10 +92,12 @@ internal class HQLicenseState : IState
         Console.WriteLine("Start Execute command");
         // Сохранение лицензионного ключа в Data
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Напишите номер сборки плагинов, которую вы использовали."
         );
+
+        context.SetState(new HQNumberBuildState(_botClient));
     }
 }
 
@@ -111,10 +117,12 @@ internal class HQNumberBuildState : IState
         Console.WriteLine("Start Execute command");
         // Сохранение номера сборки в Data
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Опишите ваш вопрос."
         );
+
+        context.SetState(new HQGetQuestionState(_botClient));
     }
 }
 
@@ -151,13 +159,8 @@ internal class HQSendOrDontSendFileStaet : IState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
-
-        Console.WriteLine("Start Execute command");
-
+		Console.WriteLine("Start Execute command");
+        // Сохранение вопроса в Data
         var pairs = new[] {
             ("Отправить файл", "Send"),
             ("Не отправлять файл", "Dont send")
@@ -165,17 +168,15 @@ internal class HQSendOrDontSendFileStaet : IState
         var builder = new InlineKeyboardBuilder(4, 3, pairs);
         var inlineKeyboardMarkup = builder.Build();
 
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
-
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
             replyMarkup: inlineKeyboardMarkup
         );
-    }
-}
 
+		context.SetState(new DistributorState<ISendingFileState>(
+			context.ServiceProvider.GetServices<ISendingFileState>()));
+	}
 internal class HQSendFileStaet : IState
 {
     private readonly ITelegramBotClient _botClient;
@@ -199,12 +200,12 @@ internal class HQSendFileStaet : IState
     }
 }
 
-internal class HQFinaleStates : IState
+internal class HQFinalState : IState
 {
     private readonly ITelegramBotClient _botClient;
     public string Message { get; } = "";
 
-    public HQFinaleStates(ITelegramBotClient client)
+    public HQFinalState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -213,11 +214,11 @@ internal class HQFinaleStates : IState
     {
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
-        // Нужно отправить файл Data в техподдержку
+        // Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Данный вопрос был передан отделу разработок, в ближайшее время с вами свяжется специалист."
-        );
+		);
     }
 }
