@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using InpadBotService.DataBuilder;
 
 namespace InpadBotService;
 
@@ -17,8 +18,7 @@ public class UserContext
 	public int PreviousMessageId { get; private set; }
 	public Queue<int> UsersMessageId { get; private set; } = new Queue<int>();
 	public IServiceProvider ServiceProvider { get; }
-	//public StringBuilder data { get; } = new StringBuilder();  на подумать 
-	//public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
+	public UserData data = new UserData();  //на подумать 
 
 	public UserContext(long chatId, ITelegramBotClient botClient, IServiceProvider serviceProvider, IState? state = null)
 	{

@@ -71,23 +71,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 	{
 		Console.WriteLine("Start Execute command");
 		if (request.Update.Message is null) return;
-		/*
-                var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-                {
-                        new[]
-                        {
-                            InlineKeyboardButton.WithCallbackData("Хочу\r\nзадать вопрос касаемо работы плагина", "helpByWorkOrError"),
-                        },
-                        new[]
-                        {
-                            InlineKeyboardButton.WithCallbackData("Хочу\r\nсообщить об ошибке", "helpByWorkOrError")
-                        },
-                        new[]
-                        {
-                            InlineKeyboardButton.WithCallbackData("Нужна\r\nпомощь при установке/активации", "helpByDownload")
-                        }
-                        });
-        */
+		
 		var pairs = new[] {
 			("Хочу\r\nзадать вопрос касаемо работы плагина", "askAboutPlugin"),
 			("Хочу\r\nсообщить об ошибке", "reportError"),
@@ -121,28 +105,6 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Renga", "renga"),
-                    InlineKeyboardButton.WithCallbackData("Конструктив", "construct")
-
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Архитектура", "architecture"),
-                    InlineKeyboardButton.WithCallbackData("Концепция", "concept")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("ОВ и ВК", "ovAndVk"),
-                    InlineKeyboardButton.WithCallbackData("Общие", "general"),
-                    InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Renga", "renga"),
