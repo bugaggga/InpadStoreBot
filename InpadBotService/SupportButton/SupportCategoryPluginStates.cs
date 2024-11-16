@@ -46,7 +46,7 @@ internal class SCategoryConceptState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -88,7 +88,7 @@ internal class SCategoryArchitectureState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -128,7 +128,7 @@ internal class SCategoryConstructiveState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -168,7 +168,7 @@ internal class SCategoryOBAndBKState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -214,7 +214,7 @@ internal class SCategoryCommonState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
@@ -258,8 +258,8 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -305,8 +305,8 @@ internal class PluginConceptReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -354,8 +354,8 @@ internal class PluginArchitectureReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -401,8 +401,8 @@ internal class PluginConstructiveReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -448,8 +448,8 @@ internal class PluginOBAndBKReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -503,8 +503,8 @@ internal class PluginCommonReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
             text: "Выберите каким плагином вы воспользовались.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -557,7 +557,7 @@ internal class PluginBoxesAndHolesReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup

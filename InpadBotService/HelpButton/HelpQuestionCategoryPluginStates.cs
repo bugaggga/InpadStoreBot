@@ -63,11 +63,13 @@ internal class HQCategoryConceptState : IHelpQuestionCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -129,11 +131,13 @@ internal class HQCategoryArchitectureState : IHelpQuestionCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -191,11 +195,13 @@ internal class HQCategoryConstructiveState : IHelpQuestionCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -253,11 +259,13 @@ internal class HQCategoryOBAndBKState : IHelpQuestionCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -328,11 +336,13 @@ internal class HQCategoryCommonState : IHelpQuestionCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -373,11 +383,13 @@ internal class HQCategoryBoxesAndHolesState : IHelpQuestionCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
 	}
 }
 
@@ -407,11 +419,21 @@ internal class HQCategoryRengaState : IHelpQuestionCategoryPlugin
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithDeletePrevBotMessage(
+		await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
+
+		this.SetState(context, _botClient);
+	}
+}
+
+public static class HRCategoryPluginExtensions
+{
+	public static void SetState(this IHelpQuestionCategoryPlugin hqCategoryPluginState, UserContext context, ITelegramBotClient client)
+	{
+		context.SetState(new HQPluginState(client));
 	}
 }
 
