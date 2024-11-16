@@ -11,7 +11,7 @@ namespace InpadBotService;
 
 public class UserContext
 {
-	public long UserId { get; }
+	public long ChatId { get; }
 	public string CurrentMessage { get; set; }
 	public IState CurrentState {  get; private set; }
 	public int PreviousMessageId { get; private set; }
@@ -20,9 +20,9 @@ public class UserContext
 	//public StringBuilder data { get; } = new StringBuilder();  на подумать 
 	//public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
 
-	public UserContext(long userId, ITelegramBotClient botClient, IServiceProvider serviceProvider, IState? state = null)
+	public UserContext(long chatId, ITelegramBotClient botClient, IServiceProvider serviceProvider, IState? state = null)
 	{
-		UserId = userId;
+		ChatId = chatId;
 		CurrentMessage = string.Empty;
 		CurrentState = state ?? new StartMessageHandler(botClient);
 		ServiceProvider = serviceProvider;

@@ -10,12 +10,12 @@ namespace InpadBotService.HelpButton;
 public interface IHelpTypeState : IState;
 
 // Этап 1 Пункт 1
-internal class QuestionAboutPluginHandler : IHelpTypeState
+internal class QuestionAboutPluginState : IHelpTypeState
 {
     private readonly ITelegramBotClient _botClient;
     public string Message { get; } = "askAboutPlugin";
 
-    public QuestionAboutPluginHandler(ITelegramBotClient client)
+    public QuestionAboutPluginState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -64,7 +64,6 @@ internal class QuestionAboutPluginHandler : IHelpTypeState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            query.Message.Chat.Id,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
             replyMarkup: inlineKeyboardMarkup);
 
@@ -75,12 +74,12 @@ internal class QuestionAboutPluginHandler : IHelpTypeState
 }
 
 // Этап 1 Пункт 2
-internal class ReportErrorHandler : IHelpTypeState
+internal class ReportErrorState : IHelpTypeState
 {
     private readonly ITelegramBotClient _botClient;
     public string Message { get; } = "reportError";
 
-    public ReportErrorHandler(ITelegramBotClient client)
+    public ReportErrorState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -129,7 +128,6 @@ internal class ReportErrorHandler : IHelpTypeState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            query.Message.Chat.Id,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
             replyMarkup: inlineKeyboardMarkup);
 
@@ -140,11 +138,11 @@ internal class ReportErrorHandler : IHelpTypeState
 }
 
 // Этап 1 Пункт 3
-internal class HelpInstallationHandler : IHelpTypeState
+internal class HelpInstallationState : IHelpTypeState
 {
     public string Message { get; } = "helpInstall";
     private readonly ITelegramBotClient _botClient;
-    public HelpInstallationHandler(ITelegramBotClient client)
+    public HelpInstallationState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -185,7 +183,6 @@ internal class HelpInstallationHandler : IHelpTypeState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Выводится сообщение: \"Выберите категорию по которой вам нужна поморщь\" ",
             replyMarkup: inlineKeyboardMarkup
         );

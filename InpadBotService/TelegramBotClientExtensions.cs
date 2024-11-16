@@ -18,10 +18,10 @@ namespace InpadBotService
 			if (context.PreviousMessageId > 0) await botClient.DeleteMessage(chatId, messageId);
 		}
 
-		public static async Task SendMessageWithDeletePrevBotMessage(this ITelegramBotClient botClient, UserContext context, long chatId, string text, IReplyMarkup? replyMarkup)
+		public static async Task SendMessageWithDeletePrevBotMessage(this ITelegramBotClient botClient, UserContext context, string text, IReplyMarkup? replyMarkup = null)
 		{
 			var sentMessage = await botClient.SendMessage(
-				chatId,
+				chatId: context.ChatId,
 				text: text,
 				replyMarkup: replyMarkup);
 			context.SaveBotMessageId(sentMessage.MessageId);

@@ -69,7 +69,6 @@ internal class SCategoryConceptState : ISupportCategoryPluginState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -136,7 +135,6 @@ internal class SCategoryArchitectureState : ISupportCategoryPluginState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -199,7 +197,6 @@ internal class SCategoryConstructiveState : ISupportCategoryPluginState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -262,7 +259,6 @@ internal class SCategoryOBAndBKState : ISupportCategoryPluginState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -340,7 +336,6 @@ internal class SCategoryCommonState : ISupportCategoryPluginState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
@@ -414,7 +409,6 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            chatId: message.Chat.Id,
             text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );

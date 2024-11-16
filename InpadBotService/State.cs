@@ -48,7 +48,6 @@ public class StartMessageHandler : IReplyMarkupHandler
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-			chatId: request.Update.Message.Chat.Id,
 			text: "Нажмите на кнопку, которая Вам требуется.",
 			replyMarkup: replyKeyboard
 		);
@@ -99,7 +98,6 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
 			context,
-			request.Update.Message.Chat.Id,
 			text: "Выберите\r\nпункт, по которому вам нужна помощь:",
 			replyMarkup: inlineKeyboardMarkup);
 
@@ -160,7 +158,6 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
 			context,
-			request.Update.Message.Chat.Id,
 			text: "Выберите категорию, в котором находится плагин.",
 			replyMarkup: inlineKeyboardMarkup);
 
@@ -186,8 +183,8 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 		Console.WriteLine("Start Execute command");
 		if (request.Update.Message is null) return;
 
-		await _botClient.SendMessage(
-			chatId: request.Update.Message.Chat.Id,
+		await _botClient.SendMessageWithDeletePrevBotMessage(
+			context,
 			text: "Выберите услугу"
 		);
 
