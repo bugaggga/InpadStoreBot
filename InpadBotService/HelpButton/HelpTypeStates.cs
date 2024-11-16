@@ -25,28 +25,8 @@ internal class QuestionAboutPluginState : IHelpTypeState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Renga", "renga"),
-					InlineKeyboardButton.WithCallbackData("Конструктив", "construct")
 
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Архитектура", "architecture"),
-					InlineKeyboardButton.WithCallbackData("Концепция", "concept")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("ОВ и ВК", "ovAndVk"),
-					InlineKeyboardButton.WithCallbackData("Общие", "general"),
-					InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
-				}
-				});
-		*/
+        
         var pairs = new[] {
             ("Renga", "renga"),
             ("Конструктив", "construct"),
@@ -89,28 +69,7 @@ internal class ReportErrorState : IHelpTypeState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Renga", "renga"),
-					InlineKeyboardButton.WithCallbackData("Конструктив", "construct")
-
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Архитектура", "architecture"),
-					InlineKeyboardButton.WithCallbackData("Концепция", "concept")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("ОВ и ВК", "ovAndVk"),
-					InlineKeyboardButton.WithCallbackData("Общие", "general"),
-					InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
-				}
-				});
-		*/
+        
         var pairs = new[] {
             ("Renga", "renga"),
             ("Конструктив", "construct"),
@@ -152,23 +111,6 @@ internal class HelpInstallationState : IHelpTypeState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Ошибка при установке сборки", "Error")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Не получается зарегистрироваться", "registr")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("не получается ввести ключ продукта", "keyOfProduct")
-				}
-				});
-        */
 
         var pairs = new[] {
             ("Ошибка при установке сборки", "Error"),
