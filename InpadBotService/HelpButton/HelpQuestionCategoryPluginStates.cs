@@ -425,11 +425,11 @@ internal class HQCategoryRengaState : IHelpQuestionCategoryPlugin
 			replyMarkup: inlineKeyboardMarkup
 		);
 
-		this.SetState(context, _botClient);
+		context.SetState(new HQRengaPluginState(_botClient));
 	}
 }
 
-public static class HRCategoryPluginExtensions
+public static class HQCategoryPluginExtensions
 {
 	public static void SetState(this IHelpQuestionCategoryPlugin hqCategoryPluginState, UserContext context, ITelegramBotClient client)
 	{

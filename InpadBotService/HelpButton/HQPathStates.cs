@@ -32,7 +32,7 @@ internal class HQPluginState : IState
             ("Revit 2024", "Revit2024"),
             ("Revit 2025", "Revit2025")
             };
-        var builder = new InlineKeyboardBuilder(2, 3, pairs); 
+        var builder = new InlineKeyboardBuilder(3, 2, pairs); 
         var inlineKeyboardMarkup = builder.Build();
 
         await _botClient.AnswerCallbackQuery(
@@ -142,28 +142,14 @@ internal class HQGetQuestionState : IState
         Console.WriteLine("Start Execute command");
         // Сохранение номера сборки в Data
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
-            context,
-            text: "Опишите ваш вопрос."
-        );
-    }
-}
-
-internal class HQSendFileStaet : IState
-{
-    private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "Send";
-
-    public HQSendFileStaet(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        if (request.Update.Message is null) return;
-        Console.WriteLine("Start Execute command");
-        // Сохранение файла в Data
+		Console.WriteLine("Start Execute command");
+        // Сохранение вопроса в Data
+        var pairs = new[] {
+            ("Отправить файл", "Send"),
+            ("Не отправлять файл", "Dont send")
+            };
+        var builder = new InlineKeyboardBuilder(2, 1, pairs);
+        var inlineKeyboardMarkup = builder.Build();
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
