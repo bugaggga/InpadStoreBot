@@ -67,8 +67,7 @@ internal class HQVersionRevitState : IState
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
-            text: "Введите лицензионный ключ, который у вас есть.",
-            replyMarkup: inlineKeyboardMarkup
+            text: "Введите лицензионный ключ, который у вас есть."
         );
     }
 }
@@ -111,8 +110,6 @@ internal class HQNumberBuildState : IState
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
         // Сохранение номера сборки в Data
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
@@ -136,8 +133,7 @@ internal class HQGetQuestionState : IState
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
         // Сохранение номера сборки в Data
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
+
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
             text: "Опишите ваш вопрос."
@@ -195,8 +191,6 @@ internal class HQSendFileStaet : IState
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
         // Сохранение файла в Data
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
@@ -205,12 +199,12 @@ internal class HQSendFileStaet : IState
     }
 }
 
-internal class HQFinaleStaet : IState
+internal class HQFinaleStates : IState
 {
     private readonly ITelegramBotClient _botClient;
     public string Message { get; } = "";
 
-    public HQSFinaleStaet(ITelegramBotClient client)
+    public HQFinaleStates(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -220,8 +214,6 @@ internal class HQFinaleStaet : IState
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
         // Нужно отправить файл Data в техподдержку
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
 
         await _botClient.SendMessageWithDeletePrevBotMessage(
             context,
