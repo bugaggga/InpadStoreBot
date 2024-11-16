@@ -352,35 +352,6 @@ internal class HQCategoryBoxesAndHolesState : IHelpQuestionCategoryPlugin
 		if (query.Message is not { } message) return;
 
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Создание заданий", "Creating tasks"),
-                    InlineKeyboardButton.WithCallbackData("Объединение", "Unification"),
-                    InlineKeyboardButton.WithCallbackData("Смещение", "Offset")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Обрезатьм", "Crop"),
-                    InlineKeyboardButton.WithCallbackData("Нумерацияи", "Numbering"),
-                    InlineKeyboardButton.WithCallbackData("Отметка", "Mark")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Отвествия", "Holes"),
-                    InlineKeyboardButton.WithCallbackData("Проверка пересечений", "Checking intersections"),
-                    InlineKeyboardButton.WithCallbackData("Проверка пересекающихся заданий", "Checking for overlapping tasks")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Статусы заданий", "Task statuses"),
-                    InlineKeyboardButton.WithCallbackData("Обозреватель статусов", "Status Browser"),
-                    InlineKeyboardButton.WithCallbackData("Проверка заданий", "Checking tasks")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Создание заданий", "Creating tasks"),
@@ -425,19 +396,6 @@ internal class HQCategoryRengaState : IHelpQuestionCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
-            },
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData("Активация", "Activation")
-            }
-        });
-        */
 
 		var pairs = new[] {
 			("Подсчет площадей", "Area calculation"),

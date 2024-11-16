@@ -37,28 +37,6 @@ internal class HelpRevitVersion : IRevit
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-               
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Revit 2019", "Revit2019"),
-                    InlineKeyboardButton.WithCallbackData("Revit 2020", "Revit2020"),
-                    InlineKeyboardButton.WithCallbackData("Revit 2021", "Revit2021")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Revit 2022", "Revit2022"),
-                    InlineKeyboardButton.WithCallbackData("Revit 2023", "Revit2023"),
-                    InlineKeyboardButton.WithCallbackData("Revit 2024", "Revit2024")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Revit 2025", "Revit2025")
-                }
-                });
-        */
 
         var pairs = new[] {
             ("Revit 2019", "Revit2019"),
@@ -122,19 +100,6 @@ internal class FileSend
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Не отправлять файл", "dont send file")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Отправить файл", "send file")
-                }
-                });
-        */
 
         var pairs = new[] {
             ("Не отправлять файл", "dont send file"),
