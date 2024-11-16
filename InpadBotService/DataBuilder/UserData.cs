@@ -5,12 +5,12 @@ namespace InpadBotService.DataBuilder;
 
 public class UserData
 {
-    public StringBuilder data;
+    public StringBuilder StrBuilder;
     public DataBuilder builder;
 
     public UserData()
     {
-        data = new StringBuilder();
+        StrBuilder = new StringBuilder();
     }
 
 }

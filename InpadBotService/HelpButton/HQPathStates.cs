@@ -149,34 +149,6 @@ internal class HQGetQuestionState : IState
     }
 }
 
-internal class HQSendOrDontSendFileStaet : IState
-{
-    private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
-
-    public HQSendOrDontSendFileStaet(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-		Console.WriteLine("Start Execute command");
-        // Сохранение вопроса в Data
-        var pairs = new[] {
-            ("Отправить файл", "Send"),
-            ("Не отправлять файл", "Dont send")
-            };
-        var builder = new InlineKeyboardBuilder(4, 3, pairs);
-        var inlineKeyboardMarkup = builder.Build();
-
-        await _botClient.SendMessageWithSaveBotMessageId(
-            context,
-            text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
-            replyMarkup: inlineKeyboardMarkup
-        );
-
-		context.SetState(new DistributorState<ISendingFileState>(
-			context.ServiceProvider.GetServices<ISendingFileState>()));
-	}
 internal class HQSendFileStaet : IState
 {
     private readonly ITelegramBotClient _botClient;
