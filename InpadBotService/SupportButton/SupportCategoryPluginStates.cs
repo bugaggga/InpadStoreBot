@@ -13,6 +13,7 @@ namespace InpadBotService.SupportButton;
 
 public interface ISupportCategoryPluginState : IState;
 
+
 // Этап 2 Пункт 1
 internal class SCategoryConceptState : ISupportCategoryPluginState
 {
@@ -421,7 +422,7 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
 }
 
 // Этап 1 Пункт 1.1
-internal class PluginConceptReport : IHelpPluginReport
+internal class PluginConceptReport : ISupportCategoryPluginState
 {
     public string Message { get; } = "concept";
     private readonly ITelegramBotClient _botClient;
@@ -468,7 +469,7 @@ internal class PluginConceptReport : IHelpPluginReport
 }
 
 // Этап 1 Пункт 1.2
-internal class PluginArchitectureReport : IHelpPluginReport
+internal class PluginArchitectureReport : ISupportCategoryPluginState
 {
     public string Message { get; } = "architecture";
     private readonly ITelegramBotClient _botClient;
@@ -517,7 +518,7 @@ internal class PluginArchitectureReport : IHelpPluginReport
 }
 
 // Этап 1 Пункт 1.3
-internal class PluginConstructiveReport : IHelpPluginReport
+internal class PluginConstructiveReport : ISupportCategoryPluginState
 {
     public string Message { get; } = "construct";
     private readonly ITelegramBotClient _botClient;
@@ -564,7 +565,7 @@ internal class PluginConstructiveReport : IHelpPluginReport
 }
 
 // Этап 1 Пункт 1.4
-internal class PluginOBAndBKReport : IHelpPluginReport
+internal class PluginOBAndBKReport : ISupportCategoryPluginState
 {
     public string Message { get; } = "ovAndVk";
     private readonly ITelegramBotClient _botClient;
@@ -611,7 +612,7 @@ internal class PluginOBAndBKReport : IHelpPluginReport
 }
 
 // Этап 1 Пункт 1.5
-internal class PluginCommonReport : IHelpPluginReport
+internal class PluginCommonReport : ISupportCategoryPluginState
 {
     public string Message { get; } = "general";
     private readonly ITelegramBotClient _botClient;
@@ -666,7 +667,7 @@ internal class PluginCommonReport : IHelpPluginReport
 }
 
 // Этап 1 Пункт 1.6
-internal class PluginBoxesAndHolesReport : IHelpPluginReport
+internal class PluginBoxesAndHolesReport : ISupportCategoryPluginState
 {
     public string Message { get; } = "boxesAndPoints";
     private readonly ITelegramBotClient _botClient;
