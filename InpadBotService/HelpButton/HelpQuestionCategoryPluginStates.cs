@@ -65,7 +65,6 @@ internal class HQCategoryConceptState : IHelpQuestionCategoryPlugin
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
 			context,
-			chatId: message.Chat.Id,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
@@ -132,7 +131,6 @@ internal class HQCategoryArchitectureState : IHelpQuestionCategoryPlugin
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
 			context,
-			chatId: message.Chat.Id,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
@@ -195,7 +193,6 @@ internal class HQCategoryConstructiveState : IHelpQuestionCategoryPlugin
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
 			context,
-			chatId: message.Chat.Id,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
@@ -258,7 +255,6 @@ internal class HQCategoryOBAndBKState : IHelpQuestionCategoryPlugin
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
 			context,
-			chatId: message.Chat.Id,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
@@ -334,7 +330,6 @@ internal class HQCategoryCommonState : IHelpQuestionCategoryPlugin
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
 			context,
-			chatId: message.Chat.Id,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
@@ -409,7 +404,6 @@ internal class HQCategoryBoxesAndHolesState : IHelpQuestionCategoryPlugin
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
 			context,
-			chatId: message.Chat.Id,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);
@@ -457,7 +451,6 @@ internal class HQCategoryRengaState : IHelpQuestionCategoryPlugin
 
 		await _botClient.SendMessageWithDeletePrevBotMessage(
 			context,
-			chatId: message.Chat.Id,
 			text: "Выберите каким плагином вы воспользовались.",
 			replyMarkup: inlineKeyboardMarkup
 		);

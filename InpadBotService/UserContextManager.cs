@@ -21,33 +21,33 @@ public class UserContextManager
 		this.serviceProvider = serviceProvider;
 	}
 
-	public async Task<UserContext> GetOrCreateContext(long userId, string currentMessage)
+	public async Task<UserContext> GetOrCreateContext(long chatId, string currentMessage)
 	{
 		if (currentMessage.StartsWith('/'))
 		{
-			if (Contexts.ContainsKey(userId))
+			if (Contexts.ContainsKey(chatId))
 			{
-				await botClient.DeleteBotMessageAsync(Contexts[userId], userId, Contexts[userId].PreviousMessageId);
+				await botClient.DeleteBotMessageAsync(Contexts[chatId], chatId, Contexts[chatId].PreviousMessageId);
 			}
-			ResetUserContext(userId, new HandlerDistributor<IReplyMarkupHandler>(serviceProvider.GetServices<IReplyMarkupHandler>()).GetHandler(currentMessage));
+			ResetUserContext(chatId, new HandlerDistributor<IReplyMarkupHandler>(serviceProvider.GetServices<IReplyMarkupHandler>()).GetHandler(currentMessage));
 		}
 
-		else if (!Contexts.ContainsKey(userId))
+		else if (!Contexts.ContainsKey(chatId))
 		{
-			ResetUserContext(userId);
+			ResetUserContext(chatId);
 		}
 
-		Contexts[userId].CurrentMessage = currentMessage;
-		return Contexts[userId];
+		Contexts[chatId].CurrentMessage = currentMessage;
+		return Contexts[chatId];
 	}
 
-	private void ResetUserContext(long userId)
+	private void ResetUserContext(long chatId)
 	{
-		Contexts[userId] = new UserContext(userId, botClient, serviceProvider);
+		Contexts[chatId] = new UserContext(chatId, botClient, serviceProvider);
 	}
 
-	private void ResetUserContext(long userId, IState? state)
+	private void ResetUserContext(long chatId, IState? state)
 	{
-		Contexts[userId] = new UserContext(userId, botClient, serviceProvider, state);
+		Contexts[chatId] = new UserContext(chatId, botClient, serviceProvider, state);
 	}
 }

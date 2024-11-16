@@ -26,9 +26,9 @@ namespace InpadBotService
 				typeof(QuestionMessageHandler)]);
 
 			builder.Services.AddMultipleImplementations<IHelpTypeState>(
-				[typeof(QuestionAboutPluginHandler),
-				typeof(ReportErrorHandler),
-				typeof(HelpInstallationHandler)]);
+				[typeof(QuestionAboutPluginState),
+				typeof(ReportErrorState),
+				typeof(HelpInstallationState)]);
 
 			builder.Services.AddMultipleImplementations<IHelpQuestionCategoryPlugin>(
 				[typeof(HQCategoryConceptState),
