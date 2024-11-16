@@ -32,7 +32,7 @@ internal class HQPluginState : IState
             ("Revit 2024", "Revit2024"),
             ("Revit 2025", "Revit2025")
             };
-        var builder = new InlineKeyboardBuilder(2, 3, pairs); 
+        var builder = new InlineKeyboardBuilder(3, 2, pairs); 
         var inlineKeyboardMarkup = builder.Build();
 
         await _botClient.AnswerCallbackQuery(
@@ -146,7 +146,7 @@ internal class HQGetQuestionState : IState
             ("Отправить файл", "Send"),
             ("Не отправлять файл", "Dont send")
             };
-        var builder = new InlineKeyboardBuilder(4, 3, pairs);
+        var builder = new InlineKeyboardBuilder(2, 1, pairs);
         var inlineKeyboardMarkup = builder.Build();
 
         await _botClient.SendMessageWithSaveBotMessageId(
