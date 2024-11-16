@@ -9,139 +9,16 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace InpadBotService;
+namespace InpadBotService.SupportButton;
 
-public interface IHelpTypeAnswerHandler : IState;
+public interface ISupportCategoryPluginState : IState;
 
-public interface IPlugin : IState;
-
-public interface IHelpPluginQuestion : IState;
-
-public interface IHelpPluginReport : IState;
-
-public interface IRevit : IState;
-
-public interface ISendFile : IState;
-
-// Этап 1
-internal class HelpMessageHandler : IReplyMarkupHandler
-{
-    private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "/help";
-    public HelpMessageHandler(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		Console.WriteLine("Start Execute command");
-		if (request.Update.Message is null) return;
-/*
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Хочу\r\nзадать вопрос касаемо работы плагина", "helpByWorkOrError"),
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Хочу\r\nсообщить об ошибке", "helpByWorkOrError")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Нужна\r\nпомощь при установке/активации", "helpByDownload")
-				}
-				});
-*/
-        var pairs = new[] {
-            ("Хочу\r\nзадать вопрос касаемо работы плагина", "helpByWorkOrError"),
-            ("Хочу\r\nсообщить об ошибке", "helpByWorkOrError"),
-            ("Нужна\r\nпомощь при установке/активации", "helpByDownload")
-            };
-        var builder = new InlineKeyboardBuilder(3, 1, pairs);
-        var inlineKeyboardMarkup = builder.Build();
-
-		await _botClient.SendMessage(
-				request.Update.Message.Chat.Id,
-		text: "Выберите\r\nпункт, по которому вам нужна помощь:",
-		replyMarkup: inlineKeyboardMarkup);
-
-        context.SetState(new DistributorState<IHelpTypeAnswerHandler>(
-            context.ServiceProvider.GetServices<IHelpTypeAnswerHandler>()));
-    }
-}
-
-// Этап 1 Пункт 1
-internal class HelpTypeHandler : IHelpTypeAnswerHandler
-{
-    private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "helpByWorkOrError";
-
-    public HelpTypeHandler(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		if (request.Update.CallbackQuery is not { } query) return;
-		if (query.Message is not { } message) return;
-		Console.WriteLine("Start Execute command");
-        /*
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Renga", "renga"),
-					InlineKeyboardButton.WithCallbackData("Конструктив", "construct")
-
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Архитектура", "architecture"),
-					InlineKeyboardButton.WithCallbackData("Концепция", "concept")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("ОВ и ВК", "ovAndVk"),
-					InlineKeyboardButton.WithCallbackData("Общие", "general"),
-					InlineKeyboardButton.WithCallbackData("Боксы и отверстия", "boxesAndPoints")
-				}
-				});
-        */
-        var pairs = new[] {
-            ("Renga", "renga"),
-            ("Конструктив", "construct"),
-            ("Архитектура", "architecture"),
-            ("Концепция", "concept"),
-            ("ОВ и ВК", "ovAndVk"),
-            ("Общие", "general"),
-            ("Боксы и отверстия", "boxesAndPoints")
-            };
-        var builder = new InlineKeyboardBuilder(3, 2, pairs); //????????????
-        var inlineKeyboardMarkup = builder.Build();
-
-        await _botClient.AnswerCallbackQuery(
-			query.Id);
-
-		await _botClient.SendTextMessageAsync(
-				query.Message.Chat.Id,
-		text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
-		replyMarkup: inlineKeyboardMarkup);
-
-        context.SetState(new DistributorState<IPlugin>(
-            context.ServiceProvider.GetServices<IPlugin>()));
-
-    }
-}
-
-// Этап 1 Пункт 1.1
-internal class PluginConcept : IHelpPluginQuestion
+// Этап 2 Пункт 1
+internal class SCategoryConceptState : ISupportCategoryPluginState
 {
     public string Message { get; } = "concept";
     private readonly ITelegramBotClient _botClient;
-    public PluginConcept(ITelegramBotClient client)
+    public SCategoryConceptState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -190,20 +67,21 @@ internal class PluginConcept : IHelpPluginQuestion
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
+        await _botClient.SendMessageWithDeletePrevBotMessage(
+            context,
             chatId: message.Chat.Id,
-            text: "Выберите каким плагином вы воспользовались.",
+            text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
 }
 
-// Этап 1 Пункт 1.2
-internal class PluginArchitecture : IHelpPluginQuestion
+// Этап 2 Пункт 2
+internal class SCategoryArchitectureState : ISupportCategoryPluginState
 {
     public string Message { get; } = "architecture";
     private readonly ITelegramBotClient _botClient;
-    public PluginArchitecture(ITelegramBotClient client)
+    public SCategoryArchitectureState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -256,20 +134,21 @@ internal class PluginArchitecture : IHelpPluginQuestion
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
+        await _botClient.SendMessageWithDeletePrevBotMessage(
+            context,
             chatId: message.Chat.Id,
-            text: "Выберите каким плагином вы воспользовались.",
+            text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
 }
 
-// Этап 1 Пункт 1.3
-internal class PluginConstructive : IHelpPluginQuestion
+// Этап 2 Пункт 3
+internal class SCategoryConstructiveState : ISupportCategoryPluginState
 {
     public string Message { get; } = "construct";
     private readonly ITelegramBotClient _botClient;
-    public PluginConstructive(ITelegramBotClient client)
+    public SCategoryConstructiveState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -286,18 +165,18 @@ internal class PluginConstructive : IHelpPluginQuestion
                 {
                     InlineKeyboardButton.WithCallbackData("Сборка арматуры", "Fitting assembly"),
                     InlineKeyboardButton.WithCallbackData("Создать разрезы и сечения", "Create sections and cross sections"),
-                    InlineKeyboardButton.WithCallbackData("Создание каркасов", "Creating wireframes")
-                },
-                new[]
-                {
                     InlineKeyboardButton.WithCallbackData("Создание планов", "Creating plans"),
-                    InlineKeyboardButton.WithCallbackData("Создание контура", "Creating a contour"),
-                    InlineKeyboardButton.WithCallbackData("Создание видов каркасов", "Creating types of wireframes")
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Редактировать контура", "Edit the outline"),
+                    InlineKeyboardButton.WithCallbackData("Создание контура", "Creating a contour"),
+                    InlineKeyboardButton.WithCallbackData("Редактирование контура", "Editing a contour"),
                     InlineKeyboardButton.WithCallbackData("Расчет продавливания", "Calculation of the penetration")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Создание каркасов", "Creating wireframes"),
+                   InlineKeyboardButton.WithCallbackData("Создание видов каркасов", "Creating types of wireframes")
                 }
                 });
         */
@@ -305,12 +184,12 @@ internal class PluginConstructive : IHelpPluginQuestion
         var pairs = new[] {
             ("Сборка арматуры", "Fitting assembly"),
             ("Создать разрезы и сечения", "Create sections and cross sections"),
-            ("Создание каркасов", "Creating wireframes"),
             ("Создание планов", "Creating plans"),
             ("Создание контура", "Creating a contour"),
-            ("Создание видов каркасов", "Creating types of wireframes"),
-            ("Редактировать контура", "Edit the outline"),
-            ("Расчет продавливания", "Calculation of the penetration")
+            ("Редактирование контура", "Editing a contour"),
+            ("Расчет продавливания", "Calculation of the penetration"),
+            ("Создание каркасов", "Creating wireframes"),
+            ("Создание видов каркасов", "Creating types of wireframes")
             };
         var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
         var inlineKeyboardMarkup = builder.Build();
@@ -318,20 +197,21 @@ internal class PluginConstructive : IHelpPluginQuestion
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
+        await _botClient.SendMessageWithDeletePrevBotMessage(
+            context,
             chatId: message.Chat.Id,
-            text: "Выберите каким плагином вы воспользовались.",
+            text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
 }
 
-// Этап 1 Пункт 1.4
-internal class PluginOBAndBK : IHelpPluginQuestion
+// Этап 2 Пункт 4
+internal class SCategoryOBAndBKState : ISupportCategoryPluginState
 {
     public string Message { get; } = "ovAndVk";
     private readonly ITelegramBotClient _botClient;
-    public PluginOBAndBK(ITelegramBotClient client)
+    public SCategoryOBAndBKState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -380,20 +260,21 @@ internal class PluginOBAndBK : IHelpPluginQuestion
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
+        await _botClient.SendMessageWithDeletePrevBotMessage(
+            context,
             chatId: message.Chat.Id,
-            text: "Выберите каким плагином вы воспользовались.",
+            text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
 }
 
-// Этап 1 Пункт 1.5
-internal class PluginCommon : IHelpPluginQuestion
+// Этап 2 Пункт 5
+internal class SCategoryCommonState : ISupportCategoryPluginState
 {
     public string Message { get; } = "general";
     private readonly ITelegramBotClient _botClient;
-    public PluginCommon(ITelegramBotClient client)
+    public SCategoryCommonState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -416,7 +297,8 @@ internal class PluginCommon : IHelpPluginQuestion
                 {
                     InlineKeyboardButton.WithCallbackData("Множественная печать", "Multiple printing"),
                     InlineKeyboardButton.WithCallbackData("Копировать спецификацию", "Copy the specification"),
-                    InlineKeyboardButton.WithCallbackData("Копировать параметры", "Copy Parameters")
+                    InlineKeyboardButton.WithCallbackData("Копировать параметры", "Copy Parameters"),
+                    InlineKeyboardButton.WithCallbackData("Параметры", "Parameters"),
                 },
                 new[]
                 {
@@ -441,6 +323,7 @@ internal class PluginCommon : IHelpPluginQuestion
             ("Множественная печать", "Multiple printing"),
             ("Копировать спецификацию", "Copy the specification"),
             ("Копировать параметры", "Copy Parameters"),
+            ("Параметры", "Parameters"),
             ("Параметры семейств", "Family Parameters"),
             ("Копировать параметры арматуры", "Copy the valve parameters"),
             ("Комбинирование дверей", "Door combination"),
@@ -455,20 +338,21 @@ internal class PluginCommon : IHelpPluginQuestion
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
+        await _botClient.SendMessageWithDeletePrevBotMessage(
+            context,
             chatId: message.Chat.Id,
-            text: "Выберите каким плагином вы воспользовались.",
+            text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
 }
 
-// Этап 1 Пункт 1.6
-internal class PluginBoxesAndHoles : IHelpPluginQuestion
+// Этап 2 Пункт 6
+internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
 {
     public string Message { get; } = "boxesAndPoints";
     private readonly ITelegramBotClient _botClient;
-    public PluginBoxesAndHoles(ITelegramBotClient client)
+    public SCategoryBoxesAndHolesState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -477,7 +361,6 @@ internal class PluginBoxesAndHoles : IHelpPluginQuestion
     {
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
-
         Console.WriteLine("Start Execute command");
         /*
         var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
@@ -828,270 +711,11 @@ internal class PluginBoxesAndHolesReport : IHelpPluginReport
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessage(
+        await _botClient.SendMessageWithDeletePrevBotMessage(
+            context,
             chatId: message.Chat.Id,
-            text: "Выберите каким плагином вы воспользовались.",
+            text: "Выберите на какой плагин вам нужна информация.",
             replyMarkup: inlineKeyboardMarkup
         );
     }
 }
-
-// Этап 1 Пункт 2
-internal class HelpDownloadHandler : IHelpTypeAnswerHandler
-{
-    public string Message { get; } = "helpByDownload";
-    private readonly ITelegramBotClient _botClient;
-    public HelpDownloadHandler(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
-        Console.WriteLine("Start Execute command");
-        /*
-		var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-		{
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Ошибка при установке сборки", "Error")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("Не получается зарегистрироваться", "registr")
-				},
-				new[]
-				{
-					InlineKeyboardButton.WithCallbackData("не получается ввести ключ продукта", "keyOfProduct")
-				}
-				});
-        */
-
-        var pairs = new[] {
-            ("Ошибка при установке сборки", "Error"),
-            ("Не получается зарегистрироваться", "registr"),
-            ("не получается ввести ключ продукта", "keyOfProduct")
-            };
-        var builder = new InlineKeyboardBuilder(3, 1, pairs); //????????????
-        var inlineKeyboardMarkup = builder.Build();
-
-        await _botClient.AnswerCallbackQuery(
-			query.Id);
-
-		await _botClient.SendMessage(
-			chatId: message.Chat.Id,
-			text: "Выводится сообщение: \"Выберите категорию по которой вам нужна поморщь\" ",
-			replyMarkup: inlineKeyboardMarkup
-		);
-	}
-}
-
-// Этап 1 Пункт 2.3
-internal class FileSendAndErrorDescribe
-{
-
-}
-
-// Этап 1 Пункт 3
-internal class HelpRevitVersion : IRevit
-{
-    public string Message { get; } = "helpByDownload";
-    private readonly ITelegramBotClient _botClient;
-    public HelpRevitVersion(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
-        Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-               
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Revit 2019", "Revit2019"),
-                    InlineKeyboardButton.WithCallbackData("Revit 2020", "Revit2020"),
-                    InlineKeyboardButton.WithCallbackData("Revit 2021", "Revit2021")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Revit 2022", "Revit2022"),
-                    InlineKeyboardButton.WithCallbackData("Revit 2023", "Revit2023"),
-                    InlineKeyboardButton.WithCallbackData("Revit 2024", "Revit2024")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Revit 2025", "Revit2025")
-                }
-                });
-        */
-
-        var pairs = new[] {
-            ("Revit 2019", "Revit2019"),
-            ("Revit 2020", "Revit2020"),
-            ("Revit 2021", "Revit2021"),
-            ("Revit 2022", "Revit2022"),
-            ("Revit 2023", "Revit2023"),
-            ("Revit 2024", "Revit2024"),
-            ("Revit 2025", "Revit2025")
-            };
-        var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-        var inlineKeyboardMarkup = builder.Build();
-
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
-
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
-            text: "Выберите версию Revit, в котором запускали плагин.",
-            replyMarkup: inlineKeyboardMarkup
-        );
-    }
-}
-
-// Этап 1 Пункт 3.1
-internal class LicenseKey
-{
-
-}
-
-// Этап 1 Пункт 3.2
-internal class BuildNumber
-{
-
-}
-
-// Этап 1 Пункт 3.3
-internal class ScrinshotOfError
-{
-
-}
-
-// Этап 1 Пункт 3.4
-internal class ErrorDescribe
-{
-
-}
-
-// Этап 1 Пункт 3.5.1 и 3.5.2
-internal class FileSend
-{
-    public string Message { get; } = "helpByDownload";
-    private readonly ITelegramBotClient _botClient;
-    public FileSend(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
-        Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Не отправлять файл", "dont send file")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Отправить файл", "send file")
-                }
-                });
-        */
-
-        var pairs = new[] {
-            ("Не отправлять файл", "dont send file"),
-            ("Отправить файл", "send file")
-            };
-        var builder = new InlineKeyboardBuilder(2, 1, pairs); //????????????
-        var inlineKeyboardMarkup = builder.Build();
-
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
-
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
-            text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
-            replyMarkup: inlineKeyboardMarkup
-        );
-    }
-}
-
-/*
-Если нажата кнопка "Не отправлять файл" выводится сообщение: Данный вопрос был передан отделу разработок, в ближайшее время с вами свяжется специалист
-При нажатии кнопки "Отправить файл" выводится сообщение: Прикрепите файл сюда. Потом выводится это: Данный вопрос был передан отделу разработок,
-в ближайшее время с вами свяжется специалист
- */
-
-// Этап 1 Пункт 4
-internal class PluginRenga : IPlugin
-{
-    public string Message { get; } = "renga";
-    private readonly ITelegramBotClient _botClient;
-    public PluginRenga(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
-        Console.WriteLine("Start Execute command");
-        /*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
-            },
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData("Активация", "Activation")
-            }
-        });
-        */
-
-        var pairs = new[] {
-            ("Подсчет площадей", "Area calculation"),
-            ("Активация", "Activation")
-            };
-        var builder = new InlineKeyboardBuilder(2, 1, pairs); //????????????
-        var inlineKeyboardMarkup = builder.Build();
-
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
-
-        await _botClient.SendMessage(
-            chatId: message.Chat.Id,
-            text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup
-        );
-    }
-}
-
-// Вводится ключ
-
-// Пользователь вводит номер версии Renga
-internal class RengaVersion
-{
-
-}
-
-// Вводится номер сборки плагинов
-
-internal class BuildNumberOfPlugin
-{
-
-}
-
-// Дальше смотри в схему

@@ -1,9 +1,11 @@
+using InpadBotService.HelpButton;
+using InpadBotService.SupportButton;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 
 namespace InpadBotService
 {
-	public class Program
+    public class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -19,29 +21,40 @@ namespace InpadBotService
 
 			builder.Services.AddMultipleImplementations<IReplyMarkupHandler>(
 				[typeof(HelpMessageHandler),
+				typeof(StartMessageHandler),
 				typeof(SupportMessageHandler),
 				typeof(QuestionMessageHandler)]);
 
-			builder.Services.AddMultipleImplementations<IHelpTypeAnswerHandler>(
-				[typeof(HelpTypeHandler),
-				typeof(HelpDownloadHandler)]);
+			builder.Services.AddMultipleImplementations<IHelpTypeState>(
+				[typeof(QuestionAboutPluginHandler),
+				typeof(ReportErrorHandler),
+				typeof(HelpInstallationHandler)]);
 
-			builder.Services.AddMultipleImplementations<IPlugin>(
-				[typeof(PluginConcept),
-				typeof(PluginCommon),
-				typeof(PluginConstructive),
-				typeof(PluginOBAndBK),
-				typeof(PluginRenga),
-				typeof(PluginArchitecture),
-				typeof(PluginBoxesAndHoles)]);
+			builder.Services.AddMultipleImplementations<IHelpQuestionCategoryPlugin>(
+				[typeof(HQCategoryConceptState),
+				typeof(HQCategoryCommonState),
+				typeof(HQCategoryConstructiveState),
+				typeof(HQCategoryOBAndBKState),
+				typeof(HQCategoryRengaState),
+				typeof(HQCategoryArchitectureState),
+				typeof(HQCategoryBoxesAndHolesState)]);
 
-            builder.Services.AddMultipleImplementations<ICategoryPluginSupport>(
-                [typeof(PluginConceptSupport),
-                typeof(PluginArchitectureSupport),
-                typeof(PluginConstructiveSupport),
-                typeof(PluginOBAndBKSupport),
-                typeof(PluginCommonSupport),
-                typeof(PluginBoxesAndHolesSupport)]);
+			builder.Services.AddMultipleImplementations<IHelpReportCategoryPlugin>(
+				[typeof(HRCategoryConceptState),
+				typeof(HRCategoryCommonState),
+				typeof(HRCategoryConstructiveState),
+				typeof(HRCategoryOBAndBKState),
+				typeof(HRCategoryRengaState),
+				typeof(HRCategoryArchitectureState),
+				typeof(HRCategoryBoxesAndHolesState)]);
+
+			builder.Services.AddMultipleImplementations<ISupportCategoryPluginState>(
+                [typeof(SCategoryConceptState),
+                typeof(SCategoryArchitectureState),
+                typeof(SCategoryConstructiveState),
+                typeof(SCategoryOBAndBKState),
+                typeof(SCategoryCommonState),
+                typeof(SCategoryBoxesAndHolesState)]);
 
             var host = builder.Build();
 			host.Run();

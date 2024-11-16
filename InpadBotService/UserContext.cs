@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -13,6 +14,8 @@ public class UserContext
 	public long UserId { get; }
 	public string CurrentMessage { get; set; }
 	public IState CurrentState {  get; private set; }
+	public int PreviousMessageId { get; private set; }
+	public Queue<int> UsersMessageId { get; private set; } = new Queue<int>();
 	public IServiceProvider ServiceProvider { get; }
 	//public StringBuilder data { get; } = new StringBuilder();  на подумать 
 	//public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
@@ -33,5 +36,10 @@ public class UserContext
 	public async Task HandleMessageAsync(Update update, CancellationToken cancellationToken)
 	{
 		await CurrentState.HandleAsync(new TelegramRequest(update), cancellationToken, this);
+	}
+
+	public void SaveBotMessageId(int newMessageId)
+	{
+		PreviousMessageId = newMessageId;
 	}
 }

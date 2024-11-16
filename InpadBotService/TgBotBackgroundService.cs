@@ -71,9 +71,9 @@ public class TgBotBackgroundService : BackgroundService
 				break;
 		};
 		if (message is null) return;
-
 		Console.WriteLine("Start Handle main request");
-		var context = _userContextManager.GetOrCreateContext(chatId, message);
+		var context = await _userContextManager.GetOrCreateContext(chatId, message);
+		await _botClient.DeleteBotMessageAsync(context, chatId, context.PreviousMessageId);
 		await context.HandleMessageAsync(update, cancellationToken);
 	}
 
