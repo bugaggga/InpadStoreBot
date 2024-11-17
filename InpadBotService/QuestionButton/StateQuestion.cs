@@ -36,7 +36,7 @@ internal class SendQuestionState : IState
             text: "Задайте интересующийся Вас вопрос."
         );
 
-        context.SetState(new HQLicenseState(_botClient));
+        context.SetState(new HelpQuestionLicenseState(_botClient));
     }
 }
 
@@ -64,6 +64,6 @@ internal class ReplyQuestionState : IState
             text: "Ответ от нейронки"
         );
 
-        context.SetState(new HQLicenseState(_botClient));
+        context.SetState(new HelpQuestionLicenseState(_botClient));
     }
 }

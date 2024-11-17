@@ -49,12 +49,12 @@ internal class HelpRepotPluginState : IState
 	}
 }
 
-internal class HelpReportVersionState : IState
+internal class HelpReportVersionRevitState : IState
 {
 	private readonly ITelegramBotClient _botClient;
 	public string Message { get; } = "HelpReportVersionState";
 
-	public HelpReportVersionState(ITelegramBotClient client)
+	public HelpReportVersionRevitState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
