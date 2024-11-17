@@ -13,13 +13,22 @@ namespace InpadBotService
 {
 	internal static class TelegramBotClientExtensions
 	{
-		public static async Task DeleteBotMessageAsync(this ITelegramBotClient botClient, UserContext context, long chatId, int messageId)
+		public static async Task DeleteBotMessageAsync(this ITelegramBotClient botClient, UserContext context, long chatId)
 		{
 			if (context.PreviousMessageId > 0)
 			{
-				await botClient.DeleteMessage(chatId, messageId);
+				await botClient.DeleteMessage(chatId, context.PreviousMessageId);
 				context.SaveBotMessageId(0);
 			}
+		}
+
+		public static async Task DeleteUserMessageAndSaveNew(this ITelegramBotClient botClient, UserContext context, long chatId, int? newUserMessage)
+		{
+			if (context.PreviosUserMessageId > 0)
+			{
+				await botClient.DeleteMessage(chatId, context.PreviosUserMessageId);
+			}
+			context.SaveUserMessageId(newUserMessage ?? 0);
 		}
 
 		public static async Task SendMessageWithSaveBotMessageId(this ITelegramBotClient botClient, UserContext context, string text, IReplyMarkup? replyMarkup = null)
