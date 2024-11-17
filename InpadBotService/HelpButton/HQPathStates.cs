@@ -151,7 +151,7 @@ internal class HQGetQuestionState : IState
         var builder = new InlineKeyboardBuilder(2, 1, pairs);
         var inlineKeyboardMarkup = builder.Build();
 
-        await _botClient.SendMessageWithDeletePrevBotMessage(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Прикрепите файл сюда."
         );
