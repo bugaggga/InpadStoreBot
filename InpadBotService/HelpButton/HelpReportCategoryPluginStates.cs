@@ -305,7 +305,7 @@ internal class HRCategoryRengaState : IHelpReportCategoryPlugin
 			replyMarkup: inlineKeyboardMarkup
 		);
 
-		context.SetState(new HRRengaPluginState(_botClient));
+		context.SetState(new HelpReportRengaPluginState(_botClient));
 	}
 }
 
@@ -313,6 +313,6 @@ public static class HRCategoryPluginExtensions
 {
 	public static void SetState(this IHelpReportCategoryPlugin hqCategoryPluginState, UserContext context, ITelegramBotClient client)
 	{
-		context.SetState(new HRPluginState(client));
+		context.SetState(new HelpRepotPluginState(client));
 	}
 }

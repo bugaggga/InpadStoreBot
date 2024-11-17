@@ -7,11 +7,11 @@ using Telegram.Bot;
 
 namespace InpadBotService.HelpButton;
 
-internal class HQPluginState : IState
+internal class HelpQuestionPluginState : IState
 {
     public string Message { get; } = "helpByDownload";
     private readonly ITelegramBotClient _botClient;
-    public HQPluginState(ITelegramBotClient client)
+    public HelpQuestionPluginState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -44,16 +44,16 @@ internal class HQPluginState : IState
             replyMarkup: inlineKeyboardMarkup
         );
 
-        context.SetState(new HQVersionRevitState(_botClient));
+        context.SetState(new HelpQuestionVersionRevitState(_botClient));
     }
 }
 
-internal class HQVersionRevitState : IState
+internal class HelpQuestionVersionRevitState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionVersionRevitState";
 
-    public HQVersionRevitState(ITelegramBotClient client)
+    public HelpQuestionVersionRevitState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -72,16 +72,16 @@ internal class HQVersionRevitState : IState
             text: "Введите лицензионный ключ, который у вас есть."
         );
 
-        context.SetState(new HQLicenseState(_botClient));
+        context.SetState(new HelpQuestionLicenseState(_botClient));
     }
 }
 
-internal class HQLicenseState : IState
+internal class HelpQuestionLicenseState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionLicenseState";
 
-    public HQLicenseState (ITelegramBotClient client)
+    public HelpQuestionLicenseState (ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -97,16 +97,16 @@ internal class HQLicenseState : IState
             text: "Напишите номер сборки плагинов, которую вы использовали."
         );
 
-        context.SetState(new HQNumberBuildState(_botClient));
+        context.SetState(new HelpQuestionNumberBuildState(_botClient));
     }
 }
 
-internal class HQNumberBuildState : IState
+internal class HelpQuestionNumberBuildState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionNumberBuildState";
 
-    public HQNumberBuildState(ITelegramBotClient client)
+    public HelpQuestionNumberBuildState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -122,16 +122,16 @@ internal class HQNumberBuildState : IState
             text: "Опишите ваш вопрос."
         );
 
-        context.SetState(new HQGetQuestionState(_botClient));
+        context.SetState(new HelpQuestionGetQuestionState(_botClient));
     }
 }
 
-internal class HQGetQuestionState : IState
+internal class HelpQuestionGetQuestionState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionGetQuestionState";
 
-    public HQGetQuestionState(ITelegramBotClient client)
+    public HelpQuestionGetQuestionState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -158,12 +158,12 @@ internal class HQGetQuestionState : IState
     }
 }
 
-internal class HQFinalState : IState
+internal class HelpQuestionFinalState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionFinalState";
 
-    public HQFinalState(ITelegramBotClient client)
+    public HelpQuestionFinalState(ITelegramBotClient client)
     {
         _botClient = client;
     }

@@ -7,11 +7,11 @@ using Telegram.Bot;
 
 namespace InpadBotService.HelpButton;
 
-internal class HRPluginState : IState
+internal class HelpRepotPluginState : IState
 {
 	public string Message { get; } = "helpByDownload";
 	private readonly ITelegramBotClient _botClient;
-	public HRPluginState(ITelegramBotClient client)
+	public HelpRepotPluginState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -44,16 +44,16 @@ internal class HRPluginState : IState
 			replyMarkup: inlineKeyboardMarkup
 		);
 
-		context.SetState(new HRVersionRevitState(_botClient));
+		context.SetState(new HelpReportVersionRevitState(_botClient));
 	}
 }
 
-internal class HRVersionRevitState : IState
+internal class HelpReportVersionState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "";
+	public string Message { get; } = "HelpReportVersionState";
 
-	public HRVersionRevitState(ITelegramBotClient client)
+	public HelpReportVersionState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -72,16 +72,16 @@ internal class HRVersionRevitState : IState
 			text: "Введите лицензионный ключ, который у вас есть."
 		);
 
-		context.SetState(new HRLicenseState(_botClient));
+		context.SetState(new HelpReportLicenseState(_botClient));
 	}
 }
 
-internal class HRLicenseState : IState
+internal class HelpReportLicenseState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "";
+	public string Message { get; } = "HelpReportLicenseState";
 
-	public HRLicenseState(ITelegramBotClient client)
+	public HelpReportLicenseState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -97,16 +97,16 @@ internal class HRLicenseState : IState
 			text: "Напишите номер сборки плагинов, которую вы использовали."
 		);
 
-		context.SetState(new HRNumberBuildState(_botClient));
+		context.SetState(new HelpReportNumberBuildState(_botClient));
 	}
 }
 
-internal class HRNumberBuildState : IState
+internal class HelpReportNumberBuildState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "";
+	public string Message { get; } = "HelpReportNumberBuildState";
 
-	public HRNumberBuildState(ITelegramBotClient client)
+	public HelpReportNumberBuildState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -122,16 +122,16 @@ internal class HRNumberBuildState : IState
 			text: "Опишите ваш вопрос."
 		);
 
-		context.SetState(new HRGetQuestionState(_botClient));
+		context.SetState(new HelpReportGetQuestionState(_botClient));
 	}
 }
 
-internal class HRGetQuestionState : IState
+internal class HelpReportGetQuestionState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "";
+	public string Message { get; } = "HelpReportGetQuestionState";
 
-	public HRGetQuestionState(ITelegramBotClient client)
+	public HelpReportGetQuestionState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -160,12 +160,12 @@ internal class HRGetQuestionState : IState
 	}
 }
 
-internal class HRFinalState : IState
+internal class HelpReportFinalState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "";
+	public string Message { get; } = "HelpReportFinalState";
 
-	public HRFinalState(ITelegramBotClient client)
+	public HelpReportFinalState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
