@@ -3,11 +3,11 @@ using InpadBotService;
 using Telegram.Bot;
 using InpadBotService.DatasFuncs;
 
-internal class HQRengaPluginState : IState
+internal class HelpQuestionRengaPluginState : IState
 {
 	public string Message { get; } = "helpByDownload";
 	private readonly ITelegramBotClient _botClient;
-	public HQRengaPluginState(ITelegramBotClient client)
+	public HelpQuestionRengaPluginState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -28,16 +28,16 @@ internal class HQRengaPluginState : IState
 			text: "Введите лицензионный ключ, который у вас есть."
 		);
 
-		context.SetState(new HQRengaLicenseState(_botClient));
+		context.SetState(new HelpQuestionRengaLicenseState(_botClient));
 	}
 }
 
-internal class HQRengaLicenseState : IState
+internal class HelpQuestionRengaLicenseState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "";
+	public string Message { get; } = "HelpQuestionRengaLicenseState";
 
-	public HQRengaLicenseState(ITelegramBotClient client)
+	public HelpQuestionRengaLicenseState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -54,16 +54,16 @@ internal class HQRengaLicenseState : IState
 			text: "Напишите версию Renga, в которой вы работаете."
 		);
 
-		context.SetState(new HQRengaVersionState(_botClient));
+		context.SetState(new HelpQuestionRengaVersionState(_botClient));
 	}
 }
 
-internal class HQRengaVersionState : IState
+internal class HelpQuestionRengaVersionState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "";
+	public string Message { get; } = "HelpQuestionRengaVersionState";
 
-	public HQRengaVersionState(ITelegramBotClient client)
+	public HelpQuestionRengaVersionState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -80,7 +80,7 @@ internal class HQRengaVersionState : IState
 			text: "Напишите номер сборки плагинов, которую вы использовали."
 		);
 
-		context.SetState(new HQNumberBuildState(_botClient));
+		context.SetState(new HelpQuestionNumberBuildState(_botClient));
 	}
 }
 
