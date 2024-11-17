@@ -27,7 +27,6 @@ internal class QuestionAboutPluginState : IHelpTypeState
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
 
-        context.ClearData();
         DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
@@ -72,7 +71,6 @@ internal class ReportErrorState : IHelpTypeState
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
 
-        context.ClearData();
         DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
@@ -116,7 +114,6 @@ internal class HelpInstallationState : IHelpTypeState
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
 
-        context.ClearData();
         DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {

@@ -26,7 +26,8 @@ public class UserContext
 		CurrentMessage = string.Empty;
 		CurrentState = state ?? new StartMessageHandler(botClient);
 		ServiceProvider = serviceProvider;
-	}
+        data.Clear();
+    }
 
 	public IState SetState(IState newState)
 	{
@@ -42,10 +43,5 @@ public class UserContext
 	public void SaveBotMessageId(int newMessageId)
 	{
 		PreviousMessageId = newMessageId;
-	}
-
-	public void ClearData()
-	{
-		data.Clear();
 	}
 }
