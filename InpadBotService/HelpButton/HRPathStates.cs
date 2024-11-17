@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InpadBotService.DatasFuncs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,8 +23,9 @@ internal class HRPluginState : IState
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		// Сохранение названия плагинов в Data
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);	// Сохранение названия плагинов в Data
+
+        var pairs = new[] {
 			("Revit 2019", "Revit2019"),
 			("Revit 2020", "Revit2020"),
 			("Revit 2021", "Revit2021"),
@@ -62,8 +64,10 @@ internal class HRVersionRevitState : IState
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение данных в Data
-		await _botClient.AnswerCallbackQuery(
+
+        DataBuilder.UpdateData(context, Message);	// Сохранение данных в Data
+
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -89,9 +93,10 @@ internal class HRLicenseState : IState
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение лицензионного ключа в Data
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        DataBuilder.UpdateData(context, Message);	// Сохранение лицензионного ключа в Data
+
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Напишите номер сборки плагинов, которую вы использовали."
 		);
@@ -114,9 +119,10 @@ internal class HRNumberBuildState : IState
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение номера сборки в Data
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        DataBuilder.UpdateData(context, Message);   // Сохранение номера сборки в Data
+
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Опишите ваш вопрос."
 		);
@@ -138,10 +144,11 @@ internal class HRGetQuestionState : IState
 	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		if (request.Update.Message is null) return;
-
 		Console.WriteLine("Start Execute command");
-		// Сохранение вопроса в Data
-		var pairs = new[] {
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
+
+        var pairs = new[] {
 			("Отправить файл", "Send"),
 			("Не отправлять файл", "Dont send")
 			};
@@ -172,7 +179,8 @@ internal class HRFinalState : IState
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		// Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
+
+		Console.WriteLine(DataBuilder.Build(context));// Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
 
 		await _botClient.SendMessageWithSaveBotMessageId(
 			context,

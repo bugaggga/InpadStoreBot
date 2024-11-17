@@ -1,3 +1,4 @@
+using InpadBotService.DatasFuncs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,8 @@ internal class HQPluginState : IState
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
 
-        // Сохранение названия плагинов в Data
+        DataBuilder.UpdateData(context, Message);   // Сохранение названия плагинов в Data
+
         var pairs = new[] {
             ("Revit 2019", "Revit2019"),
             ("Revit 2020", "Revit2020"),
@@ -62,7 +64,9 @@ internal class HQVersionRevitState : IState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        // Сохранение данных в Data
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение данных в Data
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -89,7 +93,8 @@ internal class HQLicenseState : IState
     {
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
-        // Сохранение лицензионного ключа в Data
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
@@ -114,7 +119,8 @@ internal class HQNumberBuildState : IState
     {
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
-        // Сохранение номера сборки в Data
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение номера сборки в Data
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
@@ -138,9 +144,10 @@ internal class HQGetQuestionState : IState
     public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
 		if (request.Update.Message is null) return;
-
 		Console.WriteLine("Start Execute command");
-        // Сохранение вопроса в Data
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
+
         var pairs = new[] {
             ("Отправить файл", "Send"),
             ("Не отправлять файл", "Dont send")
@@ -172,7 +179,8 @@ internal class HQFinalState : IState
     {
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
-        // Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
+
+        Console.WriteLine(DataBuilder.Build(context));// Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,

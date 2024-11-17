@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InpadBotService.DatasFuncs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,9 @@ internal class HRCategoryConceptState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Инсоляций", "Insolation"),
 			("КЕО", "Keo"),
 			("Генерация парков", "Generating parks"),
@@ -66,7 +69,9 @@ internal class HRCategoryArchitectureState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Определить помещение", "Identify the room"),
 			("Расчет плинтуса", "Skirting board calculation"),
 			("Отделка", "Finishing"),
@@ -109,7 +114,9 @@ internal class HRCategoryConstructiveState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Сборка арматуры", "Fitting assembly"),
 			("Создать разрезы и сечения", "Create sections and cross sections"),
 			("Создание каркасов", "Creating wireframes"),
@@ -150,7 +157,9 @@ internal class HRCategoryOBAndBKState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Муфты/гильзы", "Couplings/sleeves"),
 			("Аэродинамика", "Aerodynamics"),
 			("Создать виды систем", "Create types of systems"),
@@ -191,7 +200,9 @@ internal class HRCategoryCommonState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Этажи и секции", "Floors and sections"),
 			("Подсчет узлов", "Counting nodes"),
 			("Печать листов", "Printing sheets"),
@@ -235,10 +246,11 @@ internal class HRCategoryBoxesAndHolesState : IHelpReportCategoryPlugin
 	{
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
-
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Создание заданий", "Creating tasks"),
 			("Объединение", "Unification"),
 			("Смещение", "Offset"),
@@ -283,7 +295,9 @@ internal class HRCategoryRengaState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Подсчет площадей", "Area calculation"),
 			("Активация", "Activation")
 			};

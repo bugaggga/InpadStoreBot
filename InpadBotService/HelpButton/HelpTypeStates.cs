@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
-using InpadBotService.DataBuilder;
+using InpadBotService.DatasFuncs;
 
 namespace InpadBotService.HelpButton;
 
@@ -28,7 +28,8 @@ internal class QuestionAboutPluginState : IHelpTypeState
         Console.WriteLine("Start Execute command");
 
         context.ClearData();
-        
+        DataBuilder.UpdateData(context, Message);
+
         var pairs = new[] {
             ("Renga", "renga"),
             ("Конструктив", "construct"),
@@ -70,7 +71,10 @@ internal class ReportErrorState : IHelpTypeState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        
+
+        context.ClearData();
+        DataBuilder.UpdateData(context, Message);
+
         var pairs = new[] {
             ("Renga", "renga"),
             ("Конструктив", "construct"),
@@ -111,6 +115,9 @@ internal class HelpInstallationState : IHelpTypeState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+
+        context.ClearData();
+        DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
             ("Ошибка при установке сборки", "Error"),
