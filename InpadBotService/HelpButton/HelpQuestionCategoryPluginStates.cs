@@ -24,28 +24,6 @@ internal class HQCategoryConceptState : IHelpQuestionCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Инсоляций", "Insolation"),
-                    InlineKeyboardButton.WithCallbackData("КЕО", "Keo"),
-                    InlineKeyboardButton.WithCallbackData("Генерация парков", "Generating parks")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Генерация деревьев", "Generating trees"),
-                    InlineKeyboardButton.WithCallbackData("Разлиновка модели", "Model layout"),
-                    InlineKeyboardButton.WithCallbackData("3D сетки", "3D grids")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("БыстроТЭПЫ", "Fasttep"),
-                    InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Инсоляций", "Insolation"),
@@ -57,10 +35,9 @@ internal class HQCategoryConceptState : IHelpQuestionCategoryPlugin
 			("БыстроТЭПЫ", "Fasttep"),
 			("Подсчет площадей", "Area calculation")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -88,30 +65,6 @@ internal class HQCategoryArchitectureState : IHelpQuestionCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Определить помещение", "Identify the room"),
-                    InlineKeyboardButton.WithCallbackData("Расчет плинтуса", "Skirting board calculation"),
-                    InlineKeyboardButton.WithCallbackData("Отделка", "Finishing")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Копировать отделку", "Copy the finish"),
-                    InlineKeyboardButton.WithCallbackData("Проемы по дверям/окнам на связи", "Door/window openings are in touch"),
-                    InlineKeyboardButton.WithCallbackData("Сооединение полов", "Connecting the floors")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Подсчет площадей", "Area calculation"),
-                    InlineKeyboardButton.WithCallbackData("Планировка", "Layout"),
-                    InlineKeyboardButton.WithCallbackData("Округление площади", "Rounding up the area"),
-                    InlineKeyboardButton.WithCallbackData("Нумерация квартир", "Apartment numbering")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Определить помещение", "Identify the room"),
@@ -125,10 +78,9 @@ internal class HQCategoryArchitectureState : IHelpQuestionCategoryPlugin
 			("Округление площади", "Rounding up the area"),
 			("Нумерация квартир", "Apartment numbering")
 			};
-		var builder = new InlineKeyboardBuilder(3, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -156,28 +108,6 @@ internal class HQCategoryConstructiveState : IHelpQuestionCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Сборка арматуры", "Fitting assembly"),
-                    InlineKeyboardButton.WithCallbackData("Создать разрезы и сечения", "Create sections and cross sections"),
-                    InlineKeyboardButton.WithCallbackData("Создание каркасов", "Creating wireframes")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Создание планов", "Creating plans"),
-                    InlineKeyboardButton.WithCallbackData("Создание контура", "Creating a contour"),
-                    InlineKeyboardButton.WithCallbackData("Создание видов каркасов", "Creating types of wireframes")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Редактировать контура", "Edit the outline"),
-                    InlineKeyboardButton.WithCallbackData("Расчет продавливания", "Calculation of the penetration")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Сборка арматуры", "Fitting assembly"),
@@ -189,10 +119,9 @@ internal class HQCategoryConstructiveState : IHelpQuestionCategoryPlugin
 			("Редактировать контура", "Edit the outline"),
 			("Расчет продавливания", "Calculation of the penetration")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -220,28 +149,6 @@ internal class HQCategoryOBAndBKState : IHelpQuestionCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Муфты/гильзы", "Couplings/sleeves"),
-                    InlineKeyboardButton.WithCallbackData("Аэродинамика", "Aerodynamics"),
-                    InlineKeyboardButton.WithCallbackData("Создать виды систем", "Create types of systems")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Специфакция систем", "System Specification"),
-                    InlineKeyboardButton.WithCallbackData("Высотные отметки", "Elevations"),
-                    InlineKeyboardButton.WithCallbackData("Толщина стенки", "Wall thickness")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Диаметр изоляции", "Insulation diameter"),
-                    InlineKeyboardButton.WithCallbackData("S изоляции", "S insulation")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Муфты/гильзы", "Couplings/sleeves"),
@@ -253,10 +160,9 @@ internal class HQCategoryOBAndBKState : IHelpQuestionCategoryPlugin
 			("Диаметр изоляции", "Insulation diameter"),
 			("S изоляции", "S insulation")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -284,36 +190,6 @@ internal class HQCategoryCommonState : IHelpQuestionCategoryPlugin
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		/*
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup(new[]
-        {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Этажи и секции", "Floors and sections"),
-                    InlineKeyboardButton.WithCallbackData("Подсчет узлов", "Counting nodes"),
-                    InlineKeyboardButton.WithCallbackData("Печать листов", "Printing sheets")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Множественная печать", "Multiple printing"),
-                    InlineKeyboardButton.WithCallbackData("Копировать спецификацию", "Copy the specification"),
-                    InlineKeyboardButton.WithCallbackData("Копировать параметры", "Copy Parameters")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Параметры семейств", "Family Parameters"),
-                    InlineKeyboardButton.WithCallbackData("Копировать параметры арматуры", "Copy the valve parameters"),
-                    InlineKeyboardButton.WithCallbackData("Комбинирование дверей", "Door combination")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Огнекороб", "Ognekorob"),
-                    InlineKeyboardButton.WithCallbackData("Просмотр пересечения", "Viewing the intersection"),
-                    InlineKeyboardButton.WithCallbackData("Менеджер узлов", "Node Manager"),
-                    InlineKeyboardButton.WithCallbackData("Проверка модели", "Checking the model")
-                }
-                });
-        */
 
 		var pairs = new[] {
 			("Этажи и секции", "Floors and sections"),
@@ -330,10 +206,9 @@ internal class HQCategoryCommonState : IHelpQuestionCategoryPlugin
 			("Менеджер узлов", "Node Manager"),
 			("Проверка модели", "Checking the model")
 			};
-		var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -377,8 +252,7 @@ internal class HQCategoryBoxesAndHolesState : IHelpQuestionCategoryPlugin
 			("Обозреватель статусов", "Status Browser"),
 			("Проверка заданий", "Checking tasks")
 			};
-		var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+		var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
 		await _botClient.AnswerCallbackQuery(
 			query.Id);
@@ -413,10 +287,9 @@ internal class HQCategoryRengaState : IHelpQuestionCategoryPlugin
 			("Подсчет площадей", "Area calculation"),
 			("Активация", "Activation")
 			};
-		var builder = new InlineKeyboardBuilder(2, 1, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(

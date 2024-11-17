@@ -35,10 +35,9 @@ internal class HRCategoryConceptState : IHelpReportCategoryPlugin
 			("БыстроТЭПЫ", "Fasttep"),
 			("Подсчет площадей", "Area calculation")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -79,10 +78,9 @@ internal class HRCategoryArchitectureState : IHelpReportCategoryPlugin
 			("Округление площади", "Rounding up the area"),
 			("Нумерация квартир", "Apartment numbering")
 			};
-		var builder = new InlineKeyboardBuilder(3, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -121,10 +119,9 @@ internal class HRCategoryConstructiveState : IHelpReportCategoryPlugin
 			("Редактировать контура", "Edit the outline"),
 			("Расчет продавливания", "Calculation of the penetration")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -163,10 +160,9 @@ internal class HRCategoryOBAndBKState : IHelpReportCategoryPlugin
 			("Диаметр изоляции", "Insulation diameter"),
 			("S изоляции", "S insulation")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -210,10 +206,9 @@ internal class HRCategoryCommonState : IHelpReportCategoryPlugin
 			("Менеджер узлов", "Node Manager"),
 			("Проверка модели", "Checking the model")
 			};
-		var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -257,10 +252,9 @@ internal class HRCategoryBoxesAndHolesState : IHelpReportCategoryPlugin
 			("Обозреватель статусов", "Status Browser"),
 			("Проверка заданий", "Checking tasks")
 			};
-		var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -293,10 +287,9 @@ internal class HRCategoryRengaState : IHelpReportCategoryPlugin
 			("Подсчет площадей", "Area calculation"),
 			("Активация", "Activation")
 			};
-		var builder = new InlineKeyboardBuilder(2, 1, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(

@@ -32,10 +32,9 @@ internal class HRPluginState : IState
 			("Revit 2024", "Revit2024"),
 			("Revit 2025", "Revit2025")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs);
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -146,10 +145,9 @@ internal class HRGetQuestionState : IState
 			("Отправить файл", "Send"),
 			("Не отправлять файл", "Dont send")
 			};
-		var builder = new InlineKeyboardBuilder(4, 3, pairs);
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
 			replyMarkup: inlineKeyboardMarkup

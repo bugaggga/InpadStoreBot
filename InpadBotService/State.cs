@@ -77,10 +77,9 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 			("Хочу\r\nсообщить об ошибке", "reportError"),
 			("Нужна\r\nпомощь при установке/активации", "helpInstall")
 			};
-		var builder = new InlineKeyboardBuilder(3, 1, pairs);
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите\r\nпункт, по которому вам нужна помощь:",
 			replyMarkup: inlineKeyboardMarkup);
@@ -115,10 +114,9 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 			("Общие", "general"),
 			("Боксы и отверстия", "boxesAndPoints")
 			};
-		var builder = new InlineKeyboardBuilder(3, 2, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите категорию, в котором находится плагин.",
 			replyMarkup: inlineKeyboardMarkup);

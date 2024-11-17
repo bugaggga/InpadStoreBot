@@ -43,4 +43,9 @@ public class UserContext
 	{
 		PreviousMessageId = newMessageId;
 	}
+
+	public void ClearData()
+	{
+		data.Clear();
+	}
 }
