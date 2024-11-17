@@ -156,31 +156,11 @@ internal class HelpQuestionGetQuestionState : IState
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Прикрепите файл сюда."
+            text: "Прикрепите файл сюда.",
+            replyMarkup: inlineKeyboardMarkup
         );
-    }
-}
 
-internal class HelpQuestionFinalState : IState
-{
-    private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "HelpQuestionFinalState";
-
-    public HelpQuestionFinalState(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        if (request.Update.Message is null) return;
-        Console.WriteLine("Start Execute command");
-
-        Console.WriteLine(DataBuilder.Build(context));// Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
-
-        await _botClient.SendMessageWithSaveBotMessageId(
-            context,
-            text: "Данный вопрос был передан отделу разработок, в ближайшее время с вами свяжется специалист."
-		);
+        context.SetState(new DistributorState<ISendingFileState>(
+            context.ServiceProvider.GetServices<ISendingFileState>()));
     }
 }
