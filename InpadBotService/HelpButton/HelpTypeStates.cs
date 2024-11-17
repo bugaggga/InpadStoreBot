@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using InpadBotService.DataBuilder;
 
 namespace InpadBotService.HelpButton;
 
@@ -26,6 +27,7 @@ internal class QuestionAboutPluginState : IHelpTypeState
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
 
+        context.ClearData();
         
         var pairs = new[] {
             ("Renga", "renga"),
@@ -36,8 +38,7 @@ internal class QuestionAboutPluginState : IHelpTypeState
             ("Общие", "general"),
             ("Боксы и отверстия", "boxesAndPoints")
             };
-        var builder = new InlineKeyboardBuilder(3, 2, pairs); //????????????
-        var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
         await _botClient.AnswerCallbackQuery(
             query.Id);
@@ -79,8 +80,7 @@ internal class ReportErrorState : IHelpTypeState
             ("Общие", "general"),
             ("Боксы и отверстия", "boxesAndPoints")
             };
-        var builder = new InlineKeyboardBuilder(3, 2, pairs); //????????????
-        var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
         await _botClient.AnswerCallbackQuery(
             query.Id);
@@ -117,8 +117,7 @@ internal class HelpInstallationState : IHelpTypeState
             ("Не получается зарегистрироваться", "registr"),
             ("не получается ввести ключ продукта", "keyOfProduct")
             };
-        var builder = new InlineKeyboardBuilder(3, 1, pairs); //????????????
-        var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
         await _botClient.AnswerCallbackQuery(
             query.Id);

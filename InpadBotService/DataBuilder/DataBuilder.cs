@@ -17,7 +17,7 @@ public class DataBuilder
         return context.data.StrBuilder.ToString();
     }
 
-    public void RemoveAll(UserContext context)
+    public void Clear(UserContext context)
     {
         context.data.StrBuilder.Clear();
     }
