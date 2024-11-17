@@ -1,23 +1,24 @@
 
-namespace InpadBotService.DataBuilder;
+namespace InpadBotService.DatasFuncs;
 
-public class DataBuilder
+public static class DataBuilder
 {
-    public void UpdateData(UserContext context, string additionalParam, string message)
+    public static void UpdateData(UserContext context, string additionalParam)
     {
         var data = context.data.StrBuilder;
+        var message = context.CurrentMessage;
         data.Append(additionalParam);
         data.Append(": ");
         data.Append(message);
         data.Append("/n");
     }
 
-    public string Build(UserContext context)
+    public static string Build(UserContext context)
     {
         return context.data.StrBuilder.ToString();
     }
 
-    public void Clear(UserContext context)
+    public static void Clear(UserContext context)
     {
         context.data.StrBuilder.Clear();
     }

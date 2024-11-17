@@ -1,7 +1,7 @@
 using System.Text;
 
 
-namespace InpadBotService.DataBuilder;
+namespace InpadBotService.DatasFuncs;
 
 public class UserData
 {

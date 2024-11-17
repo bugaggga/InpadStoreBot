@@ -1,3 +1,4 @@
+using InpadBotService.DatasFuncs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using Telegram.Bot;
 
 namespace InpadBotService.HelpButton;
 
-internal class HQPluginState : IState
+internal class HelpQuestionPluginState : IState
 {
     public string Message { get; } = "helpByDownload";
     private readonly ITelegramBotClient _botClient;
-    public HQPluginState(ITelegramBotClient client)
+    public HelpQuestionPluginState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -22,7 +23,8 @@ internal class HQPluginState : IState
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
 
-        // Сохранение названия плагинов в Data
+        DataBuilder.UpdateData(context, Message);   // Сохранение названия плагинов в Data
+
         var pairs = new[] {
             ("Revit 2019", "Revit2019"),
             ("Revit 2020", "Revit2020"),
@@ -43,16 +45,16 @@ internal class HQPluginState : IState
             replyMarkup: inlineKeyboardMarkup
         );
 
-        context.SetState(new HQVersionRevitState(_botClient));
+        context.SetState(new HelpQuestionVersionRevitState(_botClient));
     }
 }
 
-internal class HQVersionRevitState : IState
+internal class HelpQuestionVersionRevitState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionVersionRevitState";
 
-    public HQVersionRevitState(ITelegramBotClient client)
+    public HelpQuestionVersionRevitState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -62,7 +64,9 @@ internal class HQVersionRevitState : IState
         if (request.Update.CallbackQuery is not { } query) return;
         if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        // Сохранение данных в Data
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение данных в Data
+
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
@@ -71,16 +75,16 @@ internal class HQVersionRevitState : IState
             text: "Введите лицензионный ключ, который у вас есть."
         );
 
-        context.SetState(new HQLicenseState(_botClient));
+        context.SetState(new HelpQuestionLicenseState(_botClient));
     }
 }
 
-internal class HQLicenseState : IState
+internal class HelpQuestionLicenseState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionLicenseState";
 
-    public HQLicenseState (ITelegramBotClient client)
+    public HelpQuestionLicenseState (ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -89,23 +93,24 @@ internal class HQLicenseState : IState
     {
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
-        // Сохранение лицензионного ключа в Data
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Напишите номер сборки плагинов, которую вы использовали."
         );
 
-        context.SetState(new HQNumberBuildState(_botClient));
+        context.SetState(new HelpQuestionNumberBuildState(_botClient));
     }
 }
 
-internal class HQNumberBuildState : IState
+internal class HelpQuestionNumberBuildState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionNumberBuildState";
 
-    public HQNumberBuildState(ITelegramBotClient client)
+    public HelpQuestionNumberBuildState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -114,23 +119,24 @@ internal class HQNumberBuildState : IState
     {
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
-        // Сохранение номера сборки в Data
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение номера сборки в Data
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Опишите ваш вопрос."
         );
 
-        context.SetState(new HQGetQuestionState(_botClient));
+        context.SetState(new HelpQuestionGetQuestionState(_botClient));
     }
 }
 
-internal class HQGetQuestionState : IState
+internal class HelpQuestionGetQuestionState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionGetQuestionState";
 
-    public HQGetQuestionState(ITelegramBotClient client)
+    public HelpQuestionGetQuestionState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -138,9 +144,10 @@ internal class HQGetQuestionState : IState
     public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
 		if (request.Update.Message is null) return;
-
 		Console.WriteLine("Start Execute command");
-        // Сохранение вопроса в Data
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
+
         var pairs = new[] {
             ("Отправить файл", "Send"),
             ("Не отправлять файл", "Dont send")
@@ -149,21 +156,17 @@ internal class HQGetQuestionState : IState
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
-            replyMarkup: inlineKeyboardMarkup
+            text: "Прикрепите файл сюда."
         );
-
-		context.SetState(new DistributorState<ISendingFileState>(
-			context.ServiceProvider.GetServices<ISendingFileState>()));
-	}
+    }
 }
 
-internal class HQFinalState : IState
+internal class HelpQuestionFinalState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
+    public string Message { get; } = "HelpQuestionFinalState";
 
-    public HQFinalState(ITelegramBotClient client)
+    public HelpQuestionFinalState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -172,7 +175,8 @@ internal class HQFinalState : IState
     {
         if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
-        // Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
+
+        Console.WriteLine(DataBuilder.Build(context));// Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,

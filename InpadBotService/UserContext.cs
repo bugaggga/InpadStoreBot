@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using InpadBotService.DataBuilder;
+using InpadBotService.DatasFuncs;
 
 namespace InpadBotService;
 
@@ -26,7 +26,8 @@ public class UserContext
 		CurrentMessage = string.Empty;
 		CurrentState = state ?? new StartMessageHandler(botClient);
 		ServiceProvider = serviceProvider;
-	}
+        data.Clear();
+    }
 
 	public IState SetState(IState newState)
 	{

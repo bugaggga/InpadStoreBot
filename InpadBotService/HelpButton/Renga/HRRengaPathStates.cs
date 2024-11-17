@@ -1,12 +1,13 @@
 using InpadBotService.HelpButton;
 using InpadBotService;
 using Telegram.Bot;
+using InpadBotService.DatasFuncs;
 
-internal class HRRengaPluginState : IState
+internal class HelpReportRengaPluginState : IState
 {
 	public string Message { get; } = "helpByDownload";
 	private readonly ITelegramBotClient _botClient;
-	public HRRengaPluginState(ITelegramBotClient client)
+	public HelpReportRengaPluginState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -17,8 +18,8 @@ internal class HRRengaPluginState : IState
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		// Сохранение названия плагинов в Data
-		await _botClient.AnswerCallbackQuery(
+        DataBuilder.UpdateData(context, Message);   // Сохранение названия плагинов в Data
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -26,16 +27,16 @@ internal class HRRengaPluginState : IState
 			text: "Введите лицензионный ключ, который у вас есть."
 		);
 
-		context.SetState(new HRRengaLicenseState(_botClient));
+		context.SetState(new HelpReportRengaLicenseState(_botClient));
 	}
 }
 
-internal class HRRengaLicenseState : IState
+internal class HelpReportRengaLicenseState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "";
+	public string Message { get; } = "HelpReportRengaLicenseState";
 
-	public HRRengaLicenseState(ITelegramBotClient client)
+	public HelpReportRengaLicenseState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -44,23 +45,24 @@ internal class HRRengaLicenseState : IState
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение лицензионного ключа в Data
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
+
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Напишите версию Renga, в которой вы работаете."
 		);
 
-		context.SetState(new HRRengaVersionState(_botClient));
+		context.SetState(new HelpReportRengaVersionState(_botClient));
 	}
 }
 
-internal class HRRengaVersionState : IState
+internal class HelpReportRengaVersionState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "";
+	public string Message { get; } = "HelpReportRengaVersionState";
 
-	public HRRengaVersionState(ITelegramBotClient client)
+	public HelpReportRengaVersionState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -69,14 +71,15 @@ internal class HRRengaVersionState : IState
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение лицензионного ключа в Data
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
+
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Напишите номер сборки плагинов, которую вы использовали."
 		);
 
-		context.SetState(new HRNumberBuildState(_botClient));
+		context.SetState(new HelpReportNumberBuildState(_botClient));
 	}
 }
 
