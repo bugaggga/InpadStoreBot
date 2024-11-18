@@ -74,20 +74,50 @@ public class TgBotBackgroundService : BackgroundService
 		Console.WriteLine("Start Handle main request");
 
 		var context = await _userContextManager.GetOrCreateContext(chatId, message, update.Message?.MessageId);
-		await _botClient.DeleteUserMessageAndSaveNew(context, chatId, update.Message?.MessageId);
-		await _botClient.DeleteBotMessageAsync(context, chatId);
-		await context.HandleMessageAsync(update, cancellationToken);
+		if (context.ExpectedType == update.Type)
+		{
+			//Task<int> sendMessage;
+			//try
+			//{
+			//	sendMessage = context.HandleMessageAsync(update, cancellationToken);
+			//}
+
+			//catch 
+			//{
+			//	sendMessage = IncorrectMessageHandlerAsync(context, update, cancellationToken, chatId);
+			//}
+			var sendMessage = context.HandleMessageAsync(update, cancellationToken);
+			await _botClient.DeleteUserMessage(context, chatId);
+			await _botClient.DeleteBotMessageAsync(context, chatId);
+			context.SaveUserMessageId(update.Message?.MessageId ?? 0);
+			context.SaveBotMessageId(await sendMessage);
+		}
+
+		else await UnknownUpdateHandlerAsync(update, cancellationToken, chatId);
 	}
 
-	private Task UnknownUpdateHandlerAsync(Update update, CancellationToken cancellationToken)
+	private async Task UnknownUpdateHandlerAsync(Update update, CancellationToken cancellationToken, long chatId)
 	{
+		//_userContextManager.Contexts[chatId].SaveBotMessageId(0);
 		_logger.LogInformation("Unknown type message");
-		return Task.CompletedTask;
+		await _botClient.SendMessage(chatId,
+			text: "Нераспознанное сообщение"
+		);
+		//return Task.CompletedTask;
 	}
+
+	//private async Task<int> IncorrectMessageHandlerAsync(UserContext context, Update update, CancellationToken cancellationToken, long chatId)
+	//{
+	//	_logger.LogInformation("Incorrect message");
+	//	return await context.CurrentState.HandleAsync(new TelegramRequest(update), cancellationToken, context);
+	//}
 
 	Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
 	{
-		Console.WriteLine($"Error: {exception.Message}");
+		_logger.LogInformation($"Error: {exception.Message}");
+		//await _botClient.SendMessage(chatId,
+		//	text: "Некорректное сообщение"
+		//);
 		return Task.CompletedTask;
 	}
 

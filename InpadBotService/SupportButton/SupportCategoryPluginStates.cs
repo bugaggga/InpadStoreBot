@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService.SupportButton;
@@ -24,13 +25,14 @@ internal class SCategoryConceptState : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
-        Console.WriteLine("Start Execute command");
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
+		Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Инсоляций", "Insolation"),
             ("КЕО", "Keo"),
             ("Генерация парков", "Generating parks"),
@@ -45,11 +47,12 @@ internal class SCategoryConceptState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -63,13 +66,14 @@ internal class SCategoryArchitectureState : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Определить помещение", "Identify the room"),
             ("Расчет плинтуса", "Skirting board calculation"),
             ("Отделка", "Finishing"),
@@ -86,11 +90,12 @@ internal class SCategoryArchitectureState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -104,13 +109,14 @@ internal class SCategoryConstructiveState : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Сборка арматуры", "Fitting assembly"),
             ("Создать разрезы и сечения", "Create sections and cross sections"),
             ("Создание планов", "Creating plans"),
@@ -125,11 +131,12 @@ internal class SCategoryConstructiveState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -143,13 +150,14 @@ internal class SCategoryOBAndBKState : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Муфты/гильзы", "Couplings/sleeves"),
             ("Аэродинамика", "Aerodynamics"),
             ("Создать виды систем", "Create types of systems"),
@@ -164,11 +172,12 @@ internal class SCategoryOBAndBKState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -182,13 +191,14 @@ internal class SCategoryCommonState : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Этажи и секции", "Floors and sections"),
             ("Подсчет узлов", "Counting nodes"),
             ("Печать листов", "Printing sheets"),
@@ -209,11 +219,12 @@ internal class SCategoryCommonState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -227,13 +238,14 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Создание заданий", "Creating tasks"),
             ("Объединение", "Unification"),
             ("Смещение", "Offset"),
@@ -252,11 +264,12 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -270,13 +283,14 @@ internal class PluginConceptReport : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Инсоляций", "Insolation"),
             ("КЕО", "Keo"),
             ("Генерация парков", "Generating parks"),
@@ -291,11 +305,12 @@ internal class PluginConceptReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -309,13 +324,14 @@ internal class PluginArchitectureReport : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Определить помещение", "Identify the room"),
             ("Расчет плинтуса", "Skirting board calculation"),
             ("Отделка", "Finishing"),
@@ -332,11 +348,12 @@ internal class PluginArchitectureReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -350,13 +367,14 @@ internal class PluginConstructiveReport : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Сборка арматуры", "Fitting assembly"),
             ("Создать разрезы и сечения", "Create sections and cross sections"),
             ("Создание каркасов", "Creating wireframes"),
@@ -371,11 +389,12 @@ internal class PluginConstructiveReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -389,13 +408,14 @@ internal class PluginOBAndBKReport : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Муфты/гильзы", "Couplings/sleeves"),
             ("Аэродинамика", "Aerodynamics"),
             ("Создать виды систем", "Create types of systems"),
@@ -410,11 +430,12 @@ internal class PluginOBAndBKReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -428,13 +449,14 @@ internal class PluginCommonReport : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Этажи и секции", "Floors and sections"),
             ("Подсчет узлов", "Counting nodes"),
             ("Печать листов", "Printing sheets"),
@@ -454,11 +476,12 @@ internal class PluginCommonReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }
 
@@ -472,13 +495,14 @@ internal class PluginBoxesAndHolesReport : ISupportCategoryPluginState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Создание заданий", "Creating tasks"),
             ("Объединение", "Unification"),
             ("Смещение", "Offset"),
@@ -497,10 +521,11 @@ internal class PluginBoxesAndHolesReport : ISupportCategoryPluginState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
     }
 }

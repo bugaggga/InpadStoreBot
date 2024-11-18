@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService;
@@ -16,7 +17,7 @@ namespace InpadBotService;
 public interface IState
 {
 	public string Message { get; }
-	public Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
+	public Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
 }
 
 public interface IReplyMarkupHandler : IState;
@@ -32,10 +33,10 @@ public class StartMessageHandler : IReplyMarkupHandler
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		Console.WriteLine("Start Execute command");
-		if (request.Update.Message is null) return;
+		//if (request.Update.Message is null) return;
 
 		var replyKeyboard = new ReplyKeyboardMarkup(new[]
 		{
@@ -46,14 +47,18 @@ public class StartMessageHandler : IReplyMarkupHandler
 			ResizeKeyboard = true
 		};
 
-		await _botClient.SendMessageWithSaveBotMessageId(
-            context,
-			text: "Нажмите на кнопку, которая Вам требуется.",
-			replyMarkup: replyKeyboard
-		);
-
 		context.SetState(new DistributorState<IReplyMarkupHandler>(
 			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
+            context,
+			text: "Нажмите на кнопку, которая Вам требуется.",
+			replyMarkup: replyKeyboard,
+			newType: UpdateType.Message
+		);
+
+		
+		
 	}
 }
 
@@ -67,10 +72,10 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		Console.WriteLine("Start Execute command");
-		if (request.Update.Message is null) return;
+		//if (request.Update.Message is null) return;
 		
 		var pairs = new[] {
 			("Хочу\r\nзадать вопрос касаемо работы плагина", "askAboutPlugin"),
@@ -79,13 +84,16 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 			};
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
-			context,
-			text: "Выберите\r\nпункт, по которому вам нужна помощь:",
-			replyMarkup: inlineKeyboardMarkup);
-
 		context.SetState(new DistributorState<IHelpTypeState>(
 			context.ServiceProvider.GetServices<IHelpTypeState>()));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
+			context,
+			text: "Выберите\r\nпункт, по которому вам нужна помощь:",
+			replyMarkup: inlineKeyboardMarkup,
+			UpdateType.CallbackQuery
+		);
+
 	}
 }
 
@@ -100,9 +108,9 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.Message is null) return;
+		//if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
 
 		var pairs = new[] {
@@ -116,14 +124,15 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 			};
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
-			context,
-			text: "Выберите категорию, в котором находится плагин.",
-			replyMarkup: inlineKeyboardMarkup);
-
 		context.SetState(new DistributorState<ISupportCategoryPluginState>(
 			context.ServiceProvider.GetServices<ISupportCategoryPluginState>()));
 
+		return await _botClient.SendMessageWithSaveBotMessageId(
+			context,
+			text: "Выберите категорию, в котором находится плагин.",
+			replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
 	}
 }
 
@@ -138,17 +147,18 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		Console.WriteLine("Start Execute command");
-		if (request.Update.Message is null) return;
-
-		await _botClient.SendMessageWithSaveBotMessageId(
-			context,
-			text: "Выберите услугу"
-		);
+		//if (request.Update.Message is null) return;
 
 		context.SetState(new DistributorState<IReplyMarkupHandler>(
 			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
+			context,
+			text: "Выберите услугу",
+			newType: UpdateType.Message
+		);
 	}
 }

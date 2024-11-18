@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 
 namespace InpadBotService;
 
@@ -21,23 +22,26 @@ internal class HQSendFileState : ISendingFileState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.CallbackQuery is not { } query) return;
-		if (query.Message is not { } message) return;
+		//if (request.Update.CallbackQuery is not { } query) return;
+		//if (query.Message is not { } message) return;
+		var query = request.Update.CallbackQuery;
 
 		Console.WriteLine("Start Execute command");
         DataBuilder.UpdateData(context, Message);
 
-        await _botClient.AnswerCallbackQuery(
+		context.SetState(new HelpFinalState(_botClient));
+
+		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Прикрепите файл сюда."
+			text: "Прикрепите файл сюда.",
+			newType: UpdateType.Message
 		);
 
-		context.SetState(new HelpFinalState(_botClient));
 	}
 }
 
@@ -51,10 +55,11 @@ internal class HQDontSendFileState : ISendingFileState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.CallbackQuery is not { } query) return;
-		if (query.Message is not { } message) return;
+		//if (request.Update.CallbackQuery is not { } query) return;
+		//if (query.Message is not { } message) return;
+		var query = request.Update.CallbackQuery;
 
 		Console.WriteLine("Start Execute command");
         DataBuilder.UpdateData(context, Message);
@@ -62,7 +67,7 @@ internal class HQDontSendFileState : ISendingFileState
         await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await context.SetState(new HelpFinalState(_botClient)).HandleAsync(request, cancellationToken, context);
+		return await context.SetState(new HelpFinalState(_botClient)).HandleAsync(request, cancellationToken, context);
 	}
 
 
@@ -78,19 +83,22 @@ internal class HelpFinalState : IState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
         Console.WriteLine("Start Execute command");
 
-        //Console.WriteLine(DataBuilder.Build(context));
-        // Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
+		//Console.WriteLine(DataBuilder.Build(context));
+		// Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+		context.SetState(new DistributorState<IReplyMarkupHandler>(
+			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
+
+		await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: $"Данный запрос был передан отделу разработок, в ближайшее время с вами свяжется специалист./n{DataBuilder.Build(context)}"
-        );
+            text: $"Данный запрос был передан отделу разработок, в ближайшее время с вами свяжется специалист./n{DataBuilder.Build(context)}",
+			newType: UpdateType.Message
+		);
 
-        context.SetState(new DistributorState<IReplyMarkupHandler>(
-            context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
+		return 0;
     }
 }

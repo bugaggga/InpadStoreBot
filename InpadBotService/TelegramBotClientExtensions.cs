@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService
@@ -15,29 +16,48 @@ namespace InpadBotService
 	{
 		public static async Task DeleteBotMessageAsync(this ITelegramBotClient botClient, UserContext context, long chatId)
 		{
-			if (context.PreviousMessageId > 0)
+			try
 			{
-				await botClient.DeleteMessage(chatId, context.PreviousMessageId);
+				if (context.PreviousMessageId > 0)
+				{
+					await botClient.DeleteMessage(chatId, context.PreviousMessageId);
+					context.SaveBotMessageId(0);
+				}
+			}
+			catch
+			{
 				context.SaveBotMessageId(0);
+				await Task.CompletedTask;
 			}
 		}
 
-		public static async Task DeleteUserMessageAndSaveNew(this ITelegramBotClient botClient, UserContext context, long chatId, int? newUserMessage)
+		public static async Task DeleteUserMessage(this ITelegramBotClient botClient, UserContext context, long chatId)
 		{
-			if (context.PreviosUserMessageId > 0)
+			try
 			{
-				await botClient.DeleteMessage(chatId, context.PreviosUserMessageId);
+				if (context.PreviosUserMessageId > 0)
+				{
+					await botClient.DeleteMessage(chatId, context.PreviosUserMessageId);
+					context.SaveUserMessageId(0);
+				}
 			}
-			context.SaveUserMessageId(newUserMessage ?? 0);
+			catch
+			{
+				context.SaveUserMessageId(0);
+				await Task.CompletedTask;
+			}
+			//context.SaveUserMessageId(newUserMessage ?? 0);
 		}
 
-		public static async Task SendMessageWithSaveBotMessageId(this ITelegramBotClient botClient, UserContext context, string text, IReplyMarkup? replyMarkup = null)
+		public static async Task<int> SendMessageWithSaveBotMessageId(this ITelegramBotClient botClient, UserContext context, string text, IReplyMarkup? replyMarkup = null, UpdateType? newType = null)
 		{
+			await Task.Delay(500);
 			var sentMessage = await botClient.SendMessage(
 				chatId: context.ChatId,
 				text: text,
 				replyMarkup: replyMarkup);
-			context.SaveBotMessageId(sentMessage.MessageId);
+			context.ExpectedType = newType ?? context.ExpectedType;
+			return sentMessage.MessageId;
 		}
 	}
 }

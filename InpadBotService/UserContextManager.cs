@@ -11,7 +11,7 @@ namespace InpadBotService;
 
 public class UserContextManager
 {
-	private Dictionary<long, UserContext> Contexts { get; } = new();
+	public Dictionary<long, UserContext> Contexts { get; } = new();
 	private readonly ITelegramBotClient botClient;
 	private readonly IServiceProvider serviceProvider;
 
@@ -25,14 +25,18 @@ public class UserContextManager
 	{
 		if (currentMessage.StartsWith('/'))
 		{
-			int tempPrevUserMessageId = 0;
+			//int tempPrevUserMessageId = 0;
+			//int tempPrevBotMessageId = 0;
 			if (Contexts.ContainsKey(chatId))
 			{
-				tempPrevUserMessageId = Contexts[chatId].PreviosUserMessageId;
+				//tempPrevBotMessageId = Contexts[chatId].PreviousMessageId;
+				//tempPrevUserMessageId = Contexts[chatId].PreviosUserMessageId;
+				await botClient.DeleteUserMessage(Contexts[chatId], chatId);
 				await botClient.DeleteBotMessageAsync(Contexts[chatId], chatId);
 			}
 			ResetUserContext(chatId, new HandlerDistributor<IReplyMarkupHandler>(serviceProvider.GetServices<IReplyMarkupHandler>()).GetHandler(currentMessage));
-			Contexts[chatId].SaveUserMessageId(tempPrevUserMessageId);
+			//Contexts[chatId].SaveUserMessageId(tempPrevUserMessageId);
+			//Contexts[chatId].SaveBotMessageId(tempPrevBotMessageId);
 		}
 
 		else if (!Contexts.ContainsKey(chatId))

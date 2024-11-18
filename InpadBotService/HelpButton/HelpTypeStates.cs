@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using InpadBotService.DatasFuncs;
+using Telegram.Bot.Types.Enums;
 
 namespace InpadBotService.HelpButton;
 
@@ -21,13 +22,14 @@ internal class QuestionAboutPluginState : IHelpTypeState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+        var query = request.Update.CallbackQuery;
 
-        DataBuilder.UpdateData(context, Message);
+		DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
             ("Renga", "renga"),
@@ -40,17 +42,17 @@ internal class QuestionAboutPluginState : IHelpTypeState
             };
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.AnswerCallbackQuery(
+		context.SetState(new DistributorState<IHelpQuestionCategoryPlugin>(
+			context.ServiceProvider.GetServices<IHelpQuestionCategoryPlugin>()));
+
+		await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
-            replyMarkup: inlineKeyboardMarkup);
-
-        context.SetState(new DistributorState<IHelpQuestionCategoryPlugin>(
-            context.ServiceProvider.GetServices<IHelpQuestionCategoryPlugin>()));
-
+            replyMarkup: inlineKeyboardMarkup,
+		    UpdateType.CallbackQuery);
     }
 }
 
@@ -65,13 +67,14 @@ internal class ReportErrorState : IHelpTypeState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+        var query = request.Update.CallbackQuery;
 
-        DataBuilder.UpdateData(context, Message);
+		DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
             ("Renga", "renga"),
@@ -84,17 +87,17 @@ internal class ReportErrorState : IHelpTypeState
             };
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.AnswerCallbackQuery(
+		context.SetState(new DistributorState<IHelpReportCategoryPlugin>(
+			context.ServiceProvider.GetServices<IHelpReportCategoryPlugin>()));
+
+		await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
-            replyMarkup: inlineKeyboardMarkup);
-
-        context.SetState(new DistributorState<IHelpReportCategoryPlugin>(
-            context.ServiceProvider.GetServices<IHelpReportCategoryPlugin>()));
-
+            replyMarkup: inlineKeyboardMarkup,
+			UpdateType.CallbackQuery);
     }
 }
 
@@ -108,13 +111,14 @@ internal class HelpInstallationState : IHelpTypeState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+        var query = request.Update.CallbackQuery;
 
-        DataBuilder.UpdateData(context, Message);
+		DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
             ("Ошибка при установке сборки", "Error"),
@@ -126,11 +130,11 @@ internal class HelpInstallationState : IHelpTypeState
         await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выводится сообщение: \"Выберите категорию по которой вам нужна поморщь\" ",
-            replyMarkup: inlineKeyboardMarkup
-        );
+            replyMarkup: inlineKeyboardMarkup,
+		    UpdateType.CallbackQuery);
     }
 }
 

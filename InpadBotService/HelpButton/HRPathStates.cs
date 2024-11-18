@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 
 namespace InpadBotService.HelpButton;
 
@@ -17,13 +18,14 @@ internal class HelpRepotPluginState : IState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.CallbackQuery is not { } query) return;
-		if (query.Message is not { } message) return;
+		//if (request.Update.CallbackQuery is not { } query) return;
+		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        DataBuilder.UpdateData(context, Message);	// Сохранение названия плагинов в Data
+		DataBuilder.UpdateData(context, Message);	// Сохранение названия плагинов в Data
 
         var pairs = new[] {
 			("Revit 2019", "Revit2019"),
@@ -36,16 +38,17 @@ internal class HelpRepotPluginState : IState
 			};
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.AnswerCallbackQuery(
+		context.SetState(new HelpReportVersionRevitState(_botClient));
+
+		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите версию Revit, в котором запускали плагин.",
-			replyMarkup: inlineKeyboardMarkup
+			replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
 		);
-
-		context.SetState(new HelpReportVersionRevitState(_botClient));
 	}
 }
 
@@ -59,23 +62,26 @@ internal class HelpReportVersionRevitState : IState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.CallbackQuery is not { } query) return;
-		if (query.Message is not { } message) return;
+		//if (request.Update.CallbackQuery is not { } query) return;
+		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        DataBuilder.UpdateData(context, Message);	// Сохранение данных в Data
-
-        await _botClient.AnswerCallbackQuery(
-			query.Id);
-
-		await _botClient.SendMessageWithSaveBotMessageId(
-			context,
-			text: "Введите лицензионный ключ, который у вас есть."
-		);
+		DataBuilder.UpdateData(context, Message);   // Сохранение данных в Data
 
 		context.SetState(new HelpReportLicenseState(_botClient));
+
+		await _botClient.AnswerCallbackQuery(
+			query.Id);
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
+			context,
+			text: "Введите лицензионный ключ, который у вас есть.",
+			newType: UpdateType.Message
+		);
+
 	}
 }
 
@@ -89,19 +95,20 @@ internal class HelpReportLicenseState : IState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.Message is null) return;
+		//if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
 
-        DataBuilder.UpdateData(context, Message);	// Сохранение лицензионного ключа в Data
-
-        await _botClient.SendMessageWithSaveBotMessageId(
-			context,
-			text: "Напишите номер сборки плагинов, которую вы использовали."
-		);
+        DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
 
 		context.SetState(new HelpReportNumberBuildState(_botClient));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
+			context,
+			text: "Напишите номер сборки плагинов, которую вы использовали.",
+			newType: UpdateType.Message
+		);
 	}
 }
 
@@ -115,19 +122,20 @@ internal class HelpReportNumberBuildState : IState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.Message is null) return;
+		//if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
 
         DataBuilder.UpdateData(context, Message);   // Сохранение номера сборки в Data
 
-        await _botClient.SendMessageWithSaveBotMessageId(
-			context,
-			text: "Опишите ваш вопрос."
-		);
-
 		context.SetState(new HelpReportGetQuestionState(_botClient));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
+			context,
+			text: "Опишите ваш вопрос.",
+			newType: UpdateType.Message
+		);
 	}
 }
 
@@ -141,9 +149,9 @@ internal class HelpReportGetQuestionState : IState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.Message is null) return;
+		//if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
 
         DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
@@ -154,14 +162,15 @@ internal class HelpReportGetQuestionState : IState
 			};
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
-			context,
-			text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
-			replyMarkup: inlineKeyboardMarkup
-		);
-
 		context.SetState(new DistributorState<ISendingFileState>(
 			context.ServiceProvider.GetServices<ISendingFileState>()));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
+			context,
+			text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
+			replyMarkup: inlineKeyboardMarkup,
+			newType: UpdateType.CallbackQuery
+		);
 	}
 }
 

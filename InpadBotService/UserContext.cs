@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using InpadBotService.DatasFuncs;
+using Telegram.Bot.Types.Enums;
 
 namespace InpadBotService;
 
@@ -19,6 +20,7 @@ public class UserContext
 	public int PreviosUserMessageId { get; private set; }
 	public IServiceProvider ServiceProvider { get; }
 	public UserData data = new UserData();  //на подумать 
+	public UpdateType ExpectedType { get; set; }
 
 	public UserContext(long chatId, ITelegramBotClient botClient, IServiceProvider serviceProvider, IState? state = null)
 	{
@@ -26,6 +28,7 @@ public class UserContext
 		CurrentMessage = string.Empty;
 		CurrentState = state ?? new StartMessageHandler(botClient);
 		ServiceProvider = serviceProvider;
+		ExpectedType = UpdateType.Message;
         data.Clear();
     }
 
@@ -35,9 +38,9 @@ public class UserContext
 		return CurrentState;
 	}
 
-	public async Task HandleMessageAsync(Update update, CancellationToken cancellationToken)
+	public async Task<int> HandleMessageAsync(Update update, CancellationToken cancellationToken)
 	{
-		await CurrentState.HandleAsync(new TelegramRequest(update), cancellationToken, this);
+		return await CurrentState.HandleAsync(new TelegramRequest(update), cancellationToken, this);
 	}
 
 	public void SaveBotMessageId(int newMessageId)

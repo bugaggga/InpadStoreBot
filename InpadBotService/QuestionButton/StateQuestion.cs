@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService.QuestionButton;
@@ -22,21 +23,24 @@ internal class SendQuestionState : IState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        // Сохранение вопроса в Data
-        await _botClient.AnswerCallbackQuery(
+        var query = request.Update.CallbackQuery;
+		// Сохранение вопроса в Data
+
+		context.SetState(new HelpQuestionLicenseState(_botClient));
+
+		await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Задайте интересующийся Вас вопрос."
         );
 
-        context.SetState(new HelpQuestionLicenseState(_botClient));
     }
 }
 
@@ -50,20 +54,23 @@ internal class ReplyQuestionState : IState
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        // Отправка ответа, созданного нейронкой
-        await _botClient.AnswerCallbackQuery(
+        var query = request.Update.CallbackQuery;
+		// Отправка ответа, созданного нейронкой
+		context.SetState(new HelpQuestionLicenseState(_botClient));
+
+		await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Ответ от нейронки"
-        );
+            text: "Ответ от нейронки",
+			newType: UpdateType.Message
+		);
 
-        context.SetState(new HelpQuestionLicenseState(_botClient));
     }
 }

@@ -16,13 +16,14 @@ namespace InpadBotService
 		{
 			_handlers = handlers;
 		}
-		public async Task HandleAsync(
+		public async Task<int> HandleAsync(
 			TelegramRequest request,
 			CancellationToken cancellationToken,
 			UserContext context)
 		{
-			await new HandlerDistributor<T>(_handlers).GetHandler(context.CurrentMessage)!
-				.HandleAsync(request, cancellationToken, context);
+			var handler = new HandlerDistributor<T>(_handlers).GetHandler(context.CurrentMessage);
+			if (handler == null) context.SaveBotMessageId(0);
+			return await handler!.HandleAsync(request, cancellationToken, context);
 		}
 	}
 }

@@ -12,22 +12,24 @@ internal class HelpReportRengaPluginState : IState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.CallbackQuery is not { } query) return;
-		if (query.Message is not { } message) return;
+		//if (request.Update.CallbackQuery is not { } query) return;
+		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        DataBuilder.UpdateData(context, Message);   // Сохранение названия плагинов в Data
-        await _botClient.AnswerCallbackQuery(
+		DataBuilder.UpdateData(context, Message);   // Сохранение названия плагинов в Data
+
+		context.SetState(new HelpReportRengaLicenseState(_botClient));
+
+		await _botClient.AnswerCallbackQuery(
 			query.Id);
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Введите лицензионный ключ, который у вас есть."
 		);
-
-		context.SetState(new HelpReportRengaLicenseState(_botClient));
 	}
 }
 
@@ -41,19 +43,19 @@ internal class HelpReportRengaLicenseState : IState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.Message is null) return;
+		//if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
 
         DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+		context.SetState(new HelpReportRengaVersionState(_botClient));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Напишите версию Renga, в которой вы работаете."
 		);
-
-		context.SetState(new HelpReportRengaVersionState(_botClient));
 	}
 }
 
@@ -67,19 +69,19 @@ internal class HelpReportRengaVersionState : IState
 		_botClient = client;
 	}
 
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
-		if (request.Update.Message is null) return;
+		//if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
 
         DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+		context.SetState(new HelpReportNumberBuildState(_botClient));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Напишите номер сборки плагинов, которую вы использовали."
 		);
-
-		context.SetState(new HelpReportNumberBuildState(_botClient));
 	}
 }
 
