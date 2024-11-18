@@ -152,8 +152,7 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 		Console.WriteLine("Start Execute command");
 		//if (request.Update.Message is null) return;
 
-		context.SetState(new DistributorState<IReplyMarkupHandler>(
-			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
+		context.SetState(new MainHelpInstallationState(_botClient));
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,

@@ -5,26 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 
 namespace InpadBotService.HelpButton;
 
-internal class InstallationCategoryState : IState
+internal class MainHelpInstallationState : IState
 {
     private readonly ITelegramBotClient _botClient;
     public string Message { get; } = "helpInstall";
 
-    public InstallationCategoryState(ITelegramBotClient client)
+    public MainHelpInstallationState(ITelegramBotClient client)
     {
-        _botClient = client;
+		_botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+        var query = request.Update.CallbackQuery;
 
-        DataBuilder.UpdateData(context, Message);
+
+		DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
             ("Ошибка при установке сборки", "Error installing the assembly"),
@@ -33,36 +36,35 @@ internal class InstallationCategoryState : IState
             };
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.AnswerCallbackQuery(
+		context.SetState(new HelpInstallationCategoryState(_botClient));
+
+		await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите категорию по которой вам нужна поморщь.",
             replyMarkup: inlineKeyboardMarkup);
-
-        context.SetState(new DistributorState<IHelpReportCategoryPlugin>(
-            context.ServiceProvider.GetServices<IHelpReportCategoryPlugin>()));
-
     }
 }
 
-internal class InstallationRevitVersionState : IState
+internal class HelpInstallationCategoryState : IState
 {
     public string Message { get; } = "InstallationCategoryState";
     private readonly ITelegramBotClient _botClient;
-    public InstallationRevitVersionState(ITelegramBotClient client)
+    public HelpInstallationCategoryState(ITelegramBotClient client)
     {
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.CallbackQuery is not { } query) return;
-        if (query.Message is not { } message) return;
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
 
-        DataBuilder.UpdateData(context, Message);
+		DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
             ("Revit 2019", "Revit2019"),
@@ -75,84 +77,84 @@ internal class InstallationRevitVersionState : IState
             };
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.AnswerCallbackQuery(
+		context.SetState(new HelpInstallationVersionRevitState(_botClient));
+
+		await _botClient.AnswerCallbackQuery(
             query.Id);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите версию Revit, в котором запускали плагин.",
             replyMarkup: inlineKeyboardMarkup
         );
-
-        context.SetState(new InstallationLicenseKeyState(_botClient));
     }
 }
 
-internal class InstallationLicenseKeyState : IState
+internal class HelpInstallationVersionRevitState : IState
+{
+    private readonly ITelegramBotClient _botClient;
+    public string Message { get; } = "InstallationVersionRevitState";
+
+    public HelpInstallationVersionRevitState(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
+
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        //if (request.Update.Message is null) return;
+        Console.WriteLine("Start Execute command");
+
+		DataBuilder.UpdateData(context, Message);
+
+		context.SetState(new HelpInstallationLicenseKeyState(_botClient));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
+            context,
+            text: "Введите, пожалуйста, ваш лицензионный ключ, который вы использовали."
+        );
+    }
+}
+
+internal class HelpInstallationLicenseKeyState : IState
 {
     private readonly ITelegramBotClient _botClient;
     public string Message { get; } = "InstallationLicenseKeyState";
 
-    public InstallationLicenseKeyState(ITelegramBotClient client)
+    public HelpInstallationLicenseKeyState(ITelegramBotClient client)
     {
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.Message is null) return;
+        //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
 
-        DataBuilder.UpdateData(context, Message);
+		DataBuilder.UpdateData(context, Message);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+		context.SetState(new HelpInstallationBuildNumberState(_botClient));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Введите, пожалуйста, ваш лицензионный ключ, который вы использовали."
+            text: "Напишите, пожалуйста, номер сборки, которую вы установили."
         );
-
-        context.SetState(new InstallationRevitVersionState(_botClient));
     }
 }
 
-internal class InstallationBuildNumberState : IState
+internal class HelpInstallationBuildNumberState : IState
 {
     private readonly ITelegramBotClient _botClient;
     public string Message { get; } = "InstallationBuildNumberState";
 
-    public InstallationBuildNumberState(ITelegramBotClient client)
+    public HelpInstallationBuildNumberState(ITelegramBotClient client)
     {
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.Message is null) return;
-        Console.WriteLine("Start Execute command");
-
-        DataBuilder.UpdateData(context, Message);
-
-        await _botClient.SendMessageWithSaveBotMessageId(
-            context,
-            text: "Напишите, пожалуйста, номер сборки, которую вы установили."
-        );
-
-        context.SetState(new InstallationSendFileState(_botClient));
-    }
-}
-
-internal class InstallationSendFileState : IState
-{
-    private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "InstallationSendFileAndDiscribeProblem";
-
-    public InstallationSendFileState(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        if (request.Update.Message is null) return;
+        //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
 
         DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
@@ -162,65 +164,68 @@ internal class InstallationSendFileState : IState
             };
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+		context.SetState(new HelpInstallationSendFileState(_botClient));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Отправьте, пожалуйста, скриншот с проблемой.",
             replyMarkup: inlineKeyboardMarkup
         );
-
-        context.SetState(new DistributorState<ISendingFileState>(
-            context.ServiceProvider.GetServices<ISendingFileState>()));
     }
 }
 
-internal class InstallationDescripeProblemState : IState
+internal class HelpInstallationSendFileState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "InstallationSendFileAndDiscribeProblem";
+    public string Message { get; } = "InstallationSendFileState";
 
-    public InstallationDescripeProblemState(ITelegramBotClient client)
+    public HelpInstallationSendFileState(ITelegramBotClient client)
     {
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.Message is null) return;
+        //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
 
         DataBuilder.UpdateData(context, Message);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+		context.SetState(new HelpInstallationFinaleState(_botClient));
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Опишите вашу проблему."
         );
-
-        context.SetState(new InstallationSendFileState(_botClient));
     }
 }
 
-internal class InstallationFinaleState : IState
+internal class HelpInstallationFinaleState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "InstallationSendFileAndDiscribeProblem";
+    public string Message { get; } = "InstallationFinaleState";
 
-    public InstallationFinaleState(ITelegramBotClient client)
+    public HelpInstallationFinaleState(ITelegramBotClient client)
     {
         _botClient = client;
     }
 
-    public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        if (request.Update.Message is null) return;
+        //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
 
         DataBuilder.UpdateData(context, Message);
 
-        await _botClient.SendMessageWithSaveBotMessageId(
+		context.SetState(context.SetState(new DistributorState<IReplyMarkupHandler>(
+			context.ServiceProvider.GetServices<IReplyMarkupHandler>())));
+
+		await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Данная ошибка была передана отделу разработок, в ближайшее время с вами свяжется специалист."
+            text: "Данная ошибка была передана отделу разработок, в ближайшее время с вами свяжется специалист.",
+            newType: UpdateType.Message
         );
 
-        context.SetState(new InstallationSendFileState(_botClient));
+        return 0;
     }
 }
