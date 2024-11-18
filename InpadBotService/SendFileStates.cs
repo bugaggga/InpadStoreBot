@@ -35,7 +35,7 @@ internal class HQSendFileState : ISendingFileState
 			text: "Прикрепите файл сюда."
 		);
 
-		context.SetState(new HQFinalState(_botClient));
+		context.SetState(new HelpQuestionFinalState(_botClient));
 	}
 }
 
@@ -64,6 +64,6 @@ internal class HQDontSendFileState : ISendingFileState
 			text: "Прикрепите файл сюда."
 		);
 
-		await context.SetState(new HQFinalState(_botClient)).HandleAsync(request, cancellationToken, context);
+		await context.SetState(new HelpQuestionFinalState(_botClient)).HandleAsync(request, cancellationToken, context);
 	}
 }
