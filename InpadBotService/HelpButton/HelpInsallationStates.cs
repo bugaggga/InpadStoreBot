@@ -44,7 +44,9 @@ internal class MainHelpInstallationState : IState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите категорию по которой вам нужна поморщь.",
-            replyMarkup: inlineKeyboardMarkup);
+            replyMarkup: inlineKeyboardMarkup,
+            newType: UpdateType.CallbackQuery
+        );
     }
 }
 
@@ -85,7 +87,8 @@ internal class HelpInstallationCategoryState : IState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите версию Revit, в котором запускали плагин.",
-            replyMarkup: inlineKeyboardMarkup
+            replyMarkup: inlineKeyboardMarkup,
+            newType: UpdateType.CallbackQuery
         );
     }
 }
@@ -159,17 +162,16 @@ internal class HelpInstallationBuildNumberState : IState
 
         DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
 
-        var pairs = new[] {
-            ("Отправить файл", "Send")
-            };
-        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
+        //var pairs = new[] {
+        //    ("Отправить файл", "Send")
+        //    };
+        //var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
 		context.SetState(new HelpInstallationSendFileState(_botClient));
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Отправьте, пожалуйста, скриншот с проблемой.",
-            replyMarkup: inlineKeyboardMarkup
+            text: "Отправьте, пожалуйста, скриншот с проблемой."
         );
     }
 }
