@@ -76,21 +76,11 @@ public class TgBotBackgroundService : BackgroundService
 		var context = await _userContextManager.GetOrCreateContext(chatId, message, update.Message?.MessageId);
 		if (context.ExpectedType == update.Type)
 		{
-			//Task<int> sendMessage;
-			//try
-			//{
-			//	sendMessage = context.HandleMessageAsync(update, cancellationToken);
-			//}
-
-			//catch 
-			//{
-			//	sendMessage = IncorrectMessageHandlerAsync(context, update, cancellationToken, chatId);
-			//}
-			var sendMessage = context.HandleMessageAsync(update, cancellationToken);
+			var sendMessageId = await context.HandleMessageAsync(update, cancellationToken);
 			await _botClient.DeleteUserMessage(context, chatId);
 			await _botClient.DeleteBotMessageAsync(context, chatId);
 			context.SaveUserMessageId(update.Message?.MessageId ?? 0);
-			context.SaveBotMessageId(await sendMessage);
+			context.SaveBotMessageId(sendMessageId);
 		}
 
 		else await UnknownUpdateHandlerAsync(update, cancellationToken, chatId);

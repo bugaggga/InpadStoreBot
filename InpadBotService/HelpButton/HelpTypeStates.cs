@@ -51,8 +51,8 @@ internal class QuestionAboutPluginState : IHelpTypeState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
-            replyMarkup: inlineKeyboardMarkup,
-		    UpdateType.CallbackQuery);
+            replyMarkup: inlineKeyboardMarkup
+        );
     }
 }
 
@@ -96,8 +96,8 @@ internal class ReportErrorState : IHelpTypeState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
-            replyMarkup: inlineKeyboardMarkup,
-			UpdateType.CallbackQuery);
+            replyMarkup: inlineKeyboardMarkup
+        );
     }
 }
 
@@ -113,28 +113,31 @@ internal class HelpInstallationState : IHelpTypeState
 
     public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
     {
-        //if (request.Update.CallbackQuery is not { } query) return;
-        //if (query.Message is not { } message) return;
-        Console.WriteLine("Start Execute command");
-        var query = request.Update.CallbackQuery;
+		//if (request.Update.CallbackQuery is not { } query) return;
+		//if (query.Message is not { } message) return;
+		Console.WriteLine("Start Execute command");
+		var query = request.Update.CallbackQuery;
+
 
 		DataBuilder.UpdateData(context, Message);
 
-        var pairs = new[] {
-            ("Ошибка при установке сборки", "Error"),
-            ("Не получается зарегистрироваться", "registr"),
-            ("не получается ввести ключ продукта", "keyOfProduct")
-            };
-        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
+		var pairs = new[] {
+			("Ошибка при установке сборки", "Error installing the assembly"),
+			("Не получается зарегистрироваться", "Can't register"),
+			("Не получается ввести ключ продукта", "Can't enter the product key")
+			};
+		var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-        await _botClient.AnswerCallbackQuery(
-            query.Id);
+		context.SetState(new HelpInstallationCategoryState(_botClient));
 
-        return await _botClient.SendMessageWithSaveBotMessageId(
-            context,
-            text: "Выводится сообщение: \"Выберите категорию по которой вам нужна поморщь\" ",
-            replyMarkup: inlineKeyboardMarkup,
-		    UpdateType.CallbackQuery);
-    }
+		await _botClient.AnswerCallbackQuery(
+			query.Id);
+
+		return await _botClient.SendMessageWithSaveBotMessageId(
+			context,
+			text: "Выберите категорию по которой вам нужна поморщь.",
+			replyMarkup: inlineKeyboardMarkup
+		);
+	}
 }
 

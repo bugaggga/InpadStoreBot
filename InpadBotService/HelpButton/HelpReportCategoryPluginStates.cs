@@ -50,8 +50,7 @@ internal class HRCategoryConceptState : IHelpReportCategoryPlugin
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
-			replyMarkup: inlineKeyboardMarkup,
-			UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }
@@ -97,8 +96,7 @@ internal class HRCategoryArchitectureState : IHelpReportCategoryPlugin
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
-			replyMarkup: inlineKeyboardMarkup,
-			UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }
@@ -142,8 +140,7 @@ internal class HRCategoryConstructiveState : IHelpReportCategoryPlugin
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
-			replyMarkup: inlineKeyboardMarkup,
-			UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }
@@ -187,8 +184,7 @@ internal class HRCategoryOBAndBKState : IHelpReportCategoryPlugin
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
-			replyMarkup: inlineKeyboardMarkup,
-			UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }
@@ -237,8 +233,7 @@ internal class HRCategoryCommonState : IHelpReportCategoryPlugin
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
-			replyMarkup: inlineKeyboardMarkup,
-			UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }
@@ -286,8 +281,7 @@ internal class HRCategoryBoxesAndHolesState : IHelpReportCategoryPlugin
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
-			replyMarkup: inlineKeyboardMarkup,
-			UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }
@@ -325,8 +319,7 @@ internal class HRCategoryRengaState : IHelpReportCategoryPlugin
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
-			replyMarkup: inlineKeyboardMarkup,
-			UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }

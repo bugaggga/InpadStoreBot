@@ -46,8 +46,7 @@ internal class HelpRepotPluginState : IState
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите версию Revit, в котором запускали плагин.",
-			replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }
@@ -78,8 +77,7 @@ internal class HelpReportVersionRevitState : IState
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Введите лицензионный ключ, который у вас есть.",
-			newType: UpdateType.Message
+			text: "Введите лицензионный ключ, который у вас есть."
 		);
 
 	}
@@ -106,8 +104,7 @@ internal class HelpReportLicenseState : IState
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Напишите номер сборки плагинов, которую вы использовали.",
-			newType: UpdateType.Message
+			text: "Напишите номер сборки плагинов, которую вы использовали."
 		);
 	}
 }
@@ -133,8 +130,7 @@ internal class HelpReportNumberBuildState : IState
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Опишите ваш вопрос.",
-			newType: UpdateType.Message
+			text: "Опишите ваш вопрос."
 		);
 	}
 }
@@ -168,8 +164,7 @@ internal class HelpReportGetQuestionState : IState
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
-			replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }

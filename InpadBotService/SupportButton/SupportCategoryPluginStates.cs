@@ -50,8 +50,7 @@ internal class SCategoryConceptState : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -93,8 +92,7 @@ internal class SCategoryArchitectureState : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -134,8 +132,7 @@ internal class SCategoryConstructiveState : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -175,8 +172,7 @@ internal class SCategoryOBAndBKState : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -222,8 +218,7 @@ internal class SCategoryCommonState : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -267,8 +262,7 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -308,8 +302,7 @@ internal class PluginConceptReport : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -351,8 +344,7 @@ internal class PluginArchitectureReport : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -392,8 +384,7 @@ internal class PluginConstructiveReport : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -433,8 +424,7 @@ internal class PluginOBAndBKReport : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -479,8 +469,7 @@ internal class PluginCommonReport : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите каким плагином вы воспользовались.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }
@@ -524,8 +513,7 @@ internal class PluginBoxesAndHolesReport : ISupportCategoryPluginState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите на какой плагин вам нужна информация.",
-            replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+            replyMarkup: inlineKeyboardMarkup
 		);
     }
 }

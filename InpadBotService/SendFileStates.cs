@@ -38,8 +38,7 @@ internal class HQSendFileState : ISendingFileState
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Прикрепите файл сюда.",
-			newType: UpdateType.Message
+			text: "Прикрепите файл сюда."
 		);
 
 	}
@@ -95,8 +94,7 @@ internal class HelpFinalState : IState
 
 		await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: $"Данный запрос был передан отделу разработок, в ближайшее время с вами свяжется специалист./n{DataBuilder.Build(context)}",
-			newType: UpdateType.Message
+            text: $"Данный запрос был передан отделу разработок, в ближайшее время с вами свяжется специалист./n{DataBuilder.Build(context)}"
 		);
 
 		return 0;

@@ -68,8 +68,7 @@ internal class ReplyQuestionState : IState
 
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Ответ от нейронки",
-			newType: UpdateType.Message
+            text: "Ответ от нейронки"
 		);
 
     }

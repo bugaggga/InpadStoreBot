@@ -44,7 +44,8 @@ public class StartMessageHandler : IReplyMarkupHandler
 				new KeyboardButton[] { "/question" }
 			})
 		{
-			ResizeKeyboard = true
+			ResizeKeyboard = true,
+			OneTimeKeyboard = false, // Клавиатура не исчезает после нажатия
 		};
 
 		context.SetState(new DistributorState<IReplyMarkupHandler>(
@@ -53,8 +54,7 @@ public class StartMessageHandler : IReplyMarkupHandler
 		return await _botClient.SendMessageWithSaveBotMessageId(
             context,
 			text: "Нажмите на кнопку, которая Вам требуется.",
-			replyMarkup: replyKeyboard,
-			newType: UpdateType.Message
+			replyMarkup: replyKeyboard
 		);
 
 		
@@ -90,8 +90,7 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите\r\nпункт, по которому вам нужна помощь:",
-			replyMarkup: inlineKeyboardMarkup,
-			UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 
 	}
@@ -130,8 +129,7 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите категорию, в котором находится плагин.",
-			replyMarkup: inlineKeyboardMarkup,
-			newType: UpdateType.CallbackQuery
+			replyMarkup: inlineKeyboardMarkup
 		);
 	}
 }
@@ -152,12 +150,12 @@ internal class QuestionMessageHandler : IReplyMarkupHandler
 		Console.WriteLine("Start Execute command");
 		//if (request.Update.Message is null) return;
 
-		context.SetState(new MainHelpInstallationState(_botClient));
+		context.SetState(new DistributorState<IReplyMarkupHandler>(
+			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Выберите услугу",
-			newType: UpdateType.Message
+			text: "Выберите услугу"
 		);
 	}
 }

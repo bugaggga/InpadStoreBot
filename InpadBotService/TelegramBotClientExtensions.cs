@@ -49,14 +49,15 @@ namespace InpadBotService
 			//context.SaveUserMessageId(newUserMessage ?? 0);
 		}
 
-		public static async Task<int> SendMessageWithSaveBotMessageId(this ITelegramBotClient botClient, UserContext context, string text, IReplyMarkup? replyMarkup = null, UpdateType? newType = null)
+		public static async Task<int> SendMessageWithSaveBotMessageId(this ITelegramBotClient botClient, UserContext context, string text, IReplyMarkup? replyMarkup = null)
 		{
-			await Task.Delay(500);
+			//await Task.Delay(200);
 			var sentMessage = await botClient.SendMessage(
 				chatId: context.ChatId,
 				text: text,
 				replyMarkup: replyMarkup);
-			context.ExpectedType = newType ?? context.ExpectedType;
+			if (replyMarkup is InlineKeyboardMarkup) context.ExpectedType = UpdateType.CallbackQuery;
+			else context.ExpectedType = UpdateType.Message;
 			return sentMessage.MessageId;
 		}
 	}
