@@ -2,42 +2,43 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService;
 
-internal class InlineKeyboardBuilder
+internal static class InlineKeyboardBuilder
 {
-	private (string, string)[] _pairs;
-	private int _height;
-	private int _width;
-	private int _additionalCount;
-
-	public InlineKeyboardBuilder(int height, int width, (string, string)[] pairs)
+	public static InlineKeyboardMarkup Build((string, string)[] pairs)
 	{
-		_pairs = pairs;
-		_height = height;
-		_width = width;
-		_additionalCount = _pairs.Length - _height * _width;
-	}
+		(var height, var width, var additionalCount) = CalculateAllParams(pairs);
 
-	public InlineKeyboardMarkup Build()
-	{
-		var indexer = 0;
-		var buttons = new InlineKeyboardButton[_height + _additionalCount][];
-		for (var i = 0; i < _height; i++)
+
+
+        var indexer = 0;
+		var buttons = new InlineKeyboardButton[height + additionalCount][];
+		for (var i = 0; i < height; i++)
 		{
-            buttons[i] = new InlineKeyboardButton[_width];
-			for (var j = 0; j < _width; j++)
+            buttons[i] = new InlineKeyboardButton[width];
+			for (var j = 0; j < width; j++)
 			{
-				buttons[i][j] = InlineKeyboardButton.WithCallbackData(_pairs[indexer].Item1, _pairs[indexer].Item2);
+				buttons[i][j] = InlineKeyboardButton.WithCallbackData(pairs[indexer].Item1, pairs[indexer].Item2);
 				indexer++;
 			}
 		}
-		for (var i = _height; i < _height + _additionalCount; i++)
+		for (var i = height; i < height + additionalCount; i++)
 		{
 			buttons[i] = new[] {
-			InlineKeyboardButton.WithCallbackData(_pairs[indexer].Item1, _pairs[indexer].Item2) 
+			InlineKeyboardButton.WithCallbackData(pairs[indexer].Item1, pairs[indexer].Item2) 
 			};
 			indexer++;
 		}
 
 		return new InlineKeyboardMarkup(buttons);
+	}
+
+	private static (int, int, int) CalculateAllParams((string, string)[] pairs)
+	{
+
+		var height = pairs.Length >= 4 ? pairs.Length / 2 : pairs.Length;
+		var width = pairs.Length >= 4 ? 2 : 1;
+		var additionalCount = pairs.Length % width;
+
+		return (height, width, additionalCount);
 	}
 }

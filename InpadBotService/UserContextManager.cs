@@ -21,15 +21,18 @@ public class UserContextManager
 		this.serviceProvider = serviceProvider;
 	}
 
-	public async Task<UserContext> GetOrCreateContext(long chatId, string currentMessage)
+	public async Task<UserContext> GetOrCreateContext(long chatId, string currentMessage, int? currentMessageId)
 	{
 		if (currentMessage.StartsWith('/'))
 		{
+			int tempPrevUserMessageId = 0;
 			if (Contexts.ContainsKey(chatId))
 			{
-				await botClient.DeleteBotMessageAsync(Contexts[chatId], chatId, Contexts[chatId].PreviousMessageId);
+				tempPrevUserMessageId = Contexts[chatId].PreviosUserMessageId;
+				await botClient.DeleteBotMessageAsync(Contexts[chatId], chatId);
 			}
 			ResetUserContext(chatId, new HandlerDistributor<IReplyMarkupHandler>(serviceProvider.GetServices<IReplyMarkupHandler>()).GetHandler(currentMessage));
+			Contexts[chatId].SaveUserMessageId(tempPrevUserMessageId);
 		}
 
 		else if (!Contexts.ContainsKey(chatId))

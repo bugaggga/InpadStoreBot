@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using InpadBotService.DataBuilder;
+using InpadBotService.DatasFuncs;
 
 namespace InpadBotService;
 
@@ -16,7 +16,7 @@ public class UserContext
 	public string CurrentMessage { get; set; }
 	public IState CurrentState {  get; private set; }
 	public int PreviousMessageId { get; private set; }
-	public Queue<int> UsersMessageId { get; private set; } = new Queue<int>();
+	public int PreviosUserMessageId { get; private set; }
 	public IServiceProvider ServiceProvider { get; }
 	public UserData data = new UserData();  //на подумать 
 
@@ -26,7 +26,8 @@ public class UserContext
 		CurrentMessage = string.Empty;
 		CurrentState = state ?? new StartMessageHandler(botClient);
 		ServiceProvider = serviceProvider;
-	}
+        data.Clear();
+    }
 
 	public IState SetState(IState newState)
 	{
@@ -42,5 +43,15 @@ public class UserContext
 	public void SaveBotMessageId(int newMessageId)
 	{
 		PreviousMessageId = newMessageId;
+	}
+
+	public void SaveUserMessageId(int newUserMessageId)
+	{
+		PreviosUserMessageId = newUserMessageId;
+	}
+
+	public void ClearData()
+	{
+		data.Clear();
 	}
 }

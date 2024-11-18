@@ -72,8 +72,10 @@ public class TgBotBackgroundService : BackgroundService
 		};
 		if (message is null) return;
 		Console.WriteLine("Start Handle main request");
-		var context = await _userContextManager.GetOrCreateContext(chatId, message);
-		await _botClient.DeleteBotMessageAsync(context, chatId, context.PreviousMessageId);
+
+		var context = await _userContextManager.GetOrCreateContext(chatId, message, update.Message?.MessageId);
+		await _botClient.DeleteUserMessageAndSaveNew(context, chatId, update.Message?.MessageId);
+		await _botClient.DeleteBotMessageAsync(context, chatId);
 		await context.HandleMessageAsync(update, cancellationToken);
 	}
 
@@ -87,5 +89,26 @@ public class TgBotBackgroundService : BackgroundService
 	{
 		Console.WriteLine($"Error: {exception.Message}");
 		return Task.CompletedTask;
+	}
+
+	private void InitialUpdateComponents(UpdateType type, Update update)
+	{
+		string? message;
+		long chatId;
+		switch (update.Type)
+		{
+			case UpdateType.Message:
+				message = update.Message!.Text!;
+				chatId = update.Message!.Chat.Id;
+				break;
+			case UpdateType.CallbackQuery:
+				message = update.CallbackQuery!.Data!;
+				chatId = update.CallbackQuery!.From.Id;
+				break;
+			default:
+				message = null;
+				chatId = 0;
+				break;
+		};
 	}
 }

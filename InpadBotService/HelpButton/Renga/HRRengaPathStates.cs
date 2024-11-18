@@ -1,6 +1,7 @@
 using InpadBotService.HelpButton;
 using InpadBotService;
 using Telegram.Bot;
+using InpadBotService.DatasFuncs;
 
 internal class HelpReportRengaPluginState : IState
 {
@@ -17,8 +18,8 @@ internal class HelpReportRengaPluginState : IState
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		// Сохранение названия плагинов в Data
-		await _botClient.AnswerCallbackQuery(
+        DataBuilder.UpdateData(context, Message);   // Сохранение названия плагинов в Data
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -44,9 +45,10 @@ internal class HelpReportRengaLicenseState : IState
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение лицензионного ключа в Data
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
+
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Напишите версию Renga, в которой вы работаете."
 		);
@@ -69,9 +71,10 @@ internal class HelpReportRengaVersionState : IState
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение лицензионного ключа в Data
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
+
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Напишите номер сборки плагинов, которую вы использовали."
 		);

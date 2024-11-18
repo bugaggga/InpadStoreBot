@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InpadBotService.DatasFuncs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,8 +23,9 @@ internal class HelpRepotPluginState : IState
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		// Сохранение названия плагинов в Data
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);	// Сохранение названия плагинов в Data
+
+        var pairs = new[] {
 			("Revit 2019", "Revit2019"),
 			("Revit 2020", "Revit2020"),
 			("Revit 2021", "Revit2021"),
@@ -32,10 +34,9 @@ internal class HelpRepotPluginState : IState
 			("Revit 2024", "Revit2024"),
 			("Revit 2025", "Revit2025")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs);
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -48,12 +49,12 @@ internal class HelpRepotPluginState : IState
 	}
 }
 
-internal class HelpReportVersionState : IState
+internal class HelpReportVersionRevitState : IState
 {
 	private readonly ITelegramBotClient _botClient;
 	public string Message { get; } = "HelpReportVersionState";
 
-	public HelpReportVersionState(ITelegramBotClient client)
+	public HelpReportVersionRevitState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -63,8 +64,10 @@ internal class HelpReportVersionState : IState
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение данных в Data
-		await _botClient.AnswerCallbackQuery(
+
+        DataBuilder.UpdateData(context, Message);	// Сохранение данных в Data
+
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -90,9 +93,10 @@ internal class HelpReportLicenseState : IState
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение лицензионного ключа в Data
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        DataBuilder.UpdateData(context, Message);	// Сохранение лицензионного ключа в Data
+
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Напишите номер сборки плагинов, которую вы использовали."
 		);
@@ -115,9 +119,10 @@ internal class HelpReportNumberBuildState : IState
 	{
 		if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
-		// Сохранение номера сборки в Data
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        DataBuilder.UpdateData(context, Message);   // Сохранение номера сборки в Data
+
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Опишите ваш вопрос."
 		);
@@ -139,17 +144,17 @@ internal class HelpReportGetQuestionState : IState
 	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
 	{
 		if (request.Update.Message is null) return;
-
 		Console.WriteLine("Start Execute command");
-		// Сохранение вопроса в Data
-		var pairs = new[] {
+
+        DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
+
+        var pairs = new[] {
 			("Отправить файл", "Send"),
 			("Не отправлять файл", "Dont send")
 			};
-		var builder = new InlineKeyboardBuilder(4, 3, pairs);
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.SendMessageWithSaveBotMessageId(
+        await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
 			replyMarkup: inlineKeyboardMarkup
@@ -157,29 +162,6 @@ internal class HelpReportGetQuestionState : IState
 
 		context.SetState(new DistributorState<ISendingFileState>(
 			context.ServiceProvider.GetServices<ISendingFileState>()));
-	}
-}
-
-internal class HelpReportFinalState : IState
-{
-	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "HelpReportFinalState";
-
-	public HelpReportFinalState(ITelegramBotClient client)
-	{
-		_botClient = client;
-	}
-
-	public async Task HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		if (request.Update.Message is null) return;
-		Console.WriteLine("Start Execute command");
-		// Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
-
-		await _botClient.SendMessageWithSaveBotMessageId(
-			context,
-			text: "Данный вопрос был передан отделу разработок, в ближайшее время с вами свяжется специалист."
-		);
 	}
 }
 

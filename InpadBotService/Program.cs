@@ -56,6 +56,10 @@ namespace InpadBotService
                 typeof(SCategoryCommonState),
                 typeof(SCategoryBoxesAndHolesState)]);
 
+			builder.Services.AddMultipleImplementations<ISendingFileState>(
+				[typeof(HQSendFileState),
+				typeof(HQDontSendFileState)]);
+
             var host = builder.Build();
 			host.Run();
 		}

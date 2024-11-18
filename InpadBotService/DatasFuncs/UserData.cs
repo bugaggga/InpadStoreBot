@@ -1,15 +1,19 @@
 using System.Text;
 
 
-namespace InpadBotService.DataBuilder;
+namespace InpadBotService.DatasFuncs;
 
 public class UserData
 {
     public StringBuilder StrBuilder;
-    public DataBuilder builder;
 
     public UserData()
     {
         StrBuilder = new StringBuilder();
+    }
+
+    public void Clear()
+    {
+        StrBuilder.Clear();
     }
 }

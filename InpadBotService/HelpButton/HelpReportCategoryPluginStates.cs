@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InpadBotService.DatasFuncs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,9 @@ internal class HRCategoryConceptState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Инсоляций", "Insolation"),
 			("КЕО", "Keo"),
 			("Генерация парков", "Generating parks"),
@@ -35,10 +38,9 @@ internal class HRCategoryConceptState : IHelpReportCategoryPlugin
 			("БыстроТЭПЫ", "Fasttep"),
 			("Подсчет площадей", "Area calculation")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -67,7 +69,9 @@ internal class HRCategoryArchitectureState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Определить помещение", "Identify the room"),
 			("Расчет плинтуса", "Skirting board calculation"),
 			("Отделка", "Finishing"),
@@ -79,10 +83,9 @@ internal class HRCategoryArchitectureState : IHelpReportCategoryPlugin
 			("Округление площади", "Rounding up the area"),
 			("Нумерация квартир", "Apartment numbering")
 			};
-		var builder = new InlineKeyboardBuilder(3, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -111,7 +114,9 @@ internal class HRCategoryConstructiveState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Сборка арматуры", "Fitting assembly"),
 			("Создать разрезы и сечения", "Create sections and cross sections"),
 			("Создание каркасов", "Creating wireframes"),
@@ -121,10 +126,9 @@ internal class HRCategoryConstructiveState : IHelpReportCategoryPlugin
 			("Редактировать контура", "Edit the outline"),
 			("Расчет продавливания", "Calculation of the penetration")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -153,7 +157,9 @@ internal class HRCategoryOBAndBKState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Муфты/гильзы", "Couplings/sleeves"),
 			("Аэродинамика", "Aerodynamics"),
 			("Создать виды систем", "Create types of systems"),
@@ -163,10 +169,9 @@ internal class HRCategoryOBAndBKState : IHelpReportCategoryPlugin
 			("Диаметр изоляции", "Insulation diameter"),
 			("S изоляции", "S insulation")
 			};
-		var builder = new InlineKeyboardBuilder(2, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -195,7 +200,9 @@ internal class HRCategoryCommonState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Этажи и секции", "Floors and sections"),
 			("Подсчет узлов", "Counting nodes"),
 			("Печать листов", "Printing sheets"),
@@ -210,10 +217,9 @@ internal class HRCategoryCommonState : IHelpReportCategoryPlugin
 			("Менеджер узлов", "Node Manager"),
 			("Проверка модели", "Checking the model")
 			};
-		var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -240,10 +246,11 @@ internal class HRCategoryBoxesAndHolesState : IHelpReportCategoryPlugin
 	{
 		if (request.Update.CallbackQuery is not { } query) return;
 		if (query.Message is not { } message) return;
-
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Создание заданий", "Creating tasks"),
 			("Объединение", "Unification"),
 			("Смещение", "Offset"),
@@ -257,10 +264,9 @@ internal class HRCategoryBoxesAndHolesState : IHelpReportCategoryPlugin
 			("Обозреватель статусов", "Status Browser"),
 			("Проверка заданий", "Checking tasks")
 			};
-		var builder = new InlineKeyboardBuilder(4, 3, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
@@ -289,14 +295,15 @@ internal class HRCategoryRengaState : IHelpReportCategoryPlugin
 		if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
 
-		var pairs = new[] {
+        DataBuilder.UpdateData(context, Message);
+
+        var pairs = new[] {
 			("Подсчет площадей", "Area calculation"),
 			("Активация", "Activation")
 			};
-		var builder = new InlineKeyboardBuilder(2, 1, pairs); //????????????
-		var inlineKeyboardMarkup = builder.Build();
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
-		await _botClient.AnswerCallbackQuery(
+        await _botClient.AnswerCallbackQuery(
 			query.Id);
 
 		await _botClient.SendMessageWithSaveBotMessageId(
