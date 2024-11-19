@@ -22,7 +22,12 @@ namespace InpadBotService
 			UserContext context)
 		{
 			var handler = new HandlerDistributor<T>(_handlers).GetHandler(context.CurrentMessage);
-			if (handler == null) context.SaveBotMessageId(0);
+			if (handler == null) 
+			{
+				var againMesId = context.PreviousMessageId;
+				context.SaveBotMessageId(0);
+				return againMesId;
+			}
 			return await handler!.HandleAsync(request, cancellationToken, context);
 		}
 	}
