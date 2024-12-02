@@ -8,7 +8,9 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace InpadBotService;
-
+/// <summary>
+/// Класс, который хранит контексты общения пользователя с ботом. Определяет метод создания и получения пользователя.
+/// </summary>
 public class UserContextManager
 {
 	public Dictionary<long, UserContext> Contexts { get; } = new();

@@ -10,6 +10,10 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService;
 
+/// <summary>
+/// Класс сервиса, который опрашивает телеграмм бот на получеие апдейтов.
+/// </summary>
+
 public class TgBotBackgroundService : BackgroundService
 {
 	private readonly ILogger<TgBotBackgroundService> _logger;

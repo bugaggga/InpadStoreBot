@@ -12,6 +12,10 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService
 {
+	/// <summary>
+	/// Класс, который определяет медоты расширения для класса TelegrammBotClient, а именно метод удаления сообщений бота,
+	/// удаление сообщений пользователя и метод отправки сообщения пользователя.
+	/// </summary>
 	internal static class TelegramBotClientExtensions
 	{
 		public static async Task DeleteBotMessageAsync(this ITelegramBotClient botClient, UserContext context, long chatId)

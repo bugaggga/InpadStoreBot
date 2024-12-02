@@ -11,6 +11,9 @@ using Telegram.Bot.Types.Enums;
 
 namespace InpadBotService;
 
+/// <summary>
+/// Контексты диалога пользователя с ботом.
+/// </summary>
 public class UserContext
 {
 	public long ChatId { get; }
