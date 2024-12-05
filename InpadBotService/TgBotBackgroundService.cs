@@ -88,10 +88,10 @@ public class TgBotBackgroundService : BackgroundService
 			context.SaveBotMessageId(sendMessageId);
 		}
 
-		else await UnknownUpdateHandlerAsync(update, cancellationToken, chatId);
+		else await UnknownUpdateHandlerAsync(cancellationToken, chatId);
 	}
 
-	private async Task UnknownUpdateHandlerAsync(Update update, CancellationToken cancellationToken, long chatId)
+	private async Task UnknownUpdateHandlerAsync(CancellationToken cancellationToken, long chatId)
 	{
 		//_userContextManager.Contexts[chatId].SaveBotMessageId(0);
 		_logger.LogInformation("Unknown type message");
