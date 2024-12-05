@@ -71,7 +71,7 @@ namespace InpadBotService
 		{
 			foreach (var implementation in implementations)
 			{
-				services.AddTransient(typeof(TInterface), implementation);
+				services.AddSingleton(typeof(TInterface), implementation);
 			}
 		}
 	}
