@@ -21,3 +21,5 @@ buttons/testButtons - В них будет проходить разработк
 Client secret: a6a28564-3ba5-473f-a3c0-06a0afea449a
 
 Client ID: dfa4966f-f2a9-4d36-b12d-d4c7b8f5cb61
+
+Ссылка на видео https://vk.com/video/@inpad.store/playlists
