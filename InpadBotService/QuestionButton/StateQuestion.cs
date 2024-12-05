@@ -13,12 +13,12 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService.QuestionButton;
 
-internal class SendQuestionState : IState
+internal class QuestionFinalState : IState
 {
     private readonly ITelegramBotClient _botClient;
     public string Message { get; } = "";
 
-    public SendQuestionState(ITelegramBotClient client)
+    public QuestionFinalState(ITelegramBotClient client)
     {
         _botClient = client;
     }
@@ -29,47 +29,15 @@ internal class SendQuestionState : IState
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
         var query = request.Update.CallbackQuery;
-		// Сохранение вопроса в Data
+        // Отправка ответа, созданного нейронкой
+        context.SetState(new DistributorState<IReplyMarkupState>(
+                    context.ServiceProvider.GetServices<IReplyMarkupState>()));
 
-		context.SetState(new HelpQuestionLicenseState(_botClient));
-
-		await _botClient.AnswerCallbackQuery(
-            query.Id);
-
-        return await _botClient.SendMessageWithSaveBotMessageId(
-            context,
-            text: "Задайте интересующийся Вас вопрос."
-        );
-
-    }
-}
-
-internal class ReplyQuestionState : IState
-{
-    private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "";
-
-    public ReplyQuestionState(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        //if (request.Update.CallbackQuery is not { } query) return;
-        //if (query.Message is not { } message) return;
-        Console.WriteLine("Start Execute command");
-        var query = request.Update.CallbackQuery;
-		// Отправка ответа, созданного нейронкой
-		context.SetState(new HelpQuestionLicenseState(_botClient));
-
-		await _botClient.AnswerCallbackQuery(
-            query.Id);
-
-        return await _botClient.SendMessageWithSaveBotMessageId(
+        await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Ответ от нейронки"
 		);
 
+        return 0;
     }
 }

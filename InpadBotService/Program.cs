@@ -1,4 +1,5 @@
 using InpadBotService.HelpButton;
+using InpadBotService.QuestionButton;
 using InpadBotService.SupportButton;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
@@ -19,11 +20,11 @@ namespace InpadBotService
 				return new TelegramBotClient(token);
 			});
 
-			builder.Services.AddMultipleImplementations<IReplyMarkupHandler>(
-				[typeof(HelpMessageHandler),
-				typeof(StartMessageHandler),
-				typeof(SupportMessageHandler),
-				typeof(QuestionMessageHandler)]);
+			builder.Services.AddMultipleImplementations<IReplyMarkupState>(
+				[typeof(HelpMessageState),
+				typeof(StartMessageState),
+				typeof(SupportMessageState),
+				typeof(QuestionMessageState)]);
 
 			builder.Services.AddMultipleImplementations<IHelpTypeState>(
 				[typeof(QuestionAboutPluginState),
@@ -54,7 +55,8 @@ namespace InpadBotService
                 typeof(SCategoryConstructiveState),
                 typeof(SCategoryOBAndBKState),
                 typeof(SCategoryCommonState),
-                typeof(SCategoryBoxesAndHolesState)]);
+                typeof(SCategoryBoxesAndHolesState),
+			    typeof (SCategoryRengaState)]);
 
 			builder.Services.AddMultipleImplementations<ISendingFileState>(
 				[typeof(HQSendFileState),

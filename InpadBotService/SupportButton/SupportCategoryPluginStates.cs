@@ -298,8 +298,8 @@ internal class SupportFinalState : IState
 
         DataBuilder.UpdateData(context, Message);
 
-        context.SetState(new DistributorState<IReplyMarkupHandler>(
-            context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
+        context.SetState(new DistributorState<IReplyMarkupState>(
+            context.ServiceProvider.GetServices<IReplyMarkupState>()));
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
@@ -307,5 +307,39 @@ internal class SupportFinalState : IState
         );
 
         return 0;
+    }
+}
+
+internal class SCategoryRengaState : ISupportCategoryPluginState
+{
+    public string Message { get; } = "renga";
+    private readonly ITelegramBotClient _botClient;
+    public SCategoryRengaState(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
+
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
+        Console.WriteLine("Start Execute command");
+        var query = request.Update.CallbackQuery;
+
+        var pairs = new[] {
+            ("Подсчет площадей", "Area counting")
+            };
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
+
+        context.SetState(new SupportFinalState(_botClient));
+
+        await _botClient.AnswerCallbackQuery(
+            query.Id);
+
+        return await _botClient.SendMessageWithSaveBotMessageId(
+            context,
+            text: "Выберите каким плагином вы воспользовались.",
+            replyMarkup: inlineKeyboardMarkup
+        );
     }
 }

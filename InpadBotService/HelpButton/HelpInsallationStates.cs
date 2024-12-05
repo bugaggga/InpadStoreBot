@@ -177,8 +177,8 @@ internal class HelpInstallationFinaleState : IState
 
         DataBuilder.UpdateData(context, Message);
 
-		context.SetState(context.SetState(new DistributorState<IReplyMarkupHandler>(
-			context.ServiceProvider.GetServices<IReplyMarkupHandler>())));
+		context.SetState(context.SetState(new DistributorState<IReplyMarkupState>(
+			context.ServiceProvider.GetServices<IReplyMarkupState>())));
 
 		await _botClient.SendMessageWithSaveBotMessageId(
             context,

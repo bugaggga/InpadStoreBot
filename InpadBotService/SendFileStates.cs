@@ -89,8 +89,8 @@ internal class HelpFinalState : IState
 		//Console.WriteLine(DataBuilder.Build(context));
 		// Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
 
-		context.SetState(new DistributorState<IReplyMarkupHandler>(
-			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
+		context.SetState(new DistributorState<IReplyMarkupState>(
+			context.ServiceProvider.GetServices<IReplyMarkupState>()));
 
 		await _botClient.SendMessageWithSaveBotMessageId(
             context,

@@ -1,4 +1,5 @@
 ﻿using InpadBotService.HelpButton;
+using InpadBotService.QuestionButton;
 using InpadBotService.SupportButton;
 using System;
 using System.Collections;
@@ -20,15 +21,15 @@ public interface IState
 	public Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context);
 }
 
-public interface IReplyMarkupHandler : IState;
+public interface IReplyMarkupState : IState;
 
 public record TelegramRequest(Update Update);
 
-public class StartMessageHandler : IReplyMarkupHandler
+public class StartMessageState : IReplyMarkupState
 {
 	public string Message { get; } = "/start";
 	private readonly ITelegramBotClient _botClient;
-	public StartMessageHandler(ITelegramBotClient client)
+	public StartMessageState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -48,8 +49,8 @@ public class StartMessageHandler : IReplyMarkupHandler
 			OneTimeKeyboard = false, // Клавиатура не исчезает после нажатия
 		};
 
-		context.SetState(new DistributorState<IReplyMarkupHandler>(
-			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
+		context.SetState(new DistributorState<IReplyMarkupState>(
+			context.ServiceProvider.GetServices<IReplyMarkupState>()));
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
             context,
@@ -63,11 +64,11 @@ public class StartMessageHandler : IReplyMarkupHandler
 }
 
 // Этап 1
-internal class HelpMessageHandler : IReplyMarkupHandler
+internal class HelpMessageState : IReplyMarkupState
 {
 	private readonly ITelegramBotClient _botClient;
 	public string Message { get; } = "/help";
-	public HelpMessageHandler(ITelegramBotClient client)
+	public HelpMessageState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -97,12 +98,12 @@ internal class HelpMessageHandler : IReplyMarkupHandler
 }
 
 // Этап 2
-internal class SupportMessageHandler : IReplyMarkupHandler
+internal class SupportMessageState : IReplyMarkupState
 {
 	private readonly ITelegramBotClient _botClient;
 	public string Message { get; } = "/support";
 
-	public SupportMessageHandler(ITelegramBotClient client)
+	public SupportMessageState(ITelegramBotClient client)
 	{
 		_botClient = client;
 	}
@@ -134,28 +135,31 @@ internal class SupportMessageHandler : IReplyMarkupHandler
 	}
 }
 
-// Этап 3
-internal class QuestionMessageHandler : IReplyMarkupHandler
+internal class QuestionMessageState : IReplyMarkupState
 {
-	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "/question";
+    private readonly ITelegramBotClient _botClient;
+    public string Message { get; } = "/question";
 
-	public QuestionMessageHandler(ITelegramBotClient client)
-	{
-		_botClient = client;
-	}
+    public QuestionMessageState(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
 
-	public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-	{
-		Console.WriteLine("Start Execute command");
-		//if (request.Update.Message is null) return;
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        //if (request.Update.CallbackQuery is not { } query) return;
+        //if (query.Message is not { } message) return;
+        Console.WriteLine("Start Execute command");
+        var query = request.Update.CallbackQuery;
+        // Сохранение вопроса в Data
 
-		context.SetState(new DistributorState<IReplyMarkupHandler>(
-			context.ServiceProvider.GetServices<IReplyMarkupHandler>()));
+        context.SetState(new QuestionFinalState(_botClient));
 
-		return await _botClient.SendMessageWithSaveBotMessageId(
-			context,
-			text: "Выберите услугу"
-		);
-	}
+        return await _botClient.SendMessageWithSaveBotMessageId(
+            context,
+            text: "Задайте интересующийся Вас вопрос."
+        );
+
+    }
 }
+

@@ -29,7 +29,7 @@ public class UserContext
 	{
 		ChatId = chatId;
 		CurrentMessage = string.Empty;
-		CurrentState = state ?? new StartMessageHandler(botClient);
+		CurrentState = state ?? new StartMessageState(botClient);
 		ServiceProvider = serviceProvider;
 		ExpectedType = UpdateType.Message;
         data.Clear();

@@ -36,7 +36,7 @@ public class UserContextManager
 				await botClient.DeleteUserMessage(Contexts[chatId], chatId);
 				await botClient.DeleteBotMessageAsync(Contexts[chatId], chatId);
 			}
-			ResetUserContext(chatId, new HandlerDistributor<IReplyMarkupHandler>(serviceProvider.GetServices<IReplyMarkupHandler>()).GetHandler(currentMessage));
+			ResetUserContext(chatId, new HandlerDistributor<IReplyMarkupState>(serviceProvider.GetServices<IReplyMarkupState>()).GetHandler(currentMessage));
 			//Contexts[chatId].SaveUserMessageId(tempPrevUserMessageId);
 			//Contexts[chatId].SaveBotMessageId(tempPrevBotMessageId);
 		}
