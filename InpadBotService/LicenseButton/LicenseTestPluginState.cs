@@ -15,12 +15,10 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace InpadBotService.LicenseButton
 {
-    public interface ILicenseTestState : IState;
-
     /// <summary>
     /// Обработчик который спрашивает ФИО пользователя
     /// </summary>
-    internal class LTSendFIOState : ILicenseTestState
+    internal class LTSendFIOState : ILicenseState
     {
         public string Message { get; } = "LTSendFIO";
         private readonly ITelegramBotClient _botClient;
@@ -53,7 +51,7 @@ namespace InpadBotService.LicenseButton
     /// <summary>
     /// Обработчик, который узнает, Физическое или Юридическое лицо пользователь
     /// </summary>
-    internal class LTNaturalOrJuridicalPersonState : ILicenseTestState
+    internal class LTNaturalOrJuridicalPersonState : IState
     {
         public string Message { get; } = "LTNaturalOrJuridicalPersonState";
         private readonly ITelegramBotClient _botClient;
@@ -86,7 +84,7 @@ namespace InpadBotService.LicenseButton
     /// <summary>
     /// Обработчик, который спрашивает название компании
     /// </summary>
-    internal class LTNameCompanyState : ILicenseTestState
+    internal class LTNameCompanyState : IState
     {
         public string Message { get; } = "LTNameCompanyState";
         private readonly ITelegramBotClient _botClient;
@@ -119,7 +117,7 @@ namespace InpadBotService.LicenseButton
     /// <summary>
     /// Обработчик, который спрашивает город пользователя
     /// </summary>
-    internal class LTCityState : ILicenseTestState
+    internal class LTCityState : IState
     {
         public string Message { get; } = "LTCityState";
         private readonly ITelegramBotClient _botClient;
@@ -152,7 +150,7 @@ namespace InpadBotService.LicenseButton
     /// <summary>
     /// Обработчик, который спрашивает почту пользователя
     /// </summary>
-    internal class LTUserEmailState : ILicenseTestState
+    internal class LTUserEmailState : IState
     {
         public string Message { get; } = "LTUserEmailState";
         private readonly ITelegramBotClient _botClient;
@@ -185,7 +183,7 @@ namespace InpadBotService.LicenseButton
     /// <summary>
     /// Обработчик, который спрашивает номер телефона пользовтеля
     /// </summary>
-    internal class LTUserNumberState : ILicenseTestState
+    internal class LTUserNumberState : IState
     {
         public string Message { get; } = "LTUserNumberState";
         private readonly ITelegramBotClient _botClient;
@@ -218,7 +216,7 @@ namespace InpadBotService.LicenseButton
     /// <summary>
     /// Обработчик, который мпрашивает, какой плагин пользователь хочет приобрести.
     /// </summary>
-    internal class LTPluginBuy : ILicenseTestState
+    internal class LTPluginBuy : IState
     {
         public string Message { get; } = "LTPluginBuy";
         private readonly ITelegramBotClient _botClient;
@@ -251,7 +249,7 @@ namespace InpadBotService.LicenseButton
     /// <summary>
     /// Обработчик, который спрашивает сколько лицензий хочет купить пользователь
     /// </summary>
-    internal class LTCountLicenseState : ILicenseTestState
+    internal class LTCountLicenseState : IState
     {
         public string Message { get; } = "LTCountLicenseState";
         private readonly ITelegramBotClient _botClient;

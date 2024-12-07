@@ -1,4 +1,5 @@
 using InpadBotService.HelpButton;
+using InpadBotService.LicenseButton;
 using InpadBotService.QuestionButton;
 using InpadBotService.SupportButton;
 using Microsoft.Extensions.Options;
@@ -24,6 +25,7 @@ namespace InpadBotService
 				[typeof(HelpMessageState),
 				typeof(StartMessageState),
 				typeof(SupportMessageState),
+				typeof (LicenseMessageState),
 				typeof(QuestionMessageState)]);
 
 			builder.Services.AddMultipleImplementations<IHelpTypeState>(
@@ -61,6 +63,14 @@ namespace InpadBotService
 			builder.Services.AddMultipleImplementations<ISendingFileState>(
 				[typeof(HQSendFileState),
 				typeof(HQDontSendFileState)]);
+
+            builder.Services.AddMultipleImplementations<ILicenseState>(
+                [typeof(LBSendFIOState),
+                typeof(LTSendFIOState)]);
+
+			builder.Services.AddMultipleImplementations<IIsNaturalState>(
+				[typeof(LBNaturalPersonState),
+				typeof (LBNameCompanyState)]);
 
             var host = builder.Build();
 			host.Run();
