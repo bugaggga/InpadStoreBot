@@ -1,3 +1,4 @@
+using InpadBotService.GigachatMethods;
 using InpadBotService.HelpButton;
 using System;
 using System.Collections;
@@ -31,6 +32,7 @@ internal class QuestionFinalState : IState
 
 
         // Отправка ответа, созданного нейронкой
+        await Gigachat.GetOauthToken();
 
         context.SetState(new DistributorState<IReplyMarkupState>(
                     context.ServiceProvider.GetServices<IReplyMarkupState>()));
