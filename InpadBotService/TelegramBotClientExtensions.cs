@@ -53,8 +53,13 @@ namespace InpadBotService
 			//context.SaveUserMessageId(newUserMessage ?? 0);
 		}
 
-		public static async Task<int> SendMessageWithSaveBotMessageId(this ITelegramBotClient botClient, UserContext context, string text, IReplyMarkup? replyMarkup = null)
+		public static async Task<int> SendMessageWithSaveBotMessageId(this ITelegramBotClient botClient, UserContext context, string text, string? queryId, IReplyMarkup? replyMarkup = null)
 		{
+			if (queryId is not null)
+			{
+				await botClient.AnswerCallbackQuery(
+				queryId);
+			}
 			//await Task.Delay(200);
 			var sentMessage = await botClient.SendMessage(
 				chatId: context.ChatId,

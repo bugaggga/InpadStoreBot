@@ -28,14 +28,17 @@ internal class QuestionFinalState : IState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        var query = request.Update.CallbackQuery;
+
+
         // Отправка ответа, созданного нейронкой
+
         context.SetState(new DistributorState<IReplyMarkupState>(
                     context.ServiceProvider.GetServices<IReplyMarkupState>()));
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Ответ от нейронки"
+            text: "Ответ от нейронки",
+            request.QueryId
 		);
 
         return 0;

@@ -15,7 +15,7 @@ public interface ISendingFileState : IState;
 internal class HQSendFileState : ISendingFileState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "Send";
+	public string Message { get; } = "send";
 
 	public HQSendFileState(ITelegramBotClient client)
 	{
@@ -26,19 +26,16 @@ internal class HQSendFileState : ISendingFileState
 	{
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
-		var query = request.Update.CallbackQuery;
 
 		Console.WriteLine("Start Execute command");
-        DataBuilder.UpdateData(context, Message);
+        //DataBuilder.UpdateData(context, Message);
 
 		context.SetState(new HelpFinalState(_botClient));
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Прикрепите файл сюда."
+			text: "Прикрепите файл сюда.",
+			request.QueryId
 		);
 
 	}
@@ -47,7 +44,7 @@ internal class HQSendFileState : ISendingFileState
 internal class HQDontSendFileState : ISendingFileState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "Dont send";
+	public string Message { get; } = "dont send";
 
 	public HQDontSendFileState(ITelegramBotClient client)
 	{
@@ -58,13 +55,9 @@ internal class HQDontSendFileState : ISendingFileState
 	{
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
-		var query = request.Update.CallbackQuery;
 
 		Console.WriteLine("Start Execute command");
-        DataBuilder.UpdateData(context, Message);
-
-        await _botClient.AnswerCallbackQuery(
-			query.Id);
+        //DataBuilder.UpdateData(context, Message);
 
 		return await context.SetState(new HelpFinalState(_botClient)).HandleAsync(request, cancellationToken, context);
 	}
@@ -75,7 +68,7 @@ internal class HQDontSendFileState : ISendingFileState
 internal class HelpFinalState : IState
 {
     private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "HelpQuestionFinalState";
+    public string Message { get; } = "questionFinal";
 
     public HelpFinalState(ITelegramBotClient client)
     {
@@ -86,6 +79,7 @@ internal class HelpFinalState : IState
     {
         Console.WriteLine("Start Execute command");
 
+		context.data.AddPair(Message, context.CurrentMessage);
 		//Console.WriteLine(DataBuilder.Build(context));
 		// Нужно сохранить файл(если есть) в Data и отправить Data в техподдержку
 
@@ -94,7 +88,8 @@ internal class HelpFinalState : IState
 
 		await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: $"Данный запрос был передан отделу разработок, в ближайшее время с вами свяжется специалист./n{DataBuilder.Build(context)}"
+            text: $"Данный запрос был передан отделу разработок, в ближайшее время с вами свяжется специалист.",
+			request.QueryId
 		);
 
 		return 0;

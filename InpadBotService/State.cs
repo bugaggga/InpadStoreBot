@@ -23,7 +23,7 @@ public interface IState
 
 public interface IReplyMarkupState : IState;
 
-public record TelegramRequest(Update Update);
+public record TelegramRequest(Update Update, string? QueryId);
 
 public class StartMessageState : IReplyMarkupState
 {
@@ -55,6 +55,7 @@ public class StartMessageState : IReplyMarkupState
 		return await _botClient.SendMessageWithSaveBotMessageId(
             context,
 			text: "Нажмите на кнопку, которая Вам требуется.",
+			request.QueryId,
 			replyMarkup: replyKeyboard
 		);
 
@@ -91,6 +92,7 @@ internal class HelpMessageState : IReplyMarkupState
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите\r\nпункт, по которому вам нужна помощь:",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 
@@ -130,6 +132,7 @@ internal class SupportMessageState : IReplyMarkupState
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите категорию, в котором находится плагин.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}
@@ -157,8 +160,9 @@ internal class QuestionMessageState : IReplyMarkupState
 
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Задайте интересующийся Вас вопрос."
-        );
+            text: "Задайте интересующийся Вас вопрос.",
+			request.QueryId
+		);
 
     }
 }

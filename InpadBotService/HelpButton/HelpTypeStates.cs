@@ -27,11 +27,10 @@ internal class QuestionAboutPluginState : IHelpTypeState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Renga", "renga"),
             ("Конструктив", "construct"),
             ("Архитектура", "architecture"),
@@ -45,12 +44,10 @@ internal class QuestionAboutPluginState : IHelpTypeState
 		context.SetState(new DistributorState<IHelpQuestionCategoryPlugin>(
 			context.ServiceProvider.GetServices<IHelpQuestionCategoryPlugin>()));
 
-		await _botClient.AnswerCallbackQuery(
-            query.Id);
-
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
+            request.QueryId,
             replyMarkup: inlineKeyboardMarkup
         );
     }
@@ -72,9 +69,8 @@ internal class ReportErrorState : IHelpTypeState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-        var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
             ("Renga", "renga"),
@@ -90,12 +86,10 @@ internal class ReportErrorState : IHelpTypeState
 		context.SetState(new DistributorState<IHelpReportCategoryPlugin>(
 			context.ServiceProvider.GetServices<IHelpReportCategoryPlugin>()));
 
-		await _botClient.AnswerCallbackQuery(
-            query.Id);
-
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите\r\nиз какой категории плагин, с которым вам нужна помощь",
+            request.QueryId,
             replyMarkup: inlineKeyboardMarkup
         );
     }
@@ -116,10 +110,8 @@ internal class HelpInstallationState : IHelpTypeState
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
 		var pairs = new[] {
 			("Ошибка при установке сборки", "Error installing the assembly"),
@@ -130,12 +122,10 @@ internal class HelpInstallationState : IHelpTypeState
 
 		context.SetState(new HelpInstallationCategoryState(_botClient));
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите категорию по которой вам нужна поморщь.",
+            request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}
