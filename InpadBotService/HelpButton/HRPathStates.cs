@@ -11,7 +11,7 @@ namespace InpadBotService.HelpButton;
 
 internal class HelpRepotPluginState : IState
 {
-	public string Message { get; } = "helpByDownload";
+	public string Message { get; } = "plugin";
 	private readonly ITelegramBotClient _botClient;
 	public HelpRepotPluginState(ITelegramBotClient client)
 	{
@@ -25,7 +25,7 @@ internal class HelpRepotPluginState : IState
 		Console.WriteLine("Start Execute command");
 		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);	// Сохранение названия плагинов в Data
+		//DataBuilder.UpdateData(context, Message);	// Сохранение названия плагинов в Data
 
         var pairs = new[] {
 			("Revit 2019", "Revit2019"),
@@ -40,12 +40,10 @@ internal class HelpRepotPluginState : IState
 
 		context.SetState(new HelpReportVersionRevitState(_botClient));
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите версию Revit, в котором запускали плагин.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}
@@ -54,7 +52,7 @@ internal class HelpRepotPluginState : IState
 internal class HelpReportVersionRevitState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "HelpReportVersionState";
+	public string Message { get; } = "versionRevit";
 
 	public HelpReportVersionRevitState(ITelegramBotClient client)
 	{
@@ -66,18 +64,15 @@ internal class HelpReportVersionRevitState : IState
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);   // Сохранение данных в Data
+		//DataBuilder.UpdateData(context, Message);   // Сохранение данных в Data
 
 		context.SetState(new HelpReportLicenseState(_botClient));
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Введите лицензионный ключ, который у вас есть."
+			text: "Введите лицензионный ключ, который у вас есть.",
+			request.QueryId
 		);
 
 	}
@@ -86,7 +81,7 @@ internal class HelpReportVersionRevitState : IState
 internal class HelpReportLicenseState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "HelpReportLicenseState";
+	public string Message { get; } = "license";
 
 	public HelpReportLicenseState(ITelegramBotClient client)
 	{
@@ -98,13 +93,14 @@ internal class HelpReportLicenseState : IState
 		//if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
 
-        DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
+        //DataBuilder.UpdateData(context, Message);   // Сохранение лицензионного ключа в Data
 
 		context.SetState(new HelpReportNumberBuildState(_botClient));
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Напишите номер сборки плагинов, которую вы использовали."
+			text: "Напишите номер сборки плагинов, которую вы использовали.",
+			request.QueryId
 		);
 	}
 }
@@ -112,7 +108,7 @@ internal class HelpReportLicenseState : IState
 internal class HelpReportNumberBuildState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "HelpReportNumberBuildState";
+	public string Message { get; } = "numberBuild";
 
 	public HelpReportNumberBuildState(ITelegramBotClient client)
 	{
@@ -124,13 +120,14 @@ internal class HelpReportNumberBuildState : IState
 		//if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
 
-        DataBuilder.UpdateData(context, Message);   // Сохранение номера сборки в Data
+        //DataBuilder.UpdateData(context, Message);   // Сохранение номера сборки в Data
 
 		context.SetState(new HelpReportGetQuestionState(_botClient));
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
-			text: "Опишите ваш вопрос."
+			text: "Опишите ваш вопрос.",
+			request.QueryId
 		);
 	}
 }
@@ -138,7 +135,7 @@ internal class HelpReportNumberBuildState : IState
 internal class HelpReportGetQuestionState : IState
 {
 	private readonly ITelegramBotClient _botClient;
-	public string Message { get; } = "HelpReportGetQuestionState";
+	public string Message { get; } = "question";
 
 	public HelpReportGetQuestionState(ITelegramBotClient client)
 	{
@@ -150,7 +147,7 @@ internal class HelpReportGetQuestionState : IState
 		//if (request.Update.Message is null) return;
 		Console.WriteLine("Start Execute command");
 
-        DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
+        //DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
 
         var pairs = new[] {
 			("Отправить файл", "Send"),
@@ -164,6 +161,7 @@ internal class HelpReportGetQuestionState : IState
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Отправьте, пожалуйста, файл на котором у вас возник вопрос.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}

@@ -26,9 +26,8 @@ internal class HQCategoryConceptState : IHelpQuestionCategoryPlugin
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
 			("Инсоляций", "Insolation"),
@@ -44,12 +43,10 @@ internal class HQCategoryConceptState : IHelpQuestionCategoryPlugin
 
 		this.SetState(context, _botClient);
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}
@@ -70,9 +67,8 @@ internal class HQCategoryArchitectureState : IHelpQuestionCategoryPlugin
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
 			("Определить помещение", "Identify the room"),
@@ -90,12 +86,10 @@ internal class HQCategoryArchitectureState : IHelpQuestionCategoryPlugin
 
 		this.SetState(context, _botClient);
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}
@@ -116,9 +110,8 @@ internal class HQCategoryConstructiveState : IHelpQuestionCategoryPlugin
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
 			("Сборка арматуры", "Fitting assembly"),
@@ -134,12 +127,10 @@ internal class HQCategoryConstructiveState : IHelpQuestionCategoryPlugin
 
 		this.SetState(context, _botClient);
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}
@@ -160,9 +151,8 @@ internal class HQCategoryOBAndBKState : IHelpQuestionCategoryPlugin
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
 			("Муфты/гильзы", "Couplings/sleeves"),
@@ -178,12 +168,10 @@ internal class HQCategoryOBAndBKState : IHelpQuestionCategoryPlugin
 
 		this.SetState(context, _botClient);
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}
@@ -204,9 +192,8 @@ internal class HQCategoryCommonState : IHelpQuestionCategoryPlugin
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
 			("Этажи и секции", "Floors and sections"),
@@ -227,12 +214,10 @@ internal class HQCategoryCommonState : IHelpQuestionCategoryPlugin
 
 		this.SetState(context, _botClient);
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}
@@ -253,9 +238,8 @@ internal class HQCategoryBoxesAndHolesState : IHelpQuestionCategoryPlugin
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
 			("Создание заданий", "Creating tasks"),
@@ -275,12 +259,10 @@ internal class HQCategoryBoxesAndHolesState : IHelpQuestionCategoryPlugin
 
 		this.SetState(context, _botClient);
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}
@@ -301,9 +283,8 @@ internal class HQCategoryRengaState : IHelpQuestionCategoryPlugin
 		//if (request.Update.CallbackQuery is not { } query) return;
 		//if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+		//DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
 			("Подсчет площадей", "Area calculation"),
@@ -313,12 +294,10 @@ internal class HQCategoryRengaState : IHelpQuestionCategoryPlugin
 
 		this.SetState(context, _botClient);
 
-		await _botClient.AnswerCallbackQuery(
-			query.Id);
-
 		return await _botClient.SendMessageWithSaveBotMessageId(
 			context,
 			text: "Выберите каким плагином вы воспользовались.",
+			request.QueryId,
 			replyMarkup: inlineKeyboardMarkup
 		);
 	}

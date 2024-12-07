@@ -11,7 +11,7 @@ namespace InpadBotService.HelpButton;
 
 internal class HelpInstallationCategoryState : IState
 {
-    public string Message { get; } = "InstallationCategoryState";
+    public string Message { get; } = "installationCategory";
     private readonly ITelegramBotClient _botClient;
     public HelpInstallationCategoryState(ITelegramBotClient client)
     {
@@ -23,9 +23,9 @@ internal class HelpInstallationCategoryState : IState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-		var query = request.Update.CallbackQuery;
 
-		DataBuilder.UpdateData(context, Message);
+        context.UpdateData(Message, context.CurrentMessage);
+		//DataBuilder.UpdateData(context, Message);
 
         var pairs = new[] {
             ("Revit 2019", "Revit2019"),
@@ -40,13 +40,11 @@ internal class HelpInstallationCategoryState : IState
 
 		context.SetState(new HelpInstallationVersionRevitState(_botClient));
 
-		await _botClient.AnswerCallbackQuery(
-            query.Id);
-
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите версию Revit, в котором запускали плагин.",
-            replyMarkup: inlineKeyboardMarkup
+			request.QueryId,
+			replyMarkup: inlineKeyboardMarkup
         );
     }
 }
@@ -66,13 +64,15 @@ internal class HelpInstallationVersionRevitState : IState
         //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
 
-		DataBuilder.UpdateData(context, Message);
+		context.UpdateData(Message, context.CurrentMessage);
+		//DataBuilder.UpdateData(context, Message);
 
 		context.SetState(new HelpInstallationLicenseKeyState(_botClient));
 
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Введите, пожалуйста, ваш лицензионный ключ, который вы использовали."
+            text: "Введите, пожалуйста, ваш лицензионный ключ, который вы использовали.",
+            request.QueryId
         );
     }
 }
@@ -92,13 +92,15 @@ internal class HelpInstallationLicenseKeyState : IState
         //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
 
-		DataBuilder.UpdateData(context, Message);
+		context.UpdateData(Message, context.CurrentMessage);
+		//DataBuilder.UpdateData(context, Message);
 
 		context.SetState(new HelpInstallationBuildNumberState(_botClient));
 
-		return await _botClient.SendMessageWithSaveBotMessageId(
+        return await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Напишите, пожалуйста, номер сборки, которую вы установили."
+            text: "Напишите, пожалуйста, номер сборки, которую вы установили.",
+            request.QueryId
         );
     }
 }
@@ -118,18 +120,20 @@ internal class HelpInstallationBuildNumberState : IState
         //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
 
-        DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
+		context.UpdateData(Message, context.CurrentMessage);
+		//DataBuilder.UpdateData(context, Message);   // Сохранение вопроса в Data
 
-        //var pairs = new[] {
-        //    ("Отправить файл", "Send")
-        //    };
-        //var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
+		//var pairs = new[] {
+		//    ("Отправить файл", "Send")
+		//    };
+		//var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
 
 		context.SetState(new HelpInstallationSendFileState(_botClient));
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Отправьте, пожалуйста, скриншот с проблемой."
+            text: "Отправьте, пожалуйста, скриншот с проблемой.",
+            request.QueryId
         );
     }
 }
@@ -149,13 +153,15 @@ internal class HelpInstallationSendFileState : IState
         //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
 
-        DataBuilder.UpdateData(context, Message);
+		context.UpdateData(Message, context.CurrentMessage);
+		//DataBuilder.UpdateData(context, Message);
 
 		context.SetState(new HelpInstallationFinaleState(_botClient));
 
 		return await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Опишите вашу проблему."
+            text: "Опишите вашу проблему.",
+            request.QueryId
         );
     }
 }
@@ -175,14 +181,16 @@ internal class HelpInstallationFinaleState : IState
         //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
 
-        DataBuilder.UpdateData(context, Message);
+		context.UpdateData(Message, context.CurrentMessage);
+		//DataBuilder.UpdateData(context, Message);
 
 		context.SetState(context.SetState(new DistributorState<IReplyMarkupState>(
 			context.ServiceProvider.GetServices<IReplyMarkupState>())));
 
 		await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Данная ошибка была передана отделу разработок, в ближайшее время с вами свяжется специалист."
+            text: "Данная ошибка была передана отделу разработок, в ближайшее время с вами свяжется специалист.",
+            request.QueryId
         );
 
         return 0;

@@ -57,7 +57,7 @@ public class TgBotBackgroundService : BackgroundService
 
 	async Task HandleUpdateAsync(ITelegramBotClient bot, Update update, CancellationToken cancellationToken)
 	{
-		string? message;
+		string message;
 		long chatId;
 		switch (update.Type)
 		{
@@ -70,7 +70,7 @@ public class TgBotBackgroundService : BackgroundService
 				chatId = update.CallbackQuery!.From.Id;
 				break;
 			default:
-				message = null;
+				message = "not found";
 				chatId = 0;
 				break;
 		};

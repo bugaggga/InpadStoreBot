@@ -43,7 +43,7 @@ public class UserContext
 
 	public async Task<int> HandleMessageAsync(Update update, CancellationToken cancellationToken)
 	{
-		return await CurrentState.HandleAsync(new TelegramRequest(update), cancellationToken, this);
+		return await CurrentState.HandleAsync(new TelegramRequest(update, update.CallbackQuery?.Id), cancellationToken, this); // Message, CallBack, null, Message.Text, CallBack.Data
 	}
 
 	public void SaveBotMessageId(int newMessageId)
@@ -59,5 +59,10 @@ public class UserContext
 	public void ClearData()
 	{
 		data.Clear();
+	}
+
+	public void UpdateData<T>(string key, T value)
+	{
+		data.AddPair(key, value!);
 	}
 }
