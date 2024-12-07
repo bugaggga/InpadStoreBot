@@ -194,6 +194,7 @@ internal class LicenseMessageState : IReplyMarkupState
         return await _botClient.SendMessageWithSaveBotMessageId(
             context,
             text: "Выберите одну из кнопок:",
+			request.QueryId,
             replyMarkup: inlineKeyboardMarkup
         );
 

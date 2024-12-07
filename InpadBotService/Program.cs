@@ -64,13 +64,17 @@ namespace InpadBotService
 				[typeof(HQSendFileState),
 				typeof(HQDontSendFileState)]);
 
-            builder.Services.AddMultipleImplementations<ILicenseState>(
-                [typeof(LBSendFIOState),
+			builder.Services.AddMultipleImplementations<ILicenseState>(
+				[typeof(LBSendFIOState),
                 typeof(LTSendFIOState)]);
 
 			builder.Services.AddMultipleImplementations<IIsNaturalState>(
 				[typeof(LBNaturalPersonState),
-				typeof (LBNameCompanyState)]);
+				typeof (LBJurdicalPersonState)]);
+
+            builder.Services.AddMultipleImplementations<ITIsNaturalSate>(
+                [typeof(LTNaturalPersonState),
+                typeof (LTJurdicalPersonState)]);
 
             var host = builder.Build();
 			host.Run();
