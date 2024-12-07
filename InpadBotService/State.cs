@@ -1,4 +1,5 @@
 ﻿using InpadBotService.HelpButton;
+using InpadBotService.LicenseButton;
 using InpadBotService.QuestionButton;
 using InpadBotService.SupportButton;
 using System;
@@ -42,7 +43,7 @@ public class StartMessageState : IReplyMarkupState
 		var replyKeyboard = new ReplyKeyboardMarkup(new[]
 		{
 				new KeyboardButton[] { "/help", "/support" },
-				new KeyboardButton[] { "/question" }
+				new KeyboardButton[] { "/question", "/license" }
 			})
 		{
 			ResizeKeyboard = true,
@@ -167,3 +168,35 @@ internal class QuestionMessageState : IReplyMarkupState
     }
 }
 
+internal class LicenseMessageState : IReplyMarkupState
+{
+    private readonly ITelegramBotClient _botClient;
+    public string Message { get; } = "/license";
+    public LicenseMessageState(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
+
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        Console.WriteLine("Start Execute command");
+        //if (request.Update.Message is null) return;
+
+        var pairs = new[] {
+            ("Купить плагин", "buyPlugin"),
+            ("Протестировать плагин", "testPlugin")
+            };
+        var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
+
+        context.SetState(new DistributorState<ILicenseState>(
+            context.ServiceProvider.GetServices<ILicenseState>()));
+
+        return await _botClient.SendMessageWithSaveBotMessageId(
+            context,
+            text: "Выберите одну из кнопок:",
+			request.QueryId,
+            replyMarkup: inlineKeyboardMarkup
+        );
+
+    }
+}
