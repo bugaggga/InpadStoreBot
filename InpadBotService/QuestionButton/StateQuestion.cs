@@ -32,14 +32,14 @@ internal class QuestionFinalState : IState
 
 
         // Отправка ответа, созданного нейронкой
-        await Gigachat.GetOauthToken();
+        var response = await Gigachat.GetGigachatResponse(context.CurrentMessage);
 
         context.SetState(new DistributorState<IReplyMarkupState>(
                     context.ServiceProvider.GetServices<IReplyMarkupState>()));
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: "Ответ от нейронки",
+            text: response,
             request.QueryId
 		);
 
