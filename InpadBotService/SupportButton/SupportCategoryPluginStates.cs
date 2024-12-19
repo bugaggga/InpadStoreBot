@@ -277,8 +277,6 @@ internal class SupportFinalState : IState
     {
         //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
-
-        context.UpdateData(Message, context.CurrentMessage);
         //DataBuilder.UpdateData(context, Message);
 
         context.SetState(new DistributorState<IReplyMarkupState>(
