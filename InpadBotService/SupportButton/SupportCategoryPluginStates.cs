@@ -325,16 +325,22 @@ internal class SupportFinalState : IState
             context.data.Data["category"] as string,
             context.data.Data["plugin"] as string);
 
-		var str = $"Ссылки на видео о плагинах:\n{String.Join("\n", res)}";
-        var link = context.ServiceProvider.GetRequiredService<IOptions<BotOptions>>().Value.LinkToPDF;
+        var result = new StringBuilder(100);
+        var opin = res.Count() != 0 ? String.Join("\n", res) : "Видео не найдено";
+        var strVideo = $"Ссылки на видео о плагинах:\n{opin}";
 
-        str += $"\nСсылка на документацию:\n{link}";
+        var link = context.ServiceProvider.GetRequiredService<IOptions<BotOptions>>().Value.LinkToPDF;
+        var strPlugin = $"\nСсылка на документацию:\n{link}";
+
+        result.Append(strVideo);
+        result.Append(strPlugin);
+
 		context.SetState(new DistributorState<IReplyMarkupState>(
             context.ServiceProvider.GetServices<IReplyMarkupState>()));
 
         await _botClient.SendMessageWithSaveBotMessageId(
             context,
-            text: str,
+            text: result.ToString(),
             request.QueryId
         );
 
