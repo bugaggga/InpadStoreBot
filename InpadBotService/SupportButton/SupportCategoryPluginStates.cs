@@ -1,5 +1,7 @@
 using InpadBotService.DatasFuncs;
 using InpadBotService.HelpButton;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -323,9 +325,11 @@ internal class SupportFinalState : IState
             context.data.Data["category"] as string,
             context.data.Data["plugin"] as string);
 
-        var str = String.Join("\n", res);
+		var str = $"Ссылки на видео о плагинах:\n{String.Join("\n", res)}";
+        var link = context.ServiceProvider.GetRequiredService<IOptions<BotOptions>>().Value.LinkToPDF;
 
-        context.SetState(new DistributorState<IReplyMarkupState>(
+        str += $"\nСсылка на документацию:\n{link}";
+		context.SetState(new DistributorState<IReplyMarkupState>(
             context.ServiceProvider.GetServices<IReplyMarkupState>()));
 
         await _botClient.SendMessageWithSaveBotMessageId(
