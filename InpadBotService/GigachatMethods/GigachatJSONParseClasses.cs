@@ -25,7 +25,7 @@ namespace InpadBotService.GigachatMethods
 
     public class MessageResponse
     {
-        public List<Choice> choices { get; } //&&&
+        public List<Choice> choices { get; } 
         public int created { get; }
         public string model { get; }
         public Usage usage { get; }
