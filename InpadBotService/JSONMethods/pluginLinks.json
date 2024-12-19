@@ -45,7 +45,7 @@
     "S insulation": [ "https://vkvideo.ru/playlist/-222525145_5/video-222525145_456239066" ]
   },
 
-  "boxesAndHole": {
+  "boxesAndPoints": {
     "Creating tasks": [ "https://vkvideo.ru/playlist/-222525145_5/video-222525145_456239074" ],
     "Unification": [ "https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239078" ],
     "Offset": [ "https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239047" ],
@@ -67,18 +67,18 @@
     "Multiple printing": [ "https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239119" ],
     "Copy the specification": [ "https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239051" ],
     "Copy Parameters": [ "https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239046" ],
-    "Parameters": [ "" ],
+    "Parameters": [],
     "Family Parameters": [ "https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239101" ],
-    "Copy the valve parameters": [ "" ],
+    "Copy the valve parameters": [],
     "Door combination": [ "https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239127" ],
     "Ognekorob": [ "https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239116" ],
     "Viewing the intersection": [ "https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239133" ],
     "Node Manager": [ "https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239093" ],
-    "Checking the model": [ "" ]
+    "Checking the model": []
   },
 
   "renga": {
-    "Area counting": ["https://vkvideo.ru/playlist/-222525145_2/video-222525145_456239123"]
+    "Area counting": [ "https://vkvideo.ru/playlist/-222525145_2/video-222525145_456239123" ]
   }
 }
 

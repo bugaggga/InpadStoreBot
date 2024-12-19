@@ -72,9 +72,9 @@ internal class SCategoryArchitectureState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-		context.UpdateData("category", context.CurrentMessage);
+        context.UpdateData("category", context.CurrentMessage);
 
-		var pairs = new[] {
+        var pairs = new[] {
             ("Определить помещение", "Identify the room"),
             ("Расчет плинтуса", "Skirting board calculation"),
             ("Отделка", "Finishing"),
@@ -114,9 +114,9 @@ internal class SCategoryConstructiveState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-		context.UpdateData("category", context.CurrentMessage);
+        context.UpdateData("category", context.CurrentMessage);
 
-		var pairs = new[] {
+        var pairs = new[] {
             ("Сборка арматуры", "Fitting assembly"),
             ("Создать разрезы и сечения", "Create sections and cross sections"),
             ("Создание планов", "Creating plans"),
@@ -154,9 +154,9 @@ internal class SCategoryOBAndBKState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-		context.UpdateData("category", context.CurrentMessage);
+        context.UpdateData("category", context.CurrentMessage);
 
-		var pairs = new[] {
+        var pairs = new[] {
             ("Муфты/гильзы", "Couplings/sleeves"),
             ("Аэродинамика", "Aerodynamics"),
             ("Создать виды систем", "Create types of systems"),
@@ -194,9 +194,9 @@ internal class SCategoryCommonState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-		context.UpdateData("category", context.CurrentMessage);
+        context.UpdateData("category", context.CurrentMessage);
 
-		var pairs = new[] {
+        var pairs = new[] {
             ("Этажи и секции", "Floors and sections"),
             ("Подсчет узлов", "Counting nodes"),
             ("Печать листов", "Printing sheets"),
@@ -240,9 +240,9 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-		context.UpdateData("category", context.CurrentMessage);
+        context.UpdateData("category", context.CurrentMessage);
 
-		var pairs = new[] {
+        var pairs = new[] {
             ("Создание заданий", "Creating tasks"),
             ("Объединение", "Unification"),
             ("Смещение", "Offset"),
@@ -269,36 +269,6 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
     }
 }
 
-internal class SupportFinalState : IState
-{
-    private readonly ITelegramBotClient _botClient;
-    public string Message { get; } = "DocumentacionPluginSupport";
-
-    public SupportFinalState(ITelegramBotClient client)
-    {
-        _botClient = client;
-    }
-
-    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
-    {
-        //if (request.Update.Message is null) return;
-        Console.WriteLine("Start Execute command");
-		context.UpdateData("plugin", context.CurrentMessage);
-		//DataBuilder.UpdateData(context, Message);
-
-		context.SetState(new DistributorState<IReplyMarkupState>(
-            context.ServiceProvider.GetServices<IReplyMarkupState>()));
-
-        await _botClient.SendMessageWithSaveBotMessageId(
-            context,
-            text: "Отправлю pdf-файл позже",
-            request.QueryId
-        );
-
-        return 0;
-    }
-}
-
 internal class SCategoryRengaState : ISupportCategoryPluginState
 {
     public string Message { get; } = "renga";
@@ -313,9 +283,9 @@ internal class SCategoryRengaState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
-		context.UpdateData("category", context.CurrentMessage);
+        context.UpdateData("category", context.CurrentMessage);
 
-		var pairs = new[] {
+        var pairs = new[] {
             ("Подсчет площадей", "Area counting")
             };
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
@@ -328,5 +298,42 @@ internal class SCategoryRengaState : ISupportCategoryPluginState
             request.QueryId,
             replyMarkup: inlineKeyboardMarkup
         );
+    }
+}
+
+
+internal class SupportFinalState : IState
+{
+    private readonly ITelegramBotClient _botClient;
+    public string Message { get; } = "DocumentacionPluginSupport";
+
+    public SupportFinalState(ITelegramBotClient client)
+    {
+        _botClient = client;
+    }
+
+    public async Task<int> HandleAsync(TelegramRequest request, CancellationToken cancellationToken, UserContext context)
+    {
+        //if (request.Update.Message is null) return;
+        Console.WriteLine("Start Execute command");
+        //DataBuilder.UpdateData(context, Message);
+        context.UpdateData("plugin", context.CurrentMessage);
+
+        var res = JSONMethods.JSONHandler.FindValueByKey(
+            context.data.Data["category"] as string,
+            context.data.Data["plugin"] as string);
+
+        var str = String.Join("\n", res);
+
+        context.SetState(new DistributorState<IReplyMarkupState>(
+            context.ServiceProvider.GetServices<IReplyMarkupState>()));
+
+        await _botClient.SendMessageWithSaveBotMessageId(
+            context,
+            text: str,
+            request.QueryId
+        );
+
+        return 0;
     }
 }

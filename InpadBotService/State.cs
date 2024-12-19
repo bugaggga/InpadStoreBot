@@ -122,7 +122,7 @@ internal class SupportMessageState : IReplyMarkupState
 			("Архитектура", "architecture"),
 			("Концепция", "concept"),
 			("ОВ и ВК", "ovAndVk"),
-			("Общие", "general"),
+			("Общие", "common"),
 			("Боксы и отверстия", "boxesAndPoints")
 			};
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
