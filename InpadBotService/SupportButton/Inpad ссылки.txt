@@ -1,0 +1,74 @@
+Я просмотрел плейлист общее. И если нет ссылки на плагин, то это значит, что я либо пропустил
+мли видео про плагин нет
+
+Концепция:
+Инсоляция - https://vkvideo.ru/playlist/-222525145_2/video-222525145_456239061
+КЕО - https://vkvideo.ru/video-222525145_456239126
+Генерация парков - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239018
+Генерация деревьев - https://vkvideo.ru/playlist/-222525145_2/video-222525145_456239023
+Разлиновка модели - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239076
+3D сетки - https://vkvideo.ru/playlist/-222525145_2/video-222525145_456239026
+БыстроТЭПы - https://vkvideo.ru/playlist/-222525145_2/video-222525145_456239065
+Подсчет площадей - https://vkvideo.ru/playlist/-222525145_2/video-222525145_456239123
+
+Архитектура:
+Определит помещение - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239110
+Расчет плинтуса - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239086
+Отделка - https://vkvideo.ru/playlist/-222525145_3/video-222525145_456239063 
+Копировать отделку - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239085
+Проемы по дверям/окнам из связи - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239075
+Соединение полов - https://vkvideo.ru/playlist/-222525145_3/video-222525145_456239084
+Подсчет площадей - https://vkvideo.ru/playlist/-222525145_3/video-222525145_456239030
+Планировка - 
+Округление площади - 
+Нумерация квартир - https://vkvideo.ru/playlist/-222525145_3/video-222525145_456239087
+
+Конструктив:
+Сборка арматуры - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239094
+Создать разрезы и сечения - https://vkvideo.ru/playlist/-222525145_4/video-222525145_456239128
+Создание планов - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239095
+Создание контура - https://vkvideo.ru/playlist/-222525145_4/video-222525145_456239055
+Редактирование контура - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239056
+Расчет продавливания - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239057
+Создание каркасов - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239073
+Создание видов каркасов - 
+
+ОВ и ВК:
+Муфты/гильзы - https://vkvideo.ru/playlist/-222525145_5/video-222525145_456239074
+Аэродинамика - https://vkvideo.ru/playlist/-222525145_5/video-222525145_456239112
+Создать виды систем - https://vkvideo.ru/playlist/-222525145_5/video-222525145_456239060
+Спецификация систем - https://vkvideo.ru/playlist/-222525145_5/video-222525145_456239050
+Высотные отметки - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239079
+Толщина стенки - https://vkvideo.ru/playlist/-222525145_5/video-222525145_456239058
+Диаметр изоляции - https://vkvideo.ru/playlist/-222525145_5/video-222525145_456239044
+S изоляции - https://vkvideo.ru/playlist/-222525145_5/video-222525145_456239066
+
+Общие:
+Этажи и секции - https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239049
+Подсчет узлов - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239064
+Печать листов - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239091
+Множественная печать - https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239119
+Копировать спецификацию - https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239051
+Копировать параметры - https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239046
+Параметры - 
+Параметры семейств - https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239101
+Копировать параметры арматуры -
+Комбинатор дверей - https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239127
+Огнекороб - https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239116
+Просмотр пересечения - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239133
+Менеджер узлов - https://vkvideo.ru/playlist/-222525145_6/video-222525145_456239093
+Проверка модели - 
+
+Боксы и отверстия:
+Создание заданий - 
+Объединение - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239078
+Смещение - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239047
+Обрезать - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239048
+Нумерация - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239087
+Отметка - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239029
+Отверстия - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239080
+Проверка пересечений - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239100
+Проверка пересекающихся заданий - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239078
+Статусы заданий - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239130
+Обозреватель статусов - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239134
+Проверка заданий - https://vkvideo.ru/playlist/-222525145_-4/video-222525145_456239040
