@@ -13,7 +13,7 @@ namespace InpadBotService.JSONMethods
 
         public JSONFileHandler(string fileName)
         {
-            using (StreamReader r = new StreamReader("file.json"))
+            using (StreamReader r = new StreamReader("pluginLinks.json"))
             {
                 JSON = r.ReadToEnd();
             }

@@ -32,6 +32,7 @@ internal class SCategoryConceptState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
 		Console.WriteLine("Start Execute command");
+        context.UpdateData("category", context.CurrentMessage);
 
 		var pairs = new[] {
             ("Инсоляций", "Insolation"),
@@ -71,6 +72,7 @@ internal class SCategoryArchitectureState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		context.UpdateData("category", context.CurrentMessage);
 
 		var pairs = new[] {
             ("Определить помещение", "Identify the room"),
@@ -112,6 +114,7 @@ internal class SCategoryConstructiveState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		context.UpdateData("category", context.CurrentMessage);
 
 		var pairs = new[] {
             ("Сборка арматуры", "Fitting assembly"),
@@ -151,6 +154,7 @@ internal class SCategoryOBAndBKState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		context.UpdateData("category", context.CurrentMessage);
 
 		var pairs = new[] {
             ("Муфты/гильзы", "Couplings/sleeves"),
@@ -190,6 +194,7 @@ internal class SCategoryCommonState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		context.UpdateData("category", context.CurrentMessage);
 
 		var pairs = new[] {
             ("Этажи и секции", "Floors and sections"),
@@ -235,6 +240,7 @@ internal class SCategoryBoxesAndHolesState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		context.UpdateData("category", context.CurrentMessage);
 
 		var pairs = new[] {
             ("Создание заданий", "Creating tasks"),
@@ -277,9 +283,10 @@ internal class SupportFinalState : IState
     {
         //if (request.Update.Message is null) return;
         Console.WriteLine("Start Execute command");
-        //DataBuilder.UpdateData(context, Message);
+		context.UpdateData("plugin", context.CurrentMessage);
+		//DataBuilder.UpdateData(context, Message);
 
-        context.SetState(new DistributorState<IReplyMarkupState>(
+		context.SetState(new DistributorState<IReplyMarkupState>(
             context.ServiceProvider.GetServices<IReplyMarkupState>()));
 
         await _botClient.SendMessageWithSaveBotMessageId(
@@ -306,8 +313,9 @@ internal class SCategoryRengaState : ISupportCategoryPluginState
         //if (request.Update.CallbackQuery is not { } query) return;
         //if (query.Message is not { } message) return;
         Console.WriteLine("Start Execute command");
+		context.UpdateData("category", context.CurrentMessage);
 
-        var pairs = new[] {
+		var pairs = new[] {
             ("Подсчет площадей", "Area counting")
             };
         var inlineKeyboardMarkup = InlineKeyboardBuilder.Build(pairs);
