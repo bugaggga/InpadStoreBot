@@ -7,16 +7,14 @@ using System.Threading.Tasks;
 
 namespace InpadBotService.JSONMethods
 {
-    internal class JSONFileHandler
-    {
-        string JSON;
+  //  public class JSONFileHandler
+  //  {
+  //      public static string JSON { get; }
 
-        public JSONFileHandler(string fileName)
-        {
-            using (StreamReader r = new StreamReader("file.json"))
-            {
-                JSON = r.ReadToEnd();
-            }
-        }
-    }
+		//static JSONFileHandler()
+  //      {
+  //          var r = new StreamReader("pluginLinks.json");
+  //          JSON = r.ReadToEnd();
+  //      }
+  //  }
 }
