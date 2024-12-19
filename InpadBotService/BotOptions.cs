@@ -9,5 +9,6 @@ namespace InpadBotService
 	public class BotOptions
 	{
 		public required string Token { get; set; }
+		public required string LinkToPDF { get; set; }
 	}
 }

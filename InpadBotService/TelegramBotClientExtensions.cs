@@ -63,7 +63,7 @@ namespace InpadBotService
 			//await Task.Delay(200);
 			var sentMessage = await botClient.SendMessage(
 				chatId: context.ChatId,
-				text: text == "" ? "Не найдено" : text,
+				text: text,
 				replyMarkup: replyMarkup);
 			if (replyMarkup is InlineKeyboardMarkup) context.ExpectedType = UpdateType.CallbackQuery;
 			else context.ExpectedType = UpdateType.Message;
